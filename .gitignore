@@ -15,5 +15,3 @@ dist
 .DS_Store
 Thumbs.db
 
-# Auto-generated
-src/utils/schemaValidator.generated.ts
