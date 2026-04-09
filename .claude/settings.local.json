@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs\")",
+      "Bash(npm --version)",
+      "Bash(npm create:*)",
+      "Bash(printf \"y\\\\n\")",
+      "Bash(npm install:*)",
+      "Bash(python scripts/convert_excel.py)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ls \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板\\\\node_modules\\\\.bin\\\\vite\"*)",
+      "Bash(python -c \":*)",
+      "Bash(node node_modules/vite/bin/vite.js build)",
+      "Bash(npm run:*)",
+      "Bash(python -:*)",
+      "Bash(python3 -c \":*)",
+      "Bash(find . -not -path \"./node_modules/*\" -not -path \"./.netlify/*\" -not -path \"./dist/*\" -type f -exec du -h {})",
+      "Bash(dir \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板\" /a)",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"const d = require\\(''./src/data/rankings.json''\\); const weeks = d.weeklyRankings; weeks.sort\\(\\(a,b\\)=>a.weekNumber-b.weekNumber\\); console.log\\(''first:'', weeks[0]?.dateRange\\); console.log\\(''last:'', weeks[weeks.length-1]?.dateRange\\); console.log\\(''meta:'', d.meta\\)\")",
+      "Bash(node -e \":*)",
+      "Bash(pip install:*)",
+      "Read(//c/Users/User/**)",
+      "Bash(python3:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(rm -rf node_modules/.vite)",
+      "Bash(python scripts/convert_excel.py \"C:\\\\Users\\\\User\\\\Downloads\\\\Netflix 2025 台灣收視排名數據分析.xlsx\")",
+      "Bash(node -e ':*)",
+      "Bash(node scripts/export-to-csv.js)",
+      "Bash(mkdir -p \"C:/Users/User/Desktop/影視數據儀表板/public/data\")",
+      "Bash(cp \"C:/Users/User/Desktop/影視數據儀表板/src/data/rankings.json\" \"C:/Users/User/Desktop/影視數據儀表板/public/data/rankings.json\")",
+      "Bash(python -X utf8 -c ':*)",
+      "Bash(python -X utf8 scripts/convert_excel.py \"C:/Users/User/Downloads/Netflix 2025 台灣收視排名數據分析.xlsx\")",
+      "Bash(python -X utf8 scripts/convert_excel.py)",
+      "Bash(python scripts/convert_excel.py \"C:/Users/User/Downloads/Netflix 2025 台灣收視排名數據分析.xlsx\")",
+      "Bash(python -c ':*)"
+    ]
+  }
+}
