@@ -6,12 +6,13 @@ convert_excel.py
   python scripts/convert_excel.py                          # 使用預設路徑
   python scripts/convert_excel.py path/to/excel.xlsx       # 指定 Excel 路徑
 
-預期 Sheet 結構（5 sheets）：
+預期 Sheet 結構（6 sheets）：
   [0] Netflix 年度排行分析      — 樞紐分析表（僅供參考，不直接讀取）
-  [1] clean Data - Netflix 每週排名  — 全年度合併週榜 clean data
-  [2] 台劇排名分析              — 樞紐分析表（僅供參考，不直接讀取）
-  [3] Clean Data - 台劇每日排名  — 台劇每日 clean data
-  [4] 劇集屬性資料庫            — 劇集固定屬性（Netflix Original、上架方式、集數等）
+  [1] Netflix 每週電影排名      — 電影週榜（目前未使用）
+  [2] Netflix 每週節目排名      — 節目週榜 clean data
+  [3] 台劇排名分析              — 樞紐分析表（僅供參考，不直接讀取）
+  [4] Clean Data - 台劇每日排名  — 台劇每日 clean data
+  [5] 劇集屬性資料庫            — 劇集固定屬性（Netflix Original、上架方式、集數等）
 """
 
 import json
@@ -27,7 +28,7 @@ except ImportError:
     sys.exit(1)
 
 # 預設 Excel 路徑（可透過命令列參數覆蓋）
-DEFAULT_EXCEL = Path("C:/Users/User/Downloads/Netflix 2025 台灣收視排名數據分析.xlsx")
+DEFAULT_EXCEL = Path("C:/Users/User/Downloads/Netflix 台灣收視排名數據分析.xlsx")
 OUTPUT_DIR = Path(__file__).parent.parent
 
 # 縮寫名稱 → 正式全名對照表
@@ -40,7 +41,7 @@ TITLE_MAP = {
 }
 
 # Sheet 名稱常數（用名稱查找，不用 index）
-SHEET_WEEKLY = "clean Data - Netflix 每週排名"
+SHEET_WEEKLY = "Netflix 每週節目排名"
 SHEET_DAILY  = "Clean Data - 台劇每日排名"
 SHEET_ATTRS  = "劇集屬性資料庫"
 
