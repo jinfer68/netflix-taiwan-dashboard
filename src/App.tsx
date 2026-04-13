@@ -47,7 +47,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/data/rankings.json')
+    fetch(`${import.meta.env.BASE_URL}data/rankings.json`)
       .then(res => res.json())
       .then((json: RankingsData) => {
         if (import.meta.env.DEV) {
