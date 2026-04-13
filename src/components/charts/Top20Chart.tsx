@@ -7,6 +7,7 @@ import type { RankingsData, OverallRankingEntry } from '../../types'
 import { GENRE_COLORS, GENRE_ICONS, GENRE_LABELS } from '../../constants/genres'
 import { TOOLTIP_STYLE } from '../../constants/styles'
 import { getWeeklyDerivedRankings } from '../../utils/dataTransforms'
+import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
 
 interface Props {
   data: RankingsData
@@ -91,22 +92,6 @@ function CustomYAxisTick({
   )
 }
 
-// ── 時間篩選輔助 ──────────────────────────────────────────────
-function getQuarter(month: number) {
-  return `Q${Math.ceil(month / 3)}`
-}
-
-function weekToYearQuarter(dateRange: string): string {
-  const date = dateRange.split(' ~ ')[0]
-  const year = date.substring(0, 4)
-  const month = parseInt(date.substring(5, 7))
-  return `${year}-${getQuarter(month)}`
-}
-
-function weekToYearMonth(dateRange: string): string {
-  const date = dateRange.split(' ~ ')[0]
-  return date.substring(0, 7) // "2025-03"
-}
 
 export default function Top20Chart({ data, selectedShow, onSelectShow }: Props) {
   const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set())

@@ -13,6 +13,7 @@ import {
   getWeeklyGenreDistribution,
   getTop50GenreDistribution,
 } from './utils/dataTransforms'
+import { SECTION_STYLE, SECTION_TITLE } from './constants/styles'
 
 const EMPTY_DATA: RankingsData = {
   meta: { generatedAt: '', dataThrough: '' },
@@ -21,23 +22,6 @@ const EMPTY_DATA: RankingsData = {
   taiwanDramaRankings: [],
   dailyRankings: [],
   weeklyRankings: [],
-}
-
-const SECTION_STYLE: React.CSSProperties = {
-  background: '#111124',
-  border: '1px solid #222',
-  borderRadius: 12,
-  padding: '20px 24px',
-  marginBottom: 24,
-}
-
-const SECTION_TITLE: React.CSSProperties = {
-  fontSize: 16,
-  fontWeight: 700,
-  color: '#eee',
-  marginBottom: 18,
-  paddingBottom: 10,
-  borderBottom: '1px solid #2a2a3e',
 }
 
 type YearFilter = '2024' | '2025' | '2026' | 'all'

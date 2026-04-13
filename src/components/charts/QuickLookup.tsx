@@ -3,30 +3,14 @@ import type { RankingsData } from '../../types'
 import { getAllWeeklyTitles, getShowLookupEntry } from '../../utils/dataTransforms'
 import { GENRE_COLORS, GENRE_ICONS } from '../../constants/genres'
 import type { Genre } from '../../types'
+import { SECTION_STYLE, SECTION_TITLE, PILL_BTN } from '../../constants/styles'
+import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
 
 interface Props {
   data: RankingsData
   selectedShow: string | null
   onSelectShow: (title: string | null) => void
 }
-
-const SECTION_STYLE: React.CSSProperties = {
-  background: '#111124', border: '1px solid #222', borderRadius: 12,
-  padding: '20px 24px', marginBottom: 24,
-}
-const SECTION_TITLE: React.CSSProperties = {
-  fontSize: 16, fontWeight: 700, color: '#eee',
-  marginBottom: 18, paddingBottom: 10, borderBottom: '1px solid #2a2a3e',
-}
-
-const PILL_BTN = (active: boolean, accent = '#7c6fff'): React.CSSProperties => ({
-  padding: '4px 12px', borderRadius: 20, fontSize: 12, cursor: 'pointer',
-  border: `1px solid ${active ? accent : '#333'}`,
-  background: active ? accent + '22' : 'transparent',
-  color: active ? accent : '#888',
-  fontWeight: active ? 700 : 400,
-  transition: 'all 0.15s',
-})
 
 function dotColor(pos: number) {
   if (pos <= 3) return { bg: '#0d2b0d', border: '#1db954', text: '#1db954' }
@@ -36,13 +20,6 @@ function dotColor(pos: number) {
 
 function formatYM(d: string) { return d.substring(0, 7).replace('-', '/') }
 
-// ── 時間輔助 ──────────────────────────────────────────────────
-function getQuarter(month: number) { return `Q${Math.ceil(month / 3)}` }
-function weekToYQ(dr: string) {
-  const d = dr.split(' ~ ')[0]
-  return `${d.substring(0, 4)}-${getQuarter(parseInt(d.substring(5, 7)))}`
-}
-function weekToYM(dr: string) { return dr.split(' ~ ')[0].substring(0, 7) }
 
 export default function QuickLookup({ data, selectedShow, onSelectShow }: Props) {
   const [activeTab, setActiveTab] = useState<'show' | 'week'>('show')
@@ -75,8 +52,8 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
     )
     if (firstWeek) {
       const dr = firstWeek.dateRange
-      setSelectedQuarter(weekToYQ(dr))
-      setSelectedMonth(weekToYM(dr))
+      setSelectedQuarter(weekToYearQuarter(dr))
+      setSelectedMonth(weekToYearMonth(dr))
       setSelectedWeekNum(firstWeek.weekNumber)
     }
   }, [selectedShow, data])
@@ -101,8 +78,8 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
     const wMap = new Map<string, { weekNumber: number; dateRange: string }[]>()
 
     for (const w of data.weeklyRankings) {
-      const q = weekToYQ(w.dateRange)
-      const m = weekToYM(w.dateRange)
+      const q = weekToYearQuarter(w.dateRange)
+      const m = weekToYearMonth(w.dateRange)
       qSet.add(q)
       mSet.add(m)
       if (!wMap.has(m)) wMap.set(m, [])
@@ -286,8 +263,8 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
                       key={w.weekNumber}
                       title={`W${String(w.weekNumber).padStart(2, '0')}  ${w.dateRange}  第 ${w.position} 名（點擊查看該週）`}
                       onClick={() => {
-                        setSelectedQuarter(weekToYQ(w.dateRange))
-                        setSelectedMonth(weekToYM(w.dateRange))
+                        setSelectedQuarter(weekToYearQuarter(w.dateRange))
+                        setSelectedMonth(weekToYearMonth(w.dateRange))
                         setSelectedWeekNum(w.weekNumber)
                         setActiveTab('week')
                       }}
@@ -378,8 +355,8 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
                     const idx = data.weeklyRankings.findIndex(w => w.weekNumber === currentWeek.weekNumber)
                     if (idx > 0) {
                       const prev = data.weeklyRankings[idx - 1]
-                      setSelectedQuarter(weekToYQ(prev.dateRange))
-                      setSelectedMonth(weekToYM(prev.dateRange))
+                      setSelectedQuarter(weekToYearQuarter(prev.dateRange))
+                      setSelectedMonth(weekToYearMonth(prev.dateRange))
                       setSelectedWeekNum(prev.weekNumber)
                     }
                   }}
@@ -398,8 +375,8 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
                     const idx = data.weeklyRankings.findIndex(w => w.weekNumber === currentWeek.weekNumber)
                     if (idx < data.weeklyRankings.length - 1) {
                       const next = data.weeklyRankings[idx + 1]
-                      setSelectedQuarter(weekToYQ(next.dateRange))
-                      setSelectedMonth(weekToYM(next.dateRange))
+                      setSelectedQuarter(weekToYearQuarter(next.dateRange))
+                      setSelectedMonth(weekToYearMonth(next.dateRange))
                       setSelectedWeekNum(next.weekNumber)
                     }
                   }}

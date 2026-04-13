@@ -158,12 +158,12 @@ export function getWeeklyGenreDistribution(data: RankingsData): GenrePieSlice[] 
 
 // ── 每日走勢（上架天數為 X 軸）────────────────────────────────────────────────
 
-export interface DailyPoint {
+interface DailyPoint {
   dayIndex: number
   rank: number | null
 }
 
-export interface DailyTrendSeries {
+interface DailyTrendSeries {
   name: string
   data: DailyPoint[]
 }
@@ -202,8 +202,8 @@ export function getDailyShowTitles(data: RankingsData): string[] {
 // ──────────────────────────────────────────────
 
 // ThemeRiver 用 weekNumber (1-57) 做 x 值（value 型 singleAxis）
-export type ThemeRiverTuple = [number, number, string]  // [weekNumber, count, genreName]
-export type WeekGenreTitles = Record<number, Record<string, string[]>>
+type ThemeRiverTuple = [number, number, string]  // [weekNumber, count, genreName]
+type WeekGenreTitles = Record<number, Record<string, string[]>>
 
 export interface WeeklyGenreFlowResult {
   data: ThemeRiverTuple[]

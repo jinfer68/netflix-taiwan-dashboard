@@ -34,7 +34,16 @@
       "Bash(python -X utf8 scripts/convert_excel.py)",
       "Bash(python scripts/convert_excel.py \"C:/Users/User/Downloads/Netflix 2025 台灣收視排名數據分析.xlsx\")",
       "Bash(python -c ':*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(python scripts/convert_excel.py \"C:/Users/User/Downloads/Netflix 台灣收視排名數據分析.xlsx\")",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(gh run:*)",
+      "Bash(gh workflow:*)",
+      "Bash(wc -l \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src/components/charts\"/*.tsx)",
+      "Bash(grep \"from 'recharts'\" \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src/components/charts\"/*.tsx)",
+      "Bash(grep \"ShowLookupEntry\\\\|DailyPoint\\\\|DailyTrendSeries\" \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src\"/**/*.tsx)"
     ]
   }
 }
