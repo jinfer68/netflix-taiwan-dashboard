@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState, useEffect } from 'react'
+// Note: useState kept for visibleRange; netflixFilter is now a prop
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
 import { ThemeRiverChart } from 'echarts/charts'
@@ -27,9 +28,8 @@ const BASE_COLORS = FLOW_DISPLAY_GENRES.map(g => GENRE_COLORS[g as Genre] ?? '#9
 
 type NetflixFilter = 'all' | 'original' | 'nonOriginal'
 
-export default function WeeklyGenreFlow({ data }: { data: RankingsData }) {
+export default function WeeklyGenreFlow({ data, netflixFilter }: { data: RankingsData; netflixFilter: NetflixFilter }) {
   const chartRef = useRef<any>(null)
-  const [netflixFilter, setNetflixFilter] = useState<NetflixFilter>('all')
 
   // 依 Netflix 原創篩選週榜資料
   const filteredData = useMemo(() => {
@@ -231,30 +231,7 @@ export default function WeeklyGenreFlow({ data }: { data: RankingsData }) {
   ).length
 
   return (
-    <div>
-      {/* Netflix 原創切換 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
-        <span style={{ fontSize: 12, color: '#555' }}>Netflix 獨家</span>
-        {(['all', 'original', 'nonOriginal'] as const).map((val) => {
-          const label = val === 'all' ? '全部' : val === 'original' ? '獨家' : '非獨家'
-          const active = netflixFilter === val
-          return (
-            <button
-              key={val}
-              onClick={() => setNetflixFilter(val)}
-              style={{
-                padding: '4px 12px', borderRadius: 20, fontSize: 12, cursor: 'pointer',
-                border: `1px solid ${active ? '#e50914' : '#333'}`,
-                background: active ? '#3a0505' : 'transparent',
-                color: active ? '#ff4d4d' : '#888',
-                fontWeight: active ? 700 : 400,
-                transition: 'all 0.15s',
-              }}
-            >{label}</button>
-          )
-        })}
-      </div>
-
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '16px 20px' }}>
       <ReactEChartsCore
         ref={chartRef}
         echarts={echarts}

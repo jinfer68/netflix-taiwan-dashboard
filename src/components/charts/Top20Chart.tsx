@@ -1,16 +1,20 @@
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   Cell, ResponsiveContainer,
 } from 'recharts'
 import type { RankingsData, OverallRankingEntry } from '../../types'
-import { GENRE_COLORS, GENRE_ICONS, GENRE_LABELS } from '../../constants/genres'
+import { GENRE_COLORS } from '../../constants/genres'
 import { TOOLTIP_STYLE } from '../../constants/styles'
 import { getWeeklyDerivedRankings } from '../../utils/dataTransforms'
-import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
+import { weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
 
 interface Props {
   data: RankingsData
+  activeGenres: Set<string>
+  netflixOnly: boolean
+  selectedQuarter: string
+  selectedMonth: string | null
   selectedShow?: string | null
   onSelectShow?: (title: string | null) => void
 }
@@ -92,46 +96,11 @@ function CustomYAxisTick({
   )
 }
 
+export default function Top20Chart({
+  data, activeGenres, netflixOnly, selectedQuarter, selectedMonth,
+  selectedShow, onSelectShow,
+}: Props) {
 
-export default function Top20Chart({ data, selectedShow, onSelectShow }: Props) {
-  const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set())
-  const [netflixOnly, setNetflixOnly] = useState(false)
-
-  // ── 可用時間區段 ──────────────────────────────────────────
-  const { availableQuarters, availableMonths } = useMemo(() => {
-    const qSet = new Set<string>()
-    const mSet = new Set<string>()
-    data.weeklyRankings.forEach(w => {
-      qSet.add(weekToYearQuarter(w.dateRange))
-      mSet.add(weekToYearMonth(w.dateRange))
-    })
-    return {
-      availableQuarters: ['all', ...Array.from(qSet).sort()],
-      availableMonths: Array.from(mSet).sort(),
-    }
-  }, [data])
-
-  const [selectedQuarter, setSelectedQuarter] = useState<string>('all')
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
-
-  // 季度切換時清除月份
-  function handleQuarterClick(q: string) {
-    setSelectedQuarter(q)
-    setSelectedMonth(null)
-  }
-
-  // 月份按鈕：只顯示所選季度下的月份
-  const monthsInQuarter = useMemo(() => {
-    if (selectedQuarter === 'all') return []
-    return availableMonths.filter(m => {
-      const year = m.substring(0, 4)
-      const month = parseInt(m.substring(5, 7))
-      const q = `${year}-${getQuarter(month)}`
-      return q === selectedQuarter
-    })
-  }, [selectedQuarter, availableMonths])
-
-  // ── 依時間過濾 weeklyRankings，再衍生積分 ──────────────────
   const filteredWeeklyData: RankingsData = useMemo(() => {
     let weeks = data.weeklyRankings
     if (selectedMonth) {
@@ -147,17 +116,6 @@ export default function Top20Chart({ data, selectedShow, onSelectShow }: Props) 
     [filteredWeeklyData],
   )
 
-  // ── 套用類型 & Netflix 篩選 ───────────────────────────────
-  const availableGenres = GENRE_LABELS.filter(g => derivedRankings.some(d => d.genre === g))
-
-  function toggleGenre(g: string) {
-    setActiveGenres(prev => {
-      const next = new Set(prev)
-      next.has(g) ? next.delete(g) : next.add(g)
-      return next
-    })
-  }
-
   const chartData: ChartEntry[] = derivedRankings
     .filter(d => activeGenres.size === 0 || activeGenres.has(d.genre))
     .filter(d => !netflixOnly || d.isNetflixOriginal)
@@ -172,176 +130,55 @@ export default function Top20Chart({ data, selectedShow, onSelectShow }: Props) 
   const firstWeekStart = filteredWeeklyData.weeklyRankings[0]?.dateRange.split(' ~ ')[0] ?? ''
   const lastWeekStart  = filteredWeeklyData.weeklyRankings[filteredWeeklyData.weeklyRankings.length - 1]?.dateRange.split(' ~ ')[0] ?? ''
 
-  // ── 季度 label ────────────────────────────────────────────
-  function quarterLabel(q: string) {
-    if (q === 'all') return '全部'
-    const [year, quarter] = q.split('-')
-    return `${year.substring(2)} ${quarter}`  // "25 Q1"
-  }
-
-  function monthLabel(m: string) {
-    return `${parseInt(m.substring(5, 7))}月`
-  }
-
   return (
-    <div>
-      {/* ── 時間篩選 ── */}
-      <div style={{ marginBottom: 14 }}>
-        <div style={{ fontSize: 12, color: '#666', marginBottom: 6 }}>時間範圍</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: monthsInQuarter.length ? 8 : 0 }}>
-          {availableQuarters.map(q => {
-            const active = selectedQuarter === q && !selectedMonth
-            return (
-              <button
-                key={q}
-                onClick={() => handleQuarterClick(q)}
-                style={{
-                  padding: '4px 12px', borderRadius: 20, fontSize: 12,
-                  cursor: 'pointer',
-                  border: `1px solid ${active ? '#7c6fff' : '#333'}`,
-                  background: active ? '#2a2060' : 'transparent',
-                  color: active ? '#b9aaff' : '#888',
-                  fontWeight: active ? 700 : 400,
-                  transition: 'all 0.15s',
-                }}
-              >
-                {quarterLabel(q)}
-              </button>
-            )
-          })}
-        </div>
-        {/* 月份子按鈕 */}
-        {monthsInQuarter.length > 0 && (
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', paddingLeft: 4 }}>
-            {monthsInQuarter.map(m => {
-              const active = selectedMonth === m
-              return (
-                <button
-                  key={m}
-                  onClick={() => setSelectedMonth(active ? null : m)}
-                  style={{
-                    padding: '3px 10px', borderRadius: 20, fontSize: 12,
-                    cursor: 'pointer',
-                    border: `1px solid ${active ? '#f5c518' : '#444'}`,
-                    background: active ? '#3a3010' : 'transparent',
-                    color: active ? '#f5c518' : '#777',
-                    fontWeight: active ? 700 : 400,
-                    transition: 'all 0.15s',
-                  }}
-                >
-                  {m.substring(0, 4)}/{monthLabel(m)}
-                </button>
-              )
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* ── 類型 + Netflix 篩選 ── */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16, alignItems: 'center' }}>
-        {availableGenres.map(g => {
-          const isActive = activeGenres.has(g)
-          const color = GENRE_COLORS[g]
-          return (
-            <button
-              key={g}
-              onClick={() => toggleGenre(g)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '4px 12px', borderRadius: 20, fontSize: 13,
-                cursor: 'pointer',
-                border: `1px solid ${color}`,
-                background: isActive ? color : 'transparent',
-                color: isActive ? '#fff' : color,
-                fontWeight: isActive ? 700 : 400,
-                transition: 'all 0.15s',
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '16px 20px' }}>
+      <div style={{ flex: 1, minHeight: 0 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            layout="vertical"
+            data={chartData}
+            margin={{ top: 4, right: 40, left: 0, bottom: 4 }}
+            onDoubleClick={() => selectedShow && onSelectShow?.(null)}
+          >
+            <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#333" />
+            <XAxis type="number" domain={[0, 'dataMax + 5']} tick={{ fill: '#aaa', fontSize: 12 }} />
+            <YAxis
+              type="category"
+              dataKey="title"
+              width={200}
+              tick={<CustomYAxisTick netflixSet={netflixSet} />}
+            />
+            <Tooltip content={({ active, payload }) => (
+              <CustomTooltip
+                active={active} payload={payload as TooltipPayload[]}
+                firstWeekStart={firstWeekStart}
+                lastWeekStart={lastWeekStart}
+              />
+            )} />
+            <Bar
+              dataKey="totalScore"
+              radius={[0, 4, 4, 0]}
+              name="期間積分"
+              style={{ cursor: onSelectShow ? 'pointer' : 'default' }}
+              onClick={(d: ChartEntry) => {
+                if (selectedShow === d.title) return
+                onSelectShow?.(d.title)
               }}
             >
-              {GENRE_ICONS[g]} {g}
-            </button>
-          )
-        })}
-        {activeGenres.size > 0 && (
-          <button
-            onClick={() => setActiveGenres(new Set())}
-            style={{
-              padding: '4px 12px', borderRadius: 20, fontSize: 12,
-              cursor: 'pointer', border: '1px solid #555',
-              background: 'transparent', color: '#888',
-            }}
-          >
-            全部類型
-          </button>
-        )}
-
-        {/* Netflix 原創篩選 */}
-        <button
-          onClick={() => setNetflixOnly(v => !v)}
-          style={{
-            marginLeft: 'auto',
-            display: 'flex', alignItems: 'center', gap: 5,
-            padding: '4px 14px', borderRadius: 20, fontSize: 13,
-            cursor: 'pointer',
-            border: `1px solid ${netflixOnly ? '#e50914' : '#555'}`,
-            background: netflixOnly ? '#3a0505' : 'transparent',
-            color: netflixOnly ? '#ff4d4d' : '#888',
-            fontWeight: netflixOnly ? 700 : 400,
-            transition: 'all 0.15s',
-          }}
-        >
-          <span style={{ fontWeight: 900, color: netflixOnly ? '#e50914' : '#666' }}>N</span>
-          Netflix 獨家
-        </button>
+              {chartData.map((entry) => (
+                <Cell
+                  key={entry.title}
+                  fill={GENRE_COLORS[entry.genre] ?? '#95a5a6'}
+                  fillOpacity={selectedShow && selectedShow !== entry.title ? 0.35 : 1}
+                  stroke={selectedShow === entry.title ? '#fff' : 'none'}
+                  strokeWidth={selectedShow === entry.title ? 1.5 : 0}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
       </div>
-
-      {/* ── 主圖表 ── */}
-      <ResponsiveContainer width="100%" height={Math.max(400, chartData.length * 30 + 40)}>
-        <BarChart
-          layout="vertical"
-          data={chartData}
-          margin={{ top: 4, right: 40, left: 0, bottom: 4 }}
-          onDoubleClick={() => selectedShow && onSelectShow?.(null)}
-        >
-          <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#333" />
-          <XAxis type="number" domain={[0, 'dataMax + 5']} tick={{ fill: '#aaa', fontSize: 12 }} />
-          <YAxis
-            type="category"
-            dataKey="title"
-            width={200}
-            tick={<CustomYAxisTick netflixSet={netflixSet} />}
-          />
-          <Tooltip content={({ active, payload }) => (
-            <CustomTooltip
-              active={active} payload={payload as TooltipPayload[]}
-              firstWeekStart={firstWeekStart}
-              lastWeekStart={lastWeekStart}
-            />
-          )} />
-          <Bar
-            dataKey="totalScore"
-            radius={[0, 4, 4, 0]}
-            name="期間積分"
-            style={{ cursor: onSelectShow ? 'pointer' : 'default' }}
-            onClick={(d: ChartEntry) => {
-              if (selectedShow === d.title) return          // 單擊同一節目不動作，留給雙擊取消
-              onSelectShow?.(d.title)
-            }}
-          >
-            {chartData.map((entry) => (
-              <Cell
-                key={entry.title}
-                fill={GENRE_COLORS[entry.genre] ?? '#95a5a6'}
-                fillOpacity={selectedShow && selectedShow !== entry.title ? 0.35 : 1}
-                stroke={selectedShow === entry.title ? '#fff' : 'none'}
-                strokeWidth={selectedShow === entry.title ? 1.5 : 0}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-
-      {/* N 標記說明 */}
-      <div style={{ fontSize: 11, color: '#555', marginTop: 8, textAlign: 'right' }}>
+      <div style={{ fontSize: 11, color: '#555', paddingTop: 6, textAlign: 'right' }}>
         <span style={{ color: '#e50914', fontWeight: 700 }}>N</span> = Netflix 獨家
       </div>
     </div>
