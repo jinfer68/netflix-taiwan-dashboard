@@ -47,9 +47,9 @@ interface Props {
 }
 
 const TABS: { key: TabType; label: string; icon: string }[] = [
-  { key: 'rankings', label: '排行榜',  icon: '🏆' },
+  { key: 'rankings', label: '總排行榜', icon: '🏆' },
   { key: 'genre',    label: '類型分析', icon: '🥧' },
-  { key: 'taiwan',   label: '台劇',    icon: '🇹🇼' },
+  { key: 'taiwan',   label: '台劇分析', icon: '🇹🇼' },
 ]
 
 const RELEASE_COLORS: Record<string, string> = {

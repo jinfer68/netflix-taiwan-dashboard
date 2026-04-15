@@ -136,11 +136,11 @@ export default function App() {
         {/* ── 右側圖表區域 ── */}
         <main style={{ flex: 1, height: CHART_H, overflow: 'hidden', minWidth: 0 }}>
 
-          {/* ══ 排行榜頁：TOP 20（左）＋ 快速查詢（右）══ */}
+          {/* ══ 總排行榜頁：TOP 20（左）＋ 快速查詢（右）══ */}
           {activeTab === 'rankings' && (
             <div style={{ display: 'flex', height: CHART_H, gap: 0 }}>
-              {/* TOP 20 約佔 58% */}
-              <div style={{ flex: '0 0 58%', height: CHART_H, borderRight: '1px solid #1e1e30' }}>
+              {/* TOP 20 約佔 60% */}
+              <div style={{ flex: '0 0 60%', height: CHART_H, borderRight: '1px solid #1e1e30' }}>
                 <Top20Chart
                   data={filteredData}
                   activeGenres={activeGenres}
@@ -151,8 +151,8 @@ export default function App() {
                   onSelectShow={setSelectedShow}
                 />
               </div>
-              {/* 快速查詢約佔 42% */}
-              <div style={{ flex: 1, height: CHART_H, overflow: 'auto', padding: '16px 20px' }}>
+              {/* 快速查詢直式面板約佔 40% */}
+              <div style={{ flex: 1, height: CHART_H, overflow: 'hidden', padding: '14px 16px' }}>
                 <QuickLookup
                   data={filteredData}
                   selectedShow={selectedShow}
@@ -162,42 +162,39 @@ export default function App() {
             </div>
           )}
 
-          {/* ══ 類型分析頁：圓餅圖（上）＋ 河流圖（下）══ */}
+          {/* ══ 類型分析頁：圓餅圖（上固定高）＋ 河流圖（下）══ */}
           {activeTab === 'genre' && (
-            <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
-              {/* 圓餅圖區，約佔 42% */}
-              <div style={{ flex: '0 0 42%', minHeight: 0, borderBottom: '1px solid #1e1e30', padding: '12px 20px 8px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: '100%' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 6 }}>
-                      週榜 Top 10 出現次數
-                    </div>
-                    <div style={{ flex: 1, minHeight: 0 }}>
-                      <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
-                    </div>
+            <div style={{ height: CHART_H, overflow: 'auto' }}>
+              {/* 圓餅圖：固定 370px，確保小螢幕也能正確渲染 */}
+              <div style={{
+                height: 370, flexShrink: 0,
+                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16,
+                padding: '12px 20px 0',
+                borderBottom: '1px solid #1e1e30',
+              }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 4 }}>
+                    週榜 Top 10 出現次數
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 6 }}>
-                      Top 50 積分榜部數
-                    </div>
-                    <div style={{ flex: 1, minHeight: 0 }}>
-                      <GenreDistribution data={top50GenreDistribution} countLabel="部數" />
-                    </div>
+                  <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 4 }}>
+                    Top 50 積分榜部數
                   </div>
+                  <GenreDistribution data={top50GenreDistribution} countLabel="部數" />
                 </div>
               </div>
-              {/* 河流圖區，約佔 58% */}
-              <div style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
-                <WeeklyGenreFlow data={filteredData} netflixFilter={flowNetflixFilter} />
-              </div>
+              {/* 河流圖：自然高度（EChart 420px + 統計表），小螢幕可向下捲動 */}
+              <WeeklyGenreFlow data={filteredData} netflixFilter={flowNetflixFilter} />
             </div>
           )}
 
-          {/* ══ 台劇頁：台劇分析（上）＋ 走勢分析（下）══ */}
+          {/* ══ 台劇分析頁：台劇積分榜（上 58%）＋ 走勢圖（下 42%）══ */}
           {activeTab === 'taiwan' && (
             <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
-              {/* 台劇分析約佔上半 */}
-              <div style={{ flex: 1, minHeight: 0, borderBottom: '1px solid #1e1e30' }}>
+              {/* 台劇積分榜：佔較多空間（節目多，需要高度）*/}
+              <div style={{ flex: '0 0 58%', minHeight: 0, borderBottom: '2px solid #1e1e30', overflow: 'auto' }}>
                 <TaiwanDramaChart
                   data={taiwanDramas}
                   showAttributes={data.showAttributes}
@@ -206,7 +203,7 @@ export default function App() {
                   filterNetflix={filterNetflix}
                 />
               </div>
-              {/* 走勢分析約佔下半 */}
+              {/* 走勢分析：固定下方 42% */}
               <div style={{ flex: 1, minHeight: 0 }}>
                 <RankTrendChart
                   data={filteredData}
