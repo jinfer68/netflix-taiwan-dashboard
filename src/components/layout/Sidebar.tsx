@@ -5,7 +5,7 @@ import { PILL_BTN } from '../../constants/styles'
 import { getDailyShowTitles, getWeeklyDerivedRankings } from '../../utils/dataTransforms'
 import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
 
-export type TabType = 'top20' | 'lookup' | 'genre' | 'flow' | 'taiwan' | 'trend'
+export type TabType = 'rankings' | 'genre' | 'taiwan'
 export type YearFilter = '2024' | '2025' | '2026' | 'all'
 type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
 type NetflixFilter = 'all' | 'original' | 'nonOriginal'
@@ -47,12 +47,9 @@ interface Props {
 }
 
 const TABS: { key: TabType; label: string; icon: string }[] = [
-  { key: 'top20',  label: 'TOP 20',  icon: '🏆' },
-  { key: 'lookup', label: '快速查詢', icon: '🔍' },
-  { key: 'genre',  label: '類型分布', icon: '🥧' },
-  { key: 'flow',   label: '流向圖',   icon: '📊' },
-  { key: 'taiwan', label: '台劇分析', icon: '🇹🇼' },
-  { key: 'trend',  label: '走勢分析', icon: '📈' },
+  { key: 'rankings', label: '排行榜',  icon: '🏆' },
+  { key: 'genre',    label: '類型分析', icon: '🥧' },
+  { key: 'taiwan',   label: '台劇',    icon: '🇹🇼' },
 ]
 
 const RELEASE_COLORS: Record<string, string> = {
@@ -152,13 +149,19 @@ export default function Sidebar({
   }
 
   const labelStyle: React.CSSProperties = {
-    fontSize: 11, color: '#555', marginBottom: 6, marginTop: 12,
+    fontSize: 13, color: '#666', marginBottom: 7, marginTop: 14, fontWeight: 600,
   }
+
+  const pillBtn = (active: boolean, accent = '#7c6fff'): React.CSSProperties => ({
+    ...PILL_BTN(active, accent),
+    fontSize: 13,
+    padding: '5px 13px',
+  })
 
   return (
     <aside style={{
-      width: 220,
-      minWidth: 220,
+      width: 230,
+      minWidth: 230,
       height: '100%',
       background: '#0d0d1a',
       borderRight: '1px solid #1e1e2e',
@@ -168,30 +171,30 @@ export default function Sidebar({
     }}>
 
       {/* ── 年份篩選（全域）── */}
-      <div style={{ padding: '10px 12px 6px', borderBottom: '1px solid #1e1e2e' }}>
-        <div style={{ fontSize: 10, color: '#444', marginBottom: 5 }}>資料範圍</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+      <div style={{ padding: '12px 14px 8px', borderBottom: '1px solid #1e1e2e' }}>
+        <div style={{ fontSize: 12, color: '#555', marginBottom: 7 }}>資料範圍</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
           {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
             <button
               key={opt}
               onClick={() => setYearFilter(opt)}
               style={{
-                padding: '3px 8px', borderRadius: 12, fontSize: 11, cursor: 'pointer',
+                padding: '5px 11px', borderRadius: 14, fontSize: 13, cursor: 'pointer',
                 border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
                 background: yearFilter === opt ? '#2a2060' : 'transparent',
-                color: yearFilter === opt ? '#b9aaff' : '#555',
+                color: yearFilter === opt ? '#b9aaff' : '#666',
                 fontWeight: yearFilter === opt ? 700 : 400,
                 transition: 'all 0.15s',
               }}
             >
-              {opt === 'all' ? '全部' : `${opt}`}
+              {opt === 'all' ? '全部' : opt}
             </button>
           ))}
         </div>
       </div>
 
       {/* ── Tab 導航 ── */}
-      <nav style={{ padding: '8px 10px 6px' }}>
+      <nav style={{ padding: '10px 12px 8px' }}>
         {TABS.map(t => {
           const active = activeTab === t.key
           return (
@@ -201,53 +204,53 @@ export default function Sidebar({
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 8,
+                gap: 10,
                 width: '100%',
-                padding: '8px 10px',
+                padding: '10px 12px',
                 borderRadius: 8,
-                marginBottom: 1,
+                marginBottom: 2,
                 border: 'none',
                 cursor: 'pointer',
                 background: active ? '#1e1e3a' : 'transparent',
-                color: active ? '#b9aaff' : '#555',
+                color: active ? '#c9bbff' : '#666',
                 fontWeight: active ? 700 : 400,
-                fontSize: 13,
+                fontSize: 15,
                 textAlign: 'left',
                 transition: 'all 0.15s',
               }}
             >
-              <span style={{ fontSize: 15 }}>{t.icon}</span>
+              <span style={{ fontSize: 18 }}>{t.icon}</span>
               {t.label}
             </button>
           )
         })}
       </nav>
 
-      <div style={{ borderTop: '1px solid #1e1e2e', margin: '0 10px' }} />
+      <div style={{ borderTop: '1px solid #1e1e2e', margin: '0 12px' }} />
 
       {/* ── 篩選區域（可滾動）── */}
-      <div style={{ flex: 1, overflow: 'auto', padding: '8px 12px' }}>
+      <div style={{ flex: 1, overflow: 'auto', padding: '6px 14px 14px' }}>
 
-        {/* ══ TOP 20 篩選 ══ */}
-        {activeTab === 'top20' && (
+        {/* ══ 排行榜：TOP 20 篩選 ══ */}
+        {activeTab === 'rankings' && (
           <>
             <div style={labelStyle}>時間範圍</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: monthsInQuarter.length ? 6 : 0 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: monthsInQuarter.length ? 7 : 0 }}>
               {availableQuarters.map(q => {
                 const active = selectedQuarter === q && !selectedMonth
                 return (
-                  <button key={q} onClick={() => handleQuarterClick(q)} style={PILL_BTN(active, '#7c6fff')}>
+                  <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
                     {quarterLabel(q)}
                   </button>
                 )
               })}
             </div>
             {monthsInQuarter.length > 0 && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, paddingLeft: 4, marginBottom: 4 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
                 {monthsInQuarter.map(m => {
                   const active = selectedMonth === m
                   return (
-                    <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={PILL_BTN(active, '#f5c518')}>
+                    <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={pillBtn(active, '#f5c518')}>
                       {m.substring(0, 4)}/{monthLabel(m)}
                     </button>
                   )
@@ -256,7 +259,7 @@ export default function Sidebar({
             )}
 
             <div style={labelStyle}>類型篩選</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {availableGenres.map(g => {
                 const isActive = activeGenres.has(g)
                 const color = GENRE_COLORS[g]
@@ -265,8 +268,8 @@ export default function Sidebar({
                     key={g}
                     onClick={() => toggleGenre(g)}
                     style={{
-                      display: 'flex', alignItems: 'center', gap: 3,
-                      padding: '3px 8px', borderRadius: 20, fontSize: 11,
+                      display: 'flex', alignItems: 'center', gap: 4,
+                      padding: '5px 10px', borderRadius: 20, fontSize: 13,
                       cursor: 'pointer',
                       border: `1px solid ${color}`,
                       background: isActive ? color : 'transparent',
@@ -282,55 +285,41 @@ export default function Sidebar({
               {activeGenres.size > 0 && (
                 <button
                   onClick={() => setActiveGenres(new Set())}
-                  style={{ padding: '3px 8px', borderRadius: 20, fontSize: 11, cursor: 'pointer', border: '1px solid #444', background: 'transparent', color: '#555' }}
+                  style={{ padding: '5px 10px', borderRadius: 20, fontSize: 13, cursor: 'pointer', border: '1px solid #444', background: 'transparent', color: '#666' }}
                 >
                   全部
                 </button>
               )}
             </div>
 
-            <div style={{ marginTop: 10 }}>
+            <div style={{ marginTop: 12 }}>
               <button
                 onClick={() => setNetflixOnly(!netflixOnly)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  padding: '5px 10px', borderRadius: 20, fontSize: 12,
+                  display: 'flex', alignItems: 'center', gap: 7,
+                  padding: '7px 14px', borderRadius: 20, fontSize: 13,
                   cursor: 'pointer', width: '100%',
                   border: `1px solid ${netflixOnly ? '#e50914' : '#333'}`,
                   background: netflixOnly ? '#3a0505' : 'transparent',
-                  color: netflixOnly ? '#ff4d4d' : '#555',
+                  color: netflixOnly ? '#ff4d4d' : '#666',
                   fontWeight: netflixOnly ? 700 : 400,
                   transition: 'all 0.15s',
                 }}
               >
-                <span style={{ fontWeight: 900, color: netflixOnly ? '#e50914' : '#444' }}>N</span>
+                <span style={{ fontWeight: 900, fontSize: 15, color: netflixOnly ? '#e50914' : '#444' }}>N</span>
                 Netflix 獨家
               </button>
             </div>
           </>
         )}
 
-        {/* ══ 快速查詢 ══ */}
-        {activeTab === 'lookup' && (
-          <div style={{ color: '#555', fontSize: 12, marginTop: 8 }}>
-            在右側搜尋節目或瀏覽週榜
-          </div>
-        )}
-
-        {/* ══ 類型分布 篩選 ══ */}
+        {/* ══ 類型分析：流向圖 Netflix 篩選 ══ */}
         {activeTab === 'genre' && (
-          <div style={{ color: '#555', fontSize: 12, marginTop: 8 }}>
-            純展示，無篩選
-          </div>
-        )}
-
-        {/* ══ 流向圖 篩選 ══ */}
-        {activeTab === 'flow' && (
           <>
-            <div style={labelStyle}>Netflix 獨家</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div style={labelStyle}>流向圖 Netflix 獨家</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {([['all', '全部'], ['original', '獨家'], ['nonOriginal', '非獨家']] as const).map(([val, label]) => (
-                <button key={val} onClick={() => setFlowNetflixFilter(val)} style={PILL_BTN(flowNetflixFilter === val, '#e50914')}>
+                <button key={val} onClick={() => setFlowNetflixFilter(val)} style={pillBtn(flowNetflixFilter === val, '#e50914')}>
                   {label}
                 </button>
               ))}
@@ -338,15 +327,16 @@ export default function Sidebar({
           </>
         )}
 
-        {/* ══ 台劇分析 篩選 ══ */}
+        {/* ══ 台劇：台劇分析 + 走勢分析 篩選 ══ */}
         {activeTab === 'taiwan' && (
           <>
+            {/* 台劇分析篩選 */}
             <div style={labelStyle}>上架方式</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {([['all', '全部'], ['weekly', '週播'], ['allAtOnce', '一次'], ['split', '拆分']] as const).map(([val, label]) => {
                 const color = val === 'all' ? '#7c6fff' : (RELEASE_COLORS[val] ?? '#7c6fff')
                 return (
-                  <button key={val} onClick={() => setFilterRelease(val)} style={PILL_BTN(filterRelease === val, color)}>
+                  <button key={val} onClick={() => setFilterRelease(val)} style={pillBtn(filterRelease === val, color)}>
                     {label}
                   </button>
                 )
@@ -354,19 +344,19 @@ export default function Sidebar({
             </div>
 
             <div style={labelStyle}>Netflix 獨家</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {([['all', '全部'], ['original', '獨家'], ['nonOriginal', '非獨家']] as const).map(([val, label]) => (
-                <button key={val} onClick={() => setFilterNetflix(val)} style={PILL_BTN(filterNetflix === val, '#e50914')}>
+                <button key={val} onClick={() => setFilterNetflix(val)} style={pillBtn(filterNetflix === val, '#e50914')}>
                   {label}
                 </button>
               ))}
             </div>
 
             <div style={labelStyle}>榜單</div>
-            <div style={{ display: 'flex', gap: 4 }}>
+            <div style={{ display: 'flex', gap: 6 }}>
               {([['weekly', '週榜'], ['daily', '日榜']] as const).map(([mode, label]) => (
                 <button key={mode} onClick={() => setSortMode(mode)} style={{
-                  padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600,
+                  padding: '6px 14px', borderRadius: 6, fontSize: 13, fontWeight: 600,
                   cursor: 'pointer', border: '1px solid',
                   borderColor: sortMode === mode ? (mode === 'weekly' ? '#e50914' : '#f5c518') : '#333',
                   background: sortMode === mode ? (mode === 'weekly' ? '#2a0a0a' : '#2a2000') : 'transparent',
@@ -377,38 +367,24 @@ export default function Sidebar({
               ))}
             </div>
 
-            <div style={{ marginTop: 12, fontSize: 10, color: '#444', lineHeight: 1.9 }}>
-              <div>
-                <span style={{ color: RELEASE_COLORS.weekly, marginRight: 4 }}>■</span>週播
-                <span style={{ color: RELEASE_COLORS.allAtOnce, marginLeft: 8, marginRight: 4 }}>■</span>一次
-                <span style={{ color: RELEASE_COLORS.split, marginLeft: 8, marginRight: 4 }}>■</span>拆分
-              </div>
-              <div>★ = Netflix 獨家</div>
-            </div>
-          </>
-        )}
-
-        {/* ══ 走勢分析 篩選 ══ */}
-        {activeTab === 'trend' && (
-          <>
-            <div style={labelStyle}>搜尋節目</div>
+            <div style={{ ...labelStyle, marginTop: 18 }}>走勢：搜尋節目</div>
             <input
               type="text"
               placeholder="搜尋台劇名稱…"
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{
-                width: '100%', padding: '6px 10px',
+                width: '100%', padding: '7px 11px',
                 background: '#1a1a2e', border: '1px solid #2a2a3e', borderRadius: 8,
-                color: '#eee', fontSize: 12, outline: 'none', boxSizing: 'border-box',
+                color: '#eee', fontSize: 13, outline: 'none', boxSizing: 'border-box',
               }}
             />
             {selectedTitles.length > 0 && (
-              <div style={{ fontSize: 10, color: '#555', marginTop: 4, marginBottom: 4 }}>
+              <div style={{ fontSize: 12, color: '#555', marginTop: 5, marginBottom: 4 }}>
                 已選 {selectedTitles.length}/10
               </div>
             )}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 7 }}>
               {filteredTitles.map(title => {
                 const idx = selectedTitles.indexOf(title)
                 const active = idx >= 0
@@ -417,7 +393,7 @@ export default function Sidebar({
                     key={title}
                     onClick={() => toggleShow(title)}
                     style={{
-                      padding: '3px 8px', borderRadius: 14, fontSize: 11,
+                      padding: '4px 10px', borderRadius: 14, fontSize: 12,
                       cursor: 'pointer', transition: 'all 0.15s',
                       border: `1px solid ${active ? COLORS[idx % COLORS.length] : '#2a2a3e'}`,
                       background: active ? `${COLORS[idx % COLORS.length]}22` : 'transparent',

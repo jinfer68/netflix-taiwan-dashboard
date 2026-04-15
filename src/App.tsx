@@ -47,7 +47,7 @@ export default function App() {
   const data: RankingsData = rankingsData ?? EMPTY_DATA
 
   // ── 全域狀態 ─────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<TabType>('top20')
+  const [activeTab, setActiveTab] = useState<TabType>('rankings')
   const [yearFilter, setYearFilter] = useState<YearFilter>('2026')
   const [selectedShow, setSelectedShow] = useState<string | null>(null)
 
@@ -134,83 +134,85 @@ export default function App() {
         />
 
         {/* ── 右側圖表區域 ── */}
-        <main style={{ flex: 1, height: CHART_H, overflow: 'auto', minWidth: 0 }}>
+        <main style={{ flex: 1, height: CHART_H, overflow: 'hidden', minWidth: 0 }}>
 
-          {/* ══ TOP 20 ══ */}
-          {activeTab === 'top20' && (
-            <div style={{ height: CHART_H }}>
-              <Top20Chart
-                data={filteredData}
-                activeGenres={activeGenres}
-                netflixOnly={netflixOnly}
-                selectedQuarter={selectedQuarter}
-                selectedMonth={selectedMonth}
-                selectedShow={selectedShow}
-                onSelectShow={setSelectedShow}
-              />
-            </div>
-          )}
-
-          {/* ══ 快速查詢 ══ */}
-          {activeTab === 'lookup' && (
-            <div style={{ padding: 24 }}>
-              <QuickLookup
-                data={filteredData}
-                selectedShow={selectedShow}
-                onSelectShow={setSelectedShow}
-              />
-            </div>
-          )}
-
-          {/* ══ 類型分布 ══ */}
-          {activeTab === 'genre' && (
-            <div style={{ height: CHART_H, display: 'flex', flexDirection: 'column', padding: '16px 20px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%' }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 8 }}>
-                    週榜 Top 10 出現次數
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 8 }}>
-                    Top 50 積分榜部數
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <GenreDistribution data={top50GenreDistribution} countLabel="部數" />
-                  </div>
-                </div>
+          {/* ══ 排行榜頁：TOP 20（左）＋ 快速查詢（右）══ */}
+          {activeTab === 'rankings' && (
+            <div style={{ display: 'flex', height: CHART_H, gap: 0 }}>
+              {/* TOP 20 約佔 58% */}
+              <div style={{ flex: '0 0 58%', height: CHART_H, borderRight: '1px solid #1e1e30' }}>
+                <Top20Chart
+                  data={filteredData}
+                  activeGenres={activeGenres}
+                  netflixOnly={netflixOnly}
+                  selectedQuarter={selectedQuarter}
+                  selectedMonth={selectedMonth}
+                  selectedShow={selectedShow}
+                  onSelectShow={setSelectedShow}
+                />
+              </div>
+              {/* 快速查詢約佔 42% */}
+              <div style={{ flex: 1, height: CHART_H, overflow: 'auto', padding: '16px 20px' }}>
+                <QuickLookup
+                  data={filteredData}
+                  selectedShow={selectedShow}
+                  onSelectShow={setSelectedShow}
+                />
               </div>
             </div>
           )}
 
-          {/* ══ 流向圖 ══ */}
-          {activeTab === 'flow' && (
-            <WeeklyGenreFlow data={filteredData} netflixFilter={flowNetflixFilter} />
-          )}
-
-          {/* ══ 台劇分析 ══ */}
-          {activeTab === 'taiwan' && (
-            <div style={{ height: CHART_H }}>
-              <TaiwanDramaChart
-                data={taiwanDramas}
-                showAttributes={data.showAttributes}
-                sortMode={sortMode}
-                filterRelease={filterRelease}
-                filterNetflix={filterNetflix}
-              />
+          {/* ══ 類型分析頁：圓餅圖（上）＋ 河流圖（下）══ */}
+          {activeTab === 'genre' && (
+            <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
+              {/* 圓餅圖區，約佔 42% */}
+              <div style={{ flex: '0 0 42%', minHeight: 0, borderBottom: '1px solid #1e1e30', padding: '12px 20px 8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: '100%' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 6 }}>
+                      週榜 Top 10 出現次數
+                    </div>
+                    <div style={{ flex: 1, minHeight: 0 }}>
+                      <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 6 }}>
+                      Top 50 積分榜部數
+                    </div>
+                    <div style={{ flex: 1, minHeight: 0 }}>
+                      <GenreDistribution data={top50GenreDistribution} countLabel="部數" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* 河流圖區，約佔 58% */}
+              <div style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+                <WeeklyGenreFlow data={filteredData} netflixFilter={flowNetflixFilter} />
+              </div>
             </div>
           )}
 
-          {/* ══ 走勢分析 ══ */}
-          {activeTab === 'trend' && (
-            <div style={{ height: CHART_H }}>
-              <RankTrendChart
-                data={filteredData}
-                selectedTitles={selectedTitles}
-              />
+          {/* ══ 台劇頁：台劇分析（上）＋ 走勢分析（下）══ */}
+          {activeTab === 'taiwan' && (
+            <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
+              {/* 台劇分析約佔上半 */}
+              <div style={{ flex: 1, minHeight: 0, borderBottom: '1px solid #1e1e30' }}>
+                <TaiwanDramaChart
+                  data={taiwanDramas}
+                  showAttributes={data.showAttributes}
+                  sortMode={sortMode}
+                  filterRelease={filterRelease}
+                  filterNetflix={filterNetflix}
+                />
+              </div>
+              {/* 走勢分析約佔下半 */}
+              <div style={{ flex: 1, minHeight: 0 }}>
+                <RankTrendChart
+                  data={filteredData}
+                  selectedTitles={selectedTitles}
+                />
+              </div>
             </div>
           )}
 
