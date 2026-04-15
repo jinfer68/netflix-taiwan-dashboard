@@ -229,10 +229,17 @@ export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, 
     )
   }
 
+  const chartHeight = Math.max(400, chartData.length * 52 + 60)
+
   return (
-    <div style={{ height: '100%', padding: '16px 20px' }}>
-      <ResponsiveContainer key={sortMode} width="100%" height="100%">
-        <BarChart layout="vertical" data={chartData} margin={{ top: 4, right: 60, left: 0, bottom: 4 }}>
+    <div style={{ height: chartHeight, padding: '16px 20px' }}>
+      <ResponsiveContainer key={sortMode} width="100%" height={chartHeight}>
+        <BarChart
+          layout="vertical" data={chartData}
+          margin={{ top: 4, right: 64, left: 0, bottom: 4 }}
+          barSize={22}
+          barCategoryGap="30%"
+        >
           <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#333" />
           <XAxis
             type="number"
@@ -244,7 +251,7 @@ export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, 
             }}
           />
           <YAxis
-            type="category" dataKey="displayTitle" width={230}
+            type="category" dataKey="displayTitle" width={240}
             tick={(props: { x: number; y: number; payload: { value: string; index: number } }) => {
               const { x, y, payload } = props
               const item = chartData[payload.index]
@@ -256,13 +263,17 @@ export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, 
               const rw = item.releaseWeeks ?? ''
               const woc = item.weeksOnChart
               const hasNote = SPECIAL_NOTES[item.title]
+              const infoText = [ep ? `${ep}集` : '', rw ? `${rw}→${woc}週` : `${woc}週`].filter(Boolean).join(' · ')
               return (
                 <g>
-                  <text x={x - 75} y={y} textAnchor="end" fill="#ddd" fontSize={12} dy={-3}>{item.displayTitle}</text>
-                  <text x={x - 72} y={y} textAnchor="start" fill={releaseColor} fontSize={9} dy={-3} fontWeight={600}>{releaseShort}</text>
-                  {hasNote && <text x={x - 40} y={y} textAnchor="start" fill="#f5c518" fontSize={8} dy={-3}>*</text>}
-                  <text x={x - 2} y={y} textAnchor="end" fill="#777" fontSize={9} dy={9}>
-                    {ep ? `${ep}集` : ''}{rw ? ` · ${rw}→${woc}週` : ` · ${woc}週`}
+                  {/* 標題行 */}
+                  <text x={x - 4} y={y - 7} textAnchor="end" fill="#ddd" fontSize={12} fontWeight={500}>
+                    {item.displayTitle}{hasNote ? ' *' : ''}
+                  </text>
+                  {/* 標籤行：上架方式 + 集數/週數（tspan 混色） */}
+                  <text x={x - 4} y={y + 8} textAnchor="end" fontSize={10}>
+                    <tspan fill="#555">{infoText} · </tspan>
+                    <tspan fill={releaseColor} fontWeight={600}>{releaseShort}</tspan>
                   </text>
                 </g>
               )
