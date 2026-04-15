@@ -14,6 +14,8 @@ interface Props {
   sortMode: 'weekly' | 'daily'
   filterRelease: ReleaseFilter
   filterNetflix: NetflixFilter
+  selectedTitles?: string[]
+  onToggleTitle?: (title: string) => void
 }
 
 interface ChartItem extends TaiwanDramaRanking {
@@ -188,7 +190,7 @@ function DailyTooltip({ active, payload, label }: {
   )
 }
 
-export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, filterRelease, filterNetflix }: Props) {
+export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, filterRelease, filterNetflix, selectedTitles = [], onToggleTitle }: Props) {
   const filtered = data.filter(d => {
     if (filterRelease !== 'all' && d.releaseType !== filterRelease) return false
     if (filterNetflix === 'original'    && !d.isNetflixOriginal) return false
@@ -281,13 +283,45 @@ export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, 
           />
           <Tooltip content={sortMode === 'weekly' ? <WeeklyTooltip /> : <DailyTooltip />} />
           {sortMode === 'weekly' ? (
-            <Bar dataKey="weeklyScore" name="週榜積分" radius={[0, 3, 3, 0]}>
-              {chartData.map((d, i) => <Cell key={i} fill={d.barColor} />)}
+            <Bar
+              dataKey="weeklyScore" name="週榜積分" radius={[0, 3, 3, 0]}
+              style={{ cursor: onToggleTitle ? 'pointer' : 'default' }}
+              onClick={(entry: ChartItem) => onToggleTitle?.(entry.title)}
+            >
+              {chartData.map((d, i) => {
+                const isSelected = selectedTitles.includes(d.title)
+                const dimmed = selectedTitles.length > 0 && !isSelected
+                return (
+                  <Cell
+                    key={i}
+                    fill={d.barColor}
+                    opacity={dimmed ? 0.35 : 1}
+                    stroke={isSelected ? '#fff' : 'none'}
+                    strokeWidth={isSelected ? 1.5 : 0}
+                  />
+                )
+              })}
               <LabelList dataKey="weeklyScore" position="right" style={{ fill: '#ccc', fontSize: 11 }} />
             </Bar>
           ) : (
-            <Bar dataKey="dailyScore" name="日榜積分" radius={[0, 3, 3, 0]}>
-              {chartData.map((d, i) => <Cell key={i} fill={d.barColor} />)}
+            <Bar
+              dataKey="dailyScore" name="日榜積分" radius={[0, 3, 3, 0]}
+              style={{ cursor: onToggleTitle ? 'pointer' : 'default' }}
+              onClick={(entry: ChartItem) => onToggleTitle?.(entry.title)}
+            >
+              {chartData.map((d, i) => {
+                const isSelected = selectedTitles.includes(d.title)
+                const dimmed = selectedTitles.length > 0 && !isSelected
+                return (
+                  <Cell
+                    key={i}
+                    fill={d.barColor}
+                    opacity={dimmed ? 0.35 : 1}
+                    stroke={isSelected ? '#fff' : 'none'}
+                    strokeWidth={isSelected ? 1.5 : 0}
+                  />
+                )
+              })}
               <LabelList dataKey="dailyScore" position="right" style={{ fill: '#ccc', fontSize: 11 }} />
             </Bar>
           )}

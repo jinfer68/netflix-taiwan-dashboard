@@ -201,6 +201,12 @@ export default function App() {
                   sortMode={sortMode}
                   filterRelease={filterRelease}
                   filterNetflix={filterNetflix}
+                  selectedTitles={selectedTitles}
+                  onToggleTitle={title => setSelectedTitles(prev =>
+                    prev.includes(title)
+                      ? prev.filter(t => t !== title)
+                      : prev.length >= 10 ? prev : [...prev, title]
+                  )}
                 />
               </div>
               {/* 走勢分析：固定下方 42% */}

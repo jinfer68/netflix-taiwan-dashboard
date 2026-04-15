@@ -77,7 +77,7 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
   if (selectedTitles.length === 0) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#555', fontSize: 14 }}>
-        請在左側選擇要比較的台劇節目
+        點擊上方排行榜中的節目以查看每日走勢
       </div>
     )
   }
