@@ -67,6 +67,62 @@ export function getTop20(data: RankingsData): OverallRankingEntry[] {
     .slice(0, 20)
 }
 
+/**
+ * 從 dailyRankings 彙整各節目的日榜總積分排行。
+ * 注意：dailyRankings 只有上架天數（無實際日期），不支援年份篩選，
+ * 跨參 overallRankings / weeklyRankings / showAttributes 補齊類型與 Netflix 資訊。
+ */
+export function getDailyOverallRankings(data: RankingsData): OverallRankingEntry[] {
+  // 建立 genre 與 Netflix 狀態查找表
+  const genreMap = new Map<string, Genre>()
+  const netflixMap = new Map<string, boolean>()
+
+  for (const r of data.overallRankings) {
+    genreMap.set(r.title, r.genre)
+    netflixMap.set(r.title, r.isNetflixOriginal)
+  }
+  for (const week of data.weeklyRankings) {
+    for (const item of week.rankings) {
+      if (!genreMap.has(item.title))
+        genreMap.set(item.title, WEEKLY_GENRE_MAP[item.genre] ?? '其他')
+      if (!netflixMap.has(item.title) && item.isNetflixOriginal)
+        netflixMap.set(item.title, true)
+    }
+  }
+  for (const [title, attr] of Object.entries(data.showAttributes)) {
+    if (!netflixMap.has(title)) netflixMap.set(title, attr.isNetflixOriginal)
+  }
+
+  const scoreMap = new Map<string, {
+    totalScore: number; days: number; totalRank: number; peakRank: number
+  }>()
+
+  for (const r of data.dailyRankings) {
+    const prev = scoreMap.get(r.title)
+    if (prev) {
+      prev.totalScore += r.score
+      prev.days++
+      prev.totalRank += r.rank
+      if (r.rank < prev.peakRank) prev.peakRank = r.rank
+    } else {
+      scoreMap.set(r.title, { totalScore: r.score, days: 1, totalRank: r.rank, peakRank: r.rank })
+    }
+  }
+
+  return [...scoreMap.entries()]
+    .map(([title, s]) => ({
+      rank: 0,
+      title,
+      totalScore: s.totalScore,
+      genre: genreMap.get(title) ?? '台劇',
+      weeksOnChart: s.days,   // 此模式下代表「上榜天數」
+      avgRank: Math.round((s.totalRank / s.days) * 10) / 10,
+      isNetflixOriginal: netflixMap.get(title) ?? false,
+    }))
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .map((e, i) => ({ ...e, rank: i + 1 }))
+}
+
 export function getTaiwanDramaComparison(data: RankingsData): TaiwanDramaRanking[] {
   if (data.taiwanDramaRankings.length > 0) {
     return [...data.taiwanDramaRankings].sort((a, b) => b.weeklyScore - a.weeklyScore)

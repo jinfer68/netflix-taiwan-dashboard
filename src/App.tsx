@@ -13,6 +13,7 @@ import {
   getTaiwanDramaComparison,
   getWeeklyGenreDistribution,
   getTop50GenreDistribution,
+  getDailyOverallRankings,
 } from './utils/dataTransforms'
 
 const EMPTY_DATA: RankingsData = {
@@ -52,6 +53,7 @@ export default function App() {
   const [selectedShow, setSelectedShow] = useState<string | null>(null)
 
   // ── TOP 20 篩選狀態 ──────────────────────────────────────────
+  const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
   const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set())
   const [netflixOnly, setNetflixOnly] = useState(false)
   const [selectedQuarter, setSelectedQuarter] = useState<string>('all')
@@ -81,6 +83,8 @@ export default function App() {
   const taiwanDramas = useMemo(() => getTaiwanDramaComparison(filteredData), [filteredData])
   const genreDistribution = useMemo(() => getWeeklyGenreDistribution(filteredData), [filteredData])
   const top50GenreDistribution = useMemo(() => getTop50GenreDistribution(filteredData), [filteredData])
+  // 日榜總排行：使用完整 data（不受年份篩選影響，因為日榜無日期資訊）
+  const dailyOverallRankings = useMemo(() => getDailyOverallRankings(data), [data])
 
   if (loading) {
     return (
@@ -111,6 +115,8 @@ export default function App() {
           data={filteredData}
           yearFilter={yearFilter}
           setYearFilter={setYearFilter}
+          rankingMode={rankingMode}
+          setRankingMode={setRankingMode}
           activeGenres={activeGenres}
           setActiveGenres={setActiveGenres}
           netflixOnly={netflixOnly}
@@ -143,6 +149,8 @@ export default function App() {
               <div style={{ flex: '0 0 60%', height: CHART_H, borderRight: '1px solid #1e1e30' }}>
                 <Top20Chart
                   data={filteredData}
+                  rankingMode={rankingMode}
+                  dailyRankings={dailyOverallRankings}
                   activeGenres={activeGenres}
                   netflixOnly={netflixOnly}
                   selectedQuarter={selectedQuarter}

@@ -18,6 +18,8 @@ interface Props {
   setYearFilter: (v: YearFilter) => void
 
   // TOP 20
+  rankingMode: 'weekly' | 'daily'
+  setRankingMode: (v: 'weekly' | 'daily') => void
   activeGenres: Set<string>
   setActiveGenres: (v: Set<string>) => void
   netflixOnly: boolean
@@ -64,6 +66,7 @@ const COLORS = [
 export default function Sidebar({
   activeTab, onTabChange, data,
   yearFilter, setYearFilter,
+  rankingMode, setRankingMode,
   activeGenres, setActiveGenres,
   netflixOnly, setNetflixOnly,
   selectedQuarter, setSelectedQuarter,
@@ -234,30 +237,69 @@ export default function Sidebar({
         {/* ══ 排行榜：TOP 20 篩選 ══ */}
         {activeTab === 'rankings' && (
           <>
-            <div style={labelStyle}>時間範圍</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: monthsInQuarter.length ? 7 : 0 }}>
-              {availableQuarters.map(q => {
-                const active = selectedQuarter === q && !selectedMonth
-                return (
-                  <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
-                    {quarterLabel(q)}
-                  </button>
-                )
-              })}
+            {/* 週榜 / 日榜 切換 */}
+            <div style={labelStyle}>榜單類型</div>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
+              {([['weekly', '📅 週榜'], ['daily', '🌙 日榜']] as const).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  onClick={() => setRankingMode(mode)}
+                  style={{
+                    flex: 1, padding: '7px 0', borderRadius: 8, fontSize: 13,
+                    cursor: 'pointer', border: '1px solid',
+                    borderColor: rankingMode === mode
+                      ? (mode === 'weekly' ? '#7c6fff' : '#f5c518')
+                      : '#2a2a3e',
+                    background: rankingMode === mode
+                      ? (mode === 'weekly' ? '#2a2060' : '#2a2000')
+                      : 'transparent',
+                    color: rankingMode === mode
+                      ? (mode === 'weekly' ? '#c9bbff' : '#f5c518')
+                      : '#555',
+                    fontWeight: rankingMode === mode ? 700 : 400,
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
-            {monthsInQuarter.length > 0 && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
-                {monthsInQuarter.map(m => {
-                  const active = selectedMonth === m
-                  return (
-                    <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={pillBtn(active, '#f5c518')}>
-                      {m.substring(0, 4)}/{monthLabel(m)}
-                    </button>
-                  )
-                })}
+            {rankingMode === 'daily' && (
+              <div style={{ fontSize: 11, color: '#555', marginBottom: 6, fontStyle: 'italic', lineHeight: 1.6 }}>
+                日榜涵蓋全期資料<br />不支援年份／時間篩選
               </div>
             )}
 
+            {/* 週榜專屬：時間範圍 */}
+            {rankingMode === 'weekly' && (
+              <>
+                <div style={labelStyle}>時間範圍</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: monthsInQuarter.length ? 7 : 0 }}>
+                  {availableQuarters.map(q => {
+                    const active = selectedQuarter === q && !selectedMonth
+                    return (
+                      <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
+                        {quarterLabel(q)}
+                      </button>
+                    )
+                  })}
+                </div>
+                {monthsInQuarter.length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
+                    {monthsInQuarter.map(m => {
+                      const active = selectedMonth === m
+                      return (
+                        <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={pillBtn(active, '#f5c518')}>
+                          {m.substring(0, 4)}/{monthLabel(m)}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* 類型篩選（週榜＋日榜都顯示）*/}
             <div style={labelStyle}>類型篩選</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {availableGenres.map(g => {
@@ -292,6 +334,7 @@ export default function Sidebar({
               )}
             </div>
 
+            {/* Netflix 獨家（週榜＋日榜都顯示）*/}
             <div style={{ marginTop: 12 }}>
               <button
                 onClick={() => setNetflixOnly(!netflixOnly)}
