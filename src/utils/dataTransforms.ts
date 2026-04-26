@@ -228,7 +228,11 @@ interface DailyTrendSeries {
 export function getDailyTrendSeries(
   data: RankingsData,
   selectedTitles: string[]
-): { indices: number[]; series: DailyTrendSeries[] } {
+): {
+  indices: number[]
+  series: DailyTrendSeries[]
+  releaseTypes: Record<string, 'weekly' | 'allAtOnce' | 'split'>
+} {
   const relevant = data.dailyRankings.filter(r => selectedTitles.includes(r.title))
 
   const allIndices = [...new Set(relevant.map(r => r.dayIndex))].sort((a, b) => a - b)
@@ -245,7 +249,13 @@ export function getDailyTrendSeries(
       }
     })
 
-  return { indices: allIndices, series }
+  const releaseTypes: Record<string, 'weekly' | 'allAtOnce' | 'split'> = {}
+  for (const title of selectedTitles) {
+    const attr = data.showAttributes[title]
+    if (attr?.releaseType) releaseTypes[title] = attr.releaseType
+  }
+
+  return { indices: allIndices, series, releaseTypes }
 }
 
 /** 所有有每日資料的台劇節目名稱 */
