@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-04-26T13:12:21.444Z",
+    "generatedAt": "2026-04-26T16:57:13.415Z",
     "dataThrough": "2026-04-12"
   },
   "showAttributes": {
@@ -5413,11 +5413,11 @@
       "weeklyScore": 37,
       "weeksOnChart": 6,
       "weeklyAvgRank": 4.83,
-      "dailyRank": 44,
-      "dailyScore": 8,
-      "daysOnChart": 1,
-      "dailyAvgRank": 3,
-      "totalScore": 45,
+      "dailyRank": 13,
+      "dailyScore": 219,
+      "daysOnChart": 37,
+      "dailyAvgRank": 5.08,
+      "totalScore": 256,
       "isNetflixOriginal": false,
       "isAllAtOnce": false,
       "releaseType": "weekly"
@@ -5461,11 +5461,11 @@
       "weeklyScore": 31,
       "weeksOnChart": 5,
       "weeklyAvgRank": 4.8,
-      "dailyRank": 13,
-      "dailyScore": 211,
-      "daysOnChart": 36,
-      "dailyAvgRank": 5.14,
-      "totalScore": 242,
+      "dailyRank": 47,
+      "dailyScore": 0,
+      "daysOnChart": 0,
+      "dailyAvgRank": 0,
+      "totalScore": 31,
       "isNetflixOriginal": false,
       "isAllAtOnce": false,
       "releaseType": "weekly"
@@ -5781,7 +5781,7 @@
       "weeklyScore": 1,
       "weeksOnChart": 1,
       "weeklyAvgRank": 10,
-      "dailyRank": 45,
+      "dailyRank": 44,
       "dailyScore": 6,
       "daysOnChart": 4,
       "dailyAvgRank": 9.5,
@@ -5829,7 +5829,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 46,
+      "dailyRank": 45,
       "dailyScore": 1,
       "daysOnChart": 1,
       "dailyAvgRank": 10,
@@ -5941,7 +5941,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 47,
+      "dailyRank": 46,
       "dailyScore": 1,
       "daysOnChart": 1,
       "dailyAvgRank": 10,
@@ -6092,35 +6092,35 @@
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 13,
       "title": "嗨！營業中 第三季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 1,
+      "dayIndex": 14,
       "title": "嗨！營業中 第三季",
       "rank": 10,
       "score": 1,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 2,
+      "dayIndex": 15,
       "title": "嗨！營業中 第三季",
       "rank": 10,
       "score": 1,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 7,
+      "dayIndex": 20,
       "title": "嗨！營業中 第三季",
       "rank": 9,
       "score": 2,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 14,
+      "dayIndex": 27,
       "title": "嗨！營業中 第三季",
       "rank": 9,
       "score": 2,
@@ -6148,7 +6148,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 21,
+      "dayIndex": 34,
       "title": "嗨！營業中 第三季",
       "rank": 10,
       "score": 1,
@@ -6253,7 +6253,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 48,
       "title": "嗨！營業中 第三季",
       "rank": 10,
       "score": 1,
@@ -7157,7 +7157,7 @@
     },
     {
       "dayIndex": 0,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 1,
       "score": 10,
       "isAllAtOnce": false
@@ -7171,7 +7171,7 @@
     },
     {
       "dayIndex": 1,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 1,
       "score": 10,
       "isAllAtOnce": false
@@ -7185,7 +7185,7 @@
     },
     {
       "dayIndex": 2,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 1,
       "score": 10,
       "isAllAtOnce": false
@@ -7206,7 +7206,7 @@
     },
     {
       "dayIndex": 3,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 1,
       "score": 10,
       "isAllAtOnce": false
@@ -7227,7 +7227,7 @@
     },
     {
       "dayIndex": 4,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 2,
       "score": 9,
       "isAllAtOnce": false
@@ -7248,7 +7248,7 @@
     },
     {
       "dayIndex": 5,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 2,
       "score": 9,
       "isAllAtOnce": false
@@ -7269,7 +7269,7 @@
     },
     {
       "dayIndex": 6,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 2,
       "score": 9,
       "isAllAtOnce": false
@@ -7290,7 +7290,7 @@
     },
     {
       "dayIndex": 7,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 1,
       "score": 10,
       "isAllAtOnce": false
@@ -7311,7 +7311,7 @@
     },
     {
       "dayIndex": 8,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 2,
       "score": 9,
       "isAllAtOnce": false
@@ -7332,7 +7332,7 @@
     },
     {
       "dayIndex": 9,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
@@ -7353,7 +7353,7 @@
     },
     {
       "dayIndex": 10,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
@@ -7374,7 +7374,7 @@
     },
     {
       "dayIndex": 11,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7395,7 +7395,7 @@
     },
     {
       "dayIndex": 12,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7416,7 +7416,7 @@
     },
     {
       "dayIndex": 13,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7437,7 +7437,7 @@
     },
     {
       "dayIndex": 14,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7458,7 +7458,7 @@
     },
     {
       "dayIndex": 15,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7479,7 +7479,7 @@
     },
     {
       "dayIndex": 16,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7500,7 +7500,7 @@
     },
     {
       "dayIndex": 17,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7521,7 +7521,7 @@
     },
     {
       "dayIndex": 18,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7542,7 +7542,7 @@
     },
     {
       "dayIndex": 19,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
@@ -7556,7 +7556,7 @@
     },
     {
       "dayIndex": 20,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
@@ -7570,7 +7570,7 @@
     },
     {
       "dayIndex": 21,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
@@ -7584,7 +7584,7 @@
     },
     {
       "dayIndex": 22,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 6,
       "score": 5,
       "isAllAtOnce": false
@@ -7605,14 +7605,14 @@
     },
     {
       "dayIndex": 23,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
     },
     {
       "dayIndex": 24,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 6,
       "score": 5,
       "isAllAtOnce": false
@@ -7626,7 +7626,7 @@
     },
     {
       "dayIndex": 25,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 5,
       "score": 6,
       "isAllAtOnce": false
@@ -7640,7 +7640,7 @@
     },
     {
       "dayIndex": 26,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 6,
       "score": 5,
       "isAllAtOnce": false
@@ -7654,7 +7654,7 @@
     },
     {
       "dayIndex": 27,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 8,
       "score": 3,
       "isAllAtOnce": false
@@ -7668,7 +7668,7 @@
     },
     {
       "dayIndex": 28,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
@@ -7682,7 +7682,7 @@
     },
     {
       "dayIndex": 29,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 9,
       "score": 2,
       "isAllAtOnce": false
@@ -7696,7 +7696,7 @@
     },
     {
       "dayIndex": 30,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 8,
       "score": 3,
       "isAllAtOnce": false
@@ -7717,14 +7717,14 @@
     },
     {
       "dayIndex": 31,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 9,
       "score": 2,
       "isAllAtOnce": false
     },
     {
       "dayIndex": 32,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 6,
       "score": 5,
       "isAllAtOnce": false
@@ -7738,21 +7738,21 @@
     },
     {
       "dayIndex": 33,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 8,
       "score": 3,
       "isAllAtOnce": false
     },
     {
       "dayIndex": 34,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 9,
       "score": 2,
       "isAllAtOnce": false
     },
     {
       "dayIndex": 35,
-      "title": "誰是被害者",
+      "title": "誰是被害者 第二季",
       "rank": 9,
       "score": 2,
       "isAllAtOnce": false
@@ -8556,7 +8556,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 245,
+      "dayIndex": 28,
       "title": "嗨！營業中 第四季",
       "rank": 6,
       "score": 5,
@@ -8577,7 +8577,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 246,
+      "dayIndex": 29,
       "title": "嗨！營業中 第四季",
       "rank": 8,
       "score": 3,
@@ -8598,7 +8598,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 247,
+      "dayIndex": 30,
       "title": "嗨！營業中 第四季",
       "rank": 10,
       "score": 1,
@@ -8619,7 +8619,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 248,
+      "dayIndex": 31,
       "title": "嗨！營業中 第四季",
       "rank": 10,
       "score": 1,
@@ -8675,7 +8675,7 @@
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 252,
+      "dayIndex": 35,
       "title": "嗨！營業中 第四季",
       "rank": 4,
       "score": 7,
@@ -8710,7 +8710,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 253,
+      "dayIndex": 36,
       "title": "嗨！營業中 第四季",
       "rank": 8,
       "score": 3,
@@ -8738,7 +8738,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 254,
+      "dayIndex": 37,
       "title": "嗨！營業中 第四季",
       "rank": 10,
       "score": 1,
@@ -8843,7 +8843,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 259,
+      "dayIndex": 42,
       "title": "嗨！營業中 第四季",
       "rank": 6,
       "score": 5,
@@ -8871,7 +8871,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 260,
+      "dayIndex": 43,
       "title": "嗨！營業中 第四季",
       "rank": 7,
       "score": 4,
@@ -8899,7 +8899,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 261,
+      "dayIndex": 44,
       "title": "嗨！營業中 第四季",
       "rank": 10,
       "score": 1,
@@ -8927,7 +8927,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 262,
+      "dayIndex": 45,
       "title": "嗨！營業中 第四季",
       "rank": 10,
       "score": 1,
@@ -9025,7 +9025,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 266,
+      "dayIndex": 49,
       "title": "嗨！營業中 第四季",
       "rank": 8,
       "score": 3,
@@ -9053,7 +9053,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 267,
+      "dayIndex": 50,
       "title": "嗨！營業中 第四季",
       "rank": 10,
       "score": 1,
@@ -10873,84 +10873,84 @@
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 448,
+      "dayIndex": 7,
       "title": "嗨！營業中 第五季",
       "rank": 3,
       "score": 8,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 449,
+      "dayIndex": 8,
       "title": "嗨！營業中 第五季",
       "rank": 6,
       "score": 5,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 9,
       "title": "嗨！營業中 第五季",
       "rank": 8,
       "score": 3,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 455,
+      "dayIndex": 14,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 456,
+      "dayIndex": 15,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 457,
+      "dayIndex": 16,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 458,
+      "dayIndex": 17,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 459,
+      "dayIndex": 18,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 460,
+      "dayIndex": 19,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 461,
+      "dayIndex": 20,
       "title": "嗨！營業中 第五季",
       "rank": 4,
       "score": 7,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 28,
       "title": "嗨！營業中 第五季",
       "rank": 7,
       "score": 4,
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 35,
       "title": "嗨！營業中 第五季",
       "rank": 6,
       "score": 5,
@@ -11006,7 +11006,7 @@
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 42,
       "title": "嗨！營業中 第五季",
       "rank": 8,
       "score": 3,
@@ -12567,7 +12567,7 @@
       "isAllAtOnce": false
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 14,
       "title": "嗨！營業中 第六季",
       "rank": 8,
       "score": 3,
@@ -12791,7 +12791,7 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 0,
+      "dayIndex": 27,
       "title": "如果我不曾見過太陽",
       "rank": 4,
       "score": 7,
