@@ -28,9 +28,16 @@ function RankTick({ x, y, payload }: { x: number; y: number; payload: { value: n
 
 function RankTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (!active || !payload?.length) return null
+  const dayIndex = label as number
+  const epNum = dayIndex % 7 === 0 ? dayIndex / 7 + 1 : null
   return (
     <div style={TOOLTIP_STYLE}>
-      <div style={{ fontWeight: 700, marginBottom: 4 }}>上架第 {label} 天</div>
+      <div style={{ fontWeight: 700, marginBottom: 4 }}>上架第 {dayIndex} 天</div>
+      {epNum != null && (
+        <div style={{ color: '#f5c518', fontSize: 11, marginBottom: 4 }}>
+          🎬 EP{epNum} 上線日
+        </div>
+      )}
       {payload.map((entry, i) => {
         const v = entry.value as number | null | undefined
         const display = v == null ? '無資料' : v >= 11 ? '榜外（未進 Top 10）' : `第 ${v} 名`
@@ -57,10 +64,20 @@ function CustomDot(props: {
 }
 
 export default function RankTrendChart({ data, selectedTitles }: Props) {
-  const { indices, series } = useMemo(
+  const { indices, series, releaseTypes } = useMemo(
     () => getDailyTrendSeries(data, selectedTitles),
     [data, selectedTitles]
   )
+
+  const hasWeeklyShow = Object.values(releaseTypes).some(
+    t => t === 'weekly' || t === 'split'
+  )
+
+  const maxDayIndex = indices.length > 0 ? indices[indices.length - 1] : 0
+
+  const epDays = hasWeeklyShow
+    ? Array.from({ length: Math.floor(maxDayIndex / 7) + 1 }, (_, i) => i * 7)
+    : []
 
   const chartData = useMemo(() =>
     indices.map(i => {
@@ -90,6 +107,21 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
           <ReferenceArea y1={10.5} y2={11.5} fill="#1a1a2e" fillOpacity={0.8} />
           <ReferenceLine y={10.5} stroke="#555" strokeDasharray="6 3"
             label={{ value: '── Top 10 ──', fill: '#555', fontSize: 10, position: 'right' }} />
+          {epDays.map(day => (
+            <ReferenceLine
+              key={`ep-${day}`}
+              x={day}
+              stroke="#f5c518"
+              strokeWidth={1}
+              strokeDasharray="4 3"
+              label={{
+                value: `EP${day / 7 + 1}`,
+                fill: '#f5c518',
+                fontSize: 10,
+                position: 'insideTopRight',
+              }}
+            />
+          ))}
           <XAxis
             dataKey="dayIndex"
             tick={{ fill: '#aaa', fontSize: 11 }}
@@ -104,17 +136,26 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
           />
           <Tooltip content={<RankTooltip />} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
-          {series.map((s, i) => (
-            <Line
-              key={s.name}
-              type="monotone"
-              dataKey={s.name}
-              stroke={COLORS[i % COLORS.length]}
-              strokeWidth={2}
-              dot={<CustomDot cx={0} cy={0} value={null} stroke={COLORS[i % COLORS.length]} index={0} />}
-              connectNulls={false}
-            />
-          ))}
+          {series.map((s, i) => {
+            const rt = releaseTypes[s.name]
+            const suffix = rt === 'weekly' || rt === 'split'
+              ? ' (週播)'
+              : rt === 'allAtOnce'
+              ? ' (一次)'
+              : ''
+            return (
+              <Line
+                key={s.name}
+                type="monotone"
+                dataKey={s.name}
+                name={s.name + suffix}
+                stroke={COLORS[i % COLORS.length]}
+                strokeWidth={2}
+                dot={<CustomDot cx={0} cy={0} value={null} stroke={COLORS[i % COLORS.length]} index={0} />}
+                connectNulls={false}
+              />
+            )
+          })}
         </LineChart>
       </ResponsiveContainer>
     </div>
