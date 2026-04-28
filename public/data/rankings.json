@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-04-26T16:57:13.415Z",
+    "generatedAt": "2026-04-26T17:01:32.162Z",
     "dataThrough": "2026-04-12"
   },
   "showAttributes": {
@@ -5227,6 +5227,4418 @@
       "totalEpisodes": "",
       "firstWeekDate": "2026-04-06",
       "lastWeekDate": "2026-04-06"
+    }
+  ],
+  "dailyOverallRankings": [
+    {
+      "rank": 1,
+      "title": "淚之女王",
+      "totalScore": 778,
+      "genre": "韓劇",
+      "weeksOnChart": 96,
+      "avgRank": 2.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 2,
+      "title": "鬼滅之刃 柱訓練篇",
+      "totalScore": 722,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 105,
+      "avgRank": 4.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 3,
+      "title": "她的日與夜",
+      "totalScore": 586,
+      "genre": "韓劇",
+      "weeksOnChart": 72,
+      "avgRank": 2.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 4,
+      "title": "低谷醫生",
+      "totalScore": 578,
+      "genre": "韓劇",
+      "weeksOnChart": 76,
+      "avgRank": 3.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 5,
+      "title": "苦盡柑來遇見你",
+      "totalScore": 577,
+      "genre": "韓劇",
+      "weeksOnChart": 70,
+      "avgRank": 2.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 6,
+      "title": "怪獸8號",
+      "totalScore": 540,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 84,
+      "avgRank": 4.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 7,
+      "title": "媽媽朋友的兒子",
+      "totalScore": 519,
+      "genre": "韓劇",
+      "weeksOnChart": 64,
+      "avgRank": 2.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 8,
+      "title": "膽大黨",
+      "totalScore": 518,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 82,
+      "avgRank": 4.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 9,
+      "title": "暴君的廚師",
+      "totalScore": 488,
+      "genre": "韓劇",
+      "weeksOnChart": 57,
+      "avgRank": 2.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 10,
+      "title": "現在撥打的電話",
+      "totalScore": 482,
+      "genre": "韓劇",
+      "weeksOnChart": 57,
+      "avgRank": 2.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 11,
+      "title": "逐玉",
+      "totalScore": 468,
+      "genre": "陸劇",
+      "weeksOnChart": 49,
+      "avgRank": 1.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 12,
+      "title": "咒術迴戰 死滅迴游 前篇",
+      "totalScore": 464,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 84,
+      "avgRank": 5.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 13,
+      "title": "黑白大廚:料理階級大戰",
+      "totalScore": 461,
+      "genre": "實境秀",
+      "weeksOnChart": 62,
+      "avgRank": 3.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 14,
+      "title": "黑白大廚:#料理階級大戰",
+      "totalScore": 446,
+      "genre": "實境秀",
+      "weeksOnChart": 58,
+      "avgRank": 3.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 15,
+      "title": "怪獸8號 S2",
+      "totalScore": 432,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 78,
+      "avgRank": 5.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 16,
+      "title": "夢想成為律師的律師們",
+      "totalScore": 430,
+      "genre": "韓劇",
+      "weeksOnChart": 56,
+      "avgRank": 3.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 17,
+      "title": "影后",
+      "totalScore": 422,
+      "genre": "台劇",
+      "weeksOnChart": 59,
+      "avgRank": 3.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 18,
+      "title": "膽大黨 S2",
+      "totalScore": 417,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 74,
+      "avgRank": 5.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 19,
+      "title": "我獨自升級",
+      "totalScore": 412,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 80,
+      "avgRank": 5.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 20,
+      "title": "我獨自升級S2-起於闇影",
+      "totalScore": 412,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 93,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 21,
+      "title": "SAKAMOTO DAYS 坂本日常 ",
+      "totalScore": 396,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 72,
+      "avgRank": 5.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 22,
+      "title": "機智住院醫生生活",
+      "totalScore": 394,
+      "genre": "韓劇",
+      "weeksOnChart": 56,
+      "avgRank": 4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 23,
+      "title": "迷宮飯",
+      "totalScore": 392,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 78,
+      "avgRank": 6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 24,
+      "title": "墨雨雲間",
+      "totalScore": 390,
+      "genre": "陸劇",
+      "weeksOnChart": 59,
+      "avgRank": 4.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 25,
+      "title": "肌肉魔法使-MASHLE- 神覺者候補選拔試驗篇",
+      "totalScore": 388,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 74,
+      "avgRank": 5.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 26,
+      "title": "葬送的芙莉蓮 第二季",
+      "totalScore": 385,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 76,
+      "avgRank": 5.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 27,
+      "title": "比天堂還美麗",
+      "totalScore": 375,
+      "genre": "韓劇",
+      "weeksOnChart": 47,
+      "avgRank": 3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 28,
+      "title": "藥師少女的獨語  S2",
+      "totalScore": 372,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 94,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 29,
+      "title": "難哄",
+      "totalScore": 360,
+      "genre": "陸劇",
+      "weeksOnChart": 50,
+      "avgRank": 3.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 30,
+      "title": "許我耀眼",
+      "totalScore": 352,
+      "genre": "陸劇",
+      "weeksOnChart": 49,
+      "avgRank": 3.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 31,
+      "title": "莎拉的真偽人生",
+      "totalScore": 351,
+      "genre": "韓劇",
+      "weeksOnChart": 49,
+      "avgRank": 3.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 32,
+      "title": "臥底洪小姐",
+      "totalScore": 348,
+      "genre": "韓劇",
+      "weeksOnChart": 63,
+      "avgRank": 5.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 33,
+      "title": "一吻爆炸",
+      "totalScore": 343,
+      "genre": "韓劇",
+      "weeksOnChart": 52,
+      "avgRank": 4.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 34,
+      "title": "愛情怎麼翻譯",
+      "totalScore": 337,
+      "genre": "韓劇",
+      "weeksOnChart": 49,
+      "avgRank": 4.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 35,
+      "title": "外傷重症中心",
+      "totalScore": 334,
+      "genre": "韓劇",
+      "weeksOnChart": 47,
+      "avgRank": 3.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 36,
+      "title": "未知的首爾",
+      "totalScore": 334,
+      "genre": "韓劇",
+      "weeksOnChart": 49,
+      "avgRank": 4.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 37,
+      "title": "華麗計程車行",
+      "totalScore": 328,
+      "genre": "台劇",
+      "weeksOnChart": 57,
+      "avgRank": 5.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 38,
+      "title": "拜六禮拜",
+      "totalScore": 327,
+      "genre": "台劇",
+      "weeksOnChart": 55,
+      "avgRank": 5.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 39,
+      "title": "黑白大廚：料理階級大戰S2",
+      "totalScore": 325,
+      "genre": "實境秀",
+      "weeksOnChart": 41,
+      "avgRank": 3.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 40,
+      "title": "折腰",
+      "totalScore": 324,
+      "genre": "陸劇",
+      "weeksOnChart": 53,
+      "avgRank": 4.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 41,
+      "title": "貞淑的推銷",
+      "totalScore": 320,
+      "genre": "韓劇",
+      "weeksOnChart": 47,
+      "avgRank": 4.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 42,
+      "title": "【我推的孩子】S2",
+      "totalScore": 318,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 58,
+      "avgRank": 5.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 43,
+      "title": "黑白大廚：#料理階級大戰 S2",
+      "totalScore": 311,
+      "genre": "實境秀",
+      "weeksOnChart": 36,
+      "avgRank": 2.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 44,
+      "title": "正港分局",
+      "totalScore": 310,
+      "genre": "台劇",
+      "weeksOnChart": 44,
+      "avgRank": 4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 45,
+      "title": "公益律師",
+      "totalScore": 307,
+      "genre": "韓劇",
+      "weeksOnChart": 54,
+      "avgRank": 5.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 46,
+      "title": "死了一個娛樂女記者之後",
+      "totalScore": 304,
+      "genre": "台劇",
+      "weeksOnChart": 44,
+      "avgRank": 4.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 47,
+      "title": "愛愛內含光",
+      "totalScore": 292,
+      "genre": "台劇",
+      "weeksOnChart": 40,
+      "avgRank": 3.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 48,
+      "title": "3體",
+      "totalScore": 292,
+      "genre": "美劇",
+      "weeksOnChart": 42,
+      "avgRank": 4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 49,
+      "title": "星期三 S2",
+      "totalScore": 288,
+      "genre": "美劇",
+      "weeksOnChart": 46,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 50,
+      "title": "魷魚遊戲 S2",
+      "totalScore": 287,
+      "genre": "韓劇",
+      "weeksOnChart": 40,
+      "avgRank": 3.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 51,
+      "title": "珠簾玉幕",
+      "totalScore": 280,
+      "genre": "陸劇",
+      "weeksOnChart": 41,
+      "avgRank": 4.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 52,
+      "title": "人生清理員",
+      "totalScore": 274,
+      "genre": "台劇",
+      "weeksOnChart": 36,
+      "avgRank": 3.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 53,
+      "title": "回魂計",
+      "totalScore": 274,
+      "genre": "台劇",
+      "weeksOnChart": 33,
+      "avgRank": 2.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 54,
+      "title": "唐宮奇案之青霧風鳴",
+      "totalScore": 267,
+      "genre": "陸劇",
+      "weeksOnChart": 42,
+      "avgRank": 4.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 55,
+      "title": "如果我不曾見過太陽",
+      "totalScore": 262,
+      "genre": "台劇",
+      "weeksOnChart": 38,
+      "avgRank": 4.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 56,
+      "title": "艾蜜莉在巴黎 S4",
+      "totalScore": 257,
+      "genre": "美劇",
+      "weeksOnChart": 45,
+      "avgRank": 5.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 57,
+      "title": "寄生獸：灰色部隊",
+      "totalScore": 254,
+      "genre": "韓劇",
+      "weeksOnChart": 31,
+      "avgRank": 2.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 58,
+      "title": "地面師",
+      "totalScore": 254,
+      "genre": "日劇",
+      "weeksOnChart": 39,
+      "avgRank": 4.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 59,
+      "title": "度華年",
+      "totalScore": 252,
+      "genre": "陸劇",
+      "weeksOnChart": 42,
+      "avgRank": 5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 60,
+      "title": "家母螳螂/螳螂",
+      "totalScore": 249,
+      "genre": "韓劇",
+      "weeksOnChart": 37,
+      "avgRank": 4.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 61,
+      "title": "凡人修仙傳",
+      "totalScore": 247,
+      "genre": "陸劇",
+      "weeksOnChart": 36,
+      "avgRank": 4.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 62,
+      "title": "童話故事下集",
+      "totalScore": 246,
+      "genre": "台劇",
+      "weeksOnChart": 34,
+      "avgRank": 3.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 63,
+      "title": "浪漫這一家",
+      "totalScore": 244,
+      "genre": "韓劇",
+      "weeksOnChart": 46,
+      "avgRank": 5.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 64,
+      "title": "蠻好的人生",
+      "totalScore": 241,
+      "genre": "陸劇",
+      "weeksOnChart": 38,
+      "avgRank": 4.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 65,
+      "title": "忘了我記得",
+      "totalScore": 240,
+      "genre": "台劇",
+      "weeksOnChart": 41,
+      "avgRank": 5.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 66,
+      "title": "擁有超常技能的異世界流浪美食家 S2",
+      "totalScore": 233,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 41,
+      "avgRank": 5.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 67,
+      "title": "幸福房屋事件簿",
+      "totalScore": 231,
+      "genre": "台劇",
+      "weeksOnChart": 52,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 68,
+      "title": "單身即地獄 第四季",
+      "totalScore": 230,
+      "genre": "實境秀",
+      "weeksOnChart": 32,
+      "avgRank": 3.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 69,
+      "title": "你的味道",
+      "totalScore": 227,
+      "genre": "韓劇",
+      "weeksOnChart": 42,
+      "avgRank": 5.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 70,
+      "title": "單身即地獄 第五季",
+      "totalScore": 227,
+      "genre": "實境秀",
+      "weeksOnChart": 33,
+      "avgRank": 4.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 71,
+      "title": "國色芳華",
+      "totalScore": 224,
+      "genre": "陸劇",
+      "weeksOnChart": 38,
+      "avgRank": 5.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 72,
+      "title": "新生",
+      "totalScore": 222,
+      "genre": "陸劇",
+      "weeksOnChart": 32,
+      "avgRank": 4.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 73,
+      "title": "母胎單身戀愛大作戰",
+      "totalScore": 222,
+      "genre": "實境秀",
+      "weeksOnChart": 29,
+      "avgRank": 3.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 74,
+      "title": "誰是被害者 第二季",
+      "totalScore": 219,
+      "genre": "台劇",
+      "weeksOnChart": 37,
+      "avgRank": 5.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 75,
+      "title": "驕陽似我",
+      "totalScore": 218,
+      "genre": "陸劇",
+      "weeksOnChart": 34,
+      "avgRank": 4.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 76,
+      "title": "雁回時",
+      "totalScore": 205,
+      "genre": "陸劇",
+      "weeksOnChart": 29,
+      "avgRank": 3.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 77,
+      "title": "歡迎回到三達里",
+      "totalScore": 204,
+      "genre": "韓劇",
+      "weeksOnChart": 34,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 78,
+      "title": "乩身",
+      "totalScore": 204,
+      "genre": "台劇",
+      "weeksOnChart": 22,
+      "avgRank": 1.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 79,
+      "title": "航海王 S2",
+      "totalScore": 203,
+      "genre": "美劇",
+      "weeksOnChart": 32,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 80,
+      "title": "一箱情緣",
+      "totalScore": 201,
+      "genre": "韓劇",
+      "weeksOnChart": 28,
+      "avgRank": 3.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 81,
+      "title": "混沌少年時",
+      "totalScore": 201,
+      "genre": "英劇",
+      "weeksOnChart": 35,
+      "avgRank": 5.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 82,
+      "title": "與惡魔有約",
+      "totalScore": 200,
+      "genre": "韓劇",
+      "weeksOnChart": 34,
+      "avgRank": 5.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 83,
+      "title": "京城怪物",
+      "totalScore": 199,
+      "genre": "韓劇",
+      "weeksOnChart": 30,
+      "avgRank": 4.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 84,
+      "title": "無赦之仇",
+      "totalScore": 197,
+      "genre": "韓劇",
+      "weeksOnChart": 31,
+      "avgRank": 4.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 85,
+      "title": "訂閱男友",
+      "totalScore": 197,
+      "genre": "韓劇",
+      "weeksOnChart": 32,
+      "avgRank": 4.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 86,
+      "title": "雖然不是英雄",
+      "totalScore": 196,
+      "genre": "韓劇",
+      "weeksOnChart": 43,
+      "avgRank": 6.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 87,
+      "title": "惡緣",
+      "totalScore": 195,
+      "genre": "韓劇",
+      "weeksOnChart": 28,
+      "avgRank": 4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 88,
+      "title": "百萬人推理",
+      "totalScore": 195,
+      "genre": "台劇",
+      "weeksOnChart": 23,
+      "avgRank": 2.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 89,
+      "title": "馴鹿寶貝",
+      "totalScore": 193,
+      "genre": "英劇",
+      "weeksOnChart": 34,
+      "avgRank": 5.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 90,
+      "title": "五福臨門",
+      "totalScore": 192,
+      "genre": "陸劇",
+      "weeksOnChart": 29,
+      "avgRank": 4.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 91,
+      "title": "The 8 Show",
+      "totalScore": 190,
+      "genre": "韓劇",
+      "weeksOnChart": 28,
+      "avgRank": 4.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 92,
+      "title": "玫瑰的故事",
+      "totalScore": 188,
+      "genre": "陸劇",
+      "weeksOnChart": 36,
+      "avgRank": 5.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 93,
+      "title": "不良一族尋愛記",
+      "totalScore": 188,
+      "genre": "實境秀",
+      "weeksOnChart": 27,
+      "avgRank": 4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 94,
+      "title": "永夜星河",
+      "totalScore": 186,
+      "genre": "陸劇",
+      "weeksOnChart": 36,
+      "avgRank": 5.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 95,
+      "title": "春花焰",
+      "totalScore": 184,
+      "genre": "陸劇",
+      "weeksOnChart": 29,
+      "avgRank": 4.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 96,
+      "title": "奧術 S2",
+      "totalScore": 184,
+      "genre": "其他",
+      "weeksOnChart": 29,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 97,
+      "title": "魷魚遊戲 S3",
+      "totalScore": 184,
+      "genre": "韓劇",
+      "weeksOnChart": 24,
+      "avgRank": 3.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 98,
+      "title": "怪奇物語 S5",
+      "totalScore": 184,
+      "genre": "美劇",
+      "weeksOnChart": 30,
+      "avgRank": 4.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 99,
+      "title": "獻魚",
+      "totalScore": 182,
+      "genre": "陸劇",
+      "weeksOnChart": 28,
+      "avgRank": 4.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 100,
+      "title": "Hell's Paradise 地獄樂 第二季",
+      "totalScore": 175,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 42,
+      "avgRank": 6.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 101,
+      "title": "我的意外室友",
+      "totalScore": 174,
+      "genre": "台劇",
+      "weeksOnChart": 41,
+      "avgRank": 6.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 102,
+      "title": "無聲蛙鳴",
+      "totalScore": 174,
+      "genre": "韓劇",
+      "weeksOnChart": 33,
+      "avgRank": 5.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 103,
+      "title": "一拳超人 S3",
+      "totalScore": 174,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 39,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 104,
+      "title": "他為什麼依然單身",
+      "totalScore": 171,
+      "genre": "陸劇",
+      "weeksOnChart": 26,
+      "avgRank": 4.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 105,
+      "title": "桃花映江山",
+      "totalScore": 170,
+      "genre": "陸劇",
+      "weeksOnChart": 24,
+      "avgRank": 3.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 106,
+      "title": "成功路上",
+      "totalScore": 163,
+      "genre": "台劇",
+      "weeksOnChart": 32,
+      "avgRank": 5.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 107,
+      "title": "韶華若錦",
+      "totalScore": 163,
+      "genre": "陸劇",
+      "weeksOnChart": 36,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 108,
+      "title": "嗨！營業中 S4",
+      "totalScore": 155,
+      "genre": "實境秀",
+      "weeksOnChart": 38,
+      "avgRank": 6.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 109,
+      "title": "型男主廚三星夢",
+      "totalScore": 155,
+      "genre": "日劇",
+      "weeksOnChart": 33,
+      "avgRank": 6.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 110,
+      "title": "Sweet Home 第三季",
+      "totalScore": 154,
+      "genre": "韓劇",
+      "weeksOnChart": 21,
+      "avgRank": 3.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 111,
+      "title": "玉氏夫人傳",
+      "totalScore": 154,
+      "genre": "韓劇",
+      "weeksOnChart": 35,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 112,
+      "title": "體能之巔：百人大挑戰  第二季",
+      "totalScore": 151,
+      "genre": "實境秀",
+      "weeksOnChart": 22,
+      "avgRank": 4.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 113,
+      "title": "颱風商社",
+      "totalScore": 150,
+      "genre": "韓劇",
+      "weeksOnChart": 41,
+      "avgRank": 7.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 114,
+      "title": "錦繡芳華",
+      "totalScore": 149,
+      "genre": "陸劇",
+      "weeksOnChart": 25,
+      "avgRank": 5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 115,
+      "title": "模範計程車",
+      "totalScore": 145,
+      "genre": "韓劇",
+      "weeksOnChart": 31,
+      "avgRank": 6.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 116,
+      "title": "京城怪物 第二季",
+      "totalScore": 145,
+      "genre": "韓劇",
+      "weeksOnChart": 22,
+      "avgRank": 4.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 117,
+      "title": "逃離火山島",
+      "totalScore": 144,
+      "genre": "其他",
+      "weeksOnChart": 23,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 118,
+      "title": "錦月如歌",
+      "totalScore": 142,
+      "genre": "陸劇",
+      "weeksOnChart": 27,
+      "avgRank": 5.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 119,
+      "title": "獵犬 S2",
+      "totalScore": 142,
+      "genre": "韓劇",
+      "weeksOnChart": 21,
+      "avgRank": 4.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 120,
+      "title": "在暴雪時分",
+      "totalScore": 141,
+      "genre": "陸劇",
+      "weeksOnChart": 24,
+      "avgRank": 5.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 121,
+      "title": "不眠日",
+      "totalScore": 141,
+      "genre": "陸劇",
+      "weeksOnChart": 22,
+      "avgRank": 4.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 122,
+      "title": "你旁觀的罪",
+      "totalScore": 140,
+      "genre": "韓劇",
+      "weeksOnChart": 22,
+      "avgRank": 4.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 123,
+      "title": "寄生獸：#灰色部隊",
+      "totalScore": 139,
+      "genre": "韓劇",
+      "weeksOnChart": 19,
+      "avgRank": 3.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 124,
+      "title": "名校的階梯",
+      "totalScore": 137,
+      "genre": "韓劇",
+      "weeksOnChart": 22,
+      "avgRank": 4.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 125,
+      "title": "九重紫",
+      "totalScore": 136,
+      "genre": "陸劇",
+      "weeksOnChart": 26,
+      "avgRank": 5.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 126,
+      "title": "臨江仙",
+      "totalScore": 136,
+      "genre": "陸劇",
+      "weeksOnChart": 28,
+      "avgRank": 6.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 127,
+      "title": "殺人者的難堪",
+      "totalScore": 135,
+      "genre": "韓劇",
+      "weeksOnChart": 23,
+      "avgRank": 5.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 128,
+      "title": "藥師少女的獨語",
+      "totalScore": 132,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 50,
+      "avgRank": 8.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 129,
+      "title": "關於我轉生變成史萊姆這檔事S3",
+      "totalScore": 132,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 34,
+      "avgRank": 7.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 130,
+      "title": "今際之國的闖關者 S3",
+      "totalScore": 131,
+      "genre": "日劇",
+      "weeksOnChart": 19,
+      "avgRank": 4.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 131,
+      "title": "薰香花朵凛然綻放",
+      "totalScore": 130,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 40,
+      "avgRank": 7.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 132,
+      "title": "槍口彼端",
+      "totalScore": 129,
+      "genre": "韓劇",
+      "weeksOnChart": 21,
+      "avgRank": 4.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 133,
+      "title": "遺贈的秘密",
+      "totalScore": 128,
+      "genre": "韓劇",
+      "weeksOnChart": 16,
+      "avgRank": 3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 134,
+      "title": "體能之巔：#百人大挑戰  第二季",
+      "totalScore": 127,
+      "genre": "實境秀",
+      "weeksOnChart": 19,
+      "avgRank": 4.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 135,
+      "title": "單身即地獄  第三季",
+      "totalScore": 126,
+      "genre": "實境秀",
+      "weeksOnChart": 20,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 136,
+      "title": "鳳凰臺上",
+      "totalScore": 126,
+      "genre": "陸劇",
+      "weeksOnChart": 24,
+      "avgRank": 5.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 137,
+      "title": "認罪之罪",
+      "totalScore": 126,
+      "genre": "韓劇",
+      "weeksOnChart": 20,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 138,
+      "title": "現金英雄",
+      "totalScore": 126,
+      "genre": "韓劇",
+      "weeksOnChart": 21,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 139,
+      "title": "Destiny：命運交會",
+      "totalScore": 123,
+      "genre": "日劇",
+      "weeksOnChart": 25,
+      "avgRank": 6.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 140,
+      "title": "弱美男英雄 Class 2",
+      "totalScore": 122,
+      "genre": "韓劇",
+      "weeksOnChart": 19,
+      "avgRank": 4.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 141,
+      "title": "SPY×FAMILY 間諜家家酒 Season 3",
+      "totalScore": 121,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 31,
+      "avgRank": 7.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 142,
+      "title": "鬼滅之刃 #柱訓練篇",
+      "totalScore": 120,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 12,
+      "avgRank": 1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 143,
+      "title": "嗨！#營業中 第四季",
+      "totalScore": 119,
+      "genre": "實境秀",
+      "weeksOnChart": 25,
+      "avgRank": 6.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 144,
+      "title": "大唐狄公案",
+      "totalScore": 117,
+      "genre": "陸劇",
+      "weeksOnChart": 22,
+      "avgRank": 5.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 145,
+      "title": "商魂",
+      "totalScore": 117,
+      "genre": "台劇",
+      "weeksOnChart": 25,
+      "avgRank": 6.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 146,
+      "title": "許願吧，精靈",
+      "totalScore": 117,
+      "genre": "韓劇",
+      "weeksOnChart": 19,
+      "avgRank": 4.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 147,
+      "title": "黑盒子",
+      "totalScore": 117,
+      "genre": "台劇",
+      "weeksOnChart": 14,
+      "avgRank": 2.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 148,
+      "title": "以美之名",
+      "totalScore": 114,
+      "genre": "陸劇",
+      "weeksOnChart": 25,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 149,
+      "title": "別對我動心",
+      "totalScore": 113,
+      "genre": "陸劇",
+      "weeksOnChart": 25,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 150,
+      "title": "嗨！營業中 S5",
+      "totalScore": 112,
+      "genre": "實境秀",
+      "weeksOnChart": 19,
+      "avgRank": 5.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 151,
+      "title": "櫻桃琥珀",
+      "totalScore": 111,
+      "genre": "陸劇",
+      "weeksOnChart": 21,
+      "avgRank": 5.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 152,
+      "title": "無罪推定",
+      "totalScore": 109,
+      "genre": "台劇",
+      "weeksOnChart": 19,
+      "avgRank": 5.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 153,
+      "title": "藍色監獄 VS. U-20 日本代表隊",
+      "totalScore": 109,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 33,
+      "avgRank": 7.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 154,
+      "title": "嗨！#營業中",
+      "totalScore": 109,
+      "genre": "實境秀",
+      "weeksOnChart": 28,
+      "avgRank": 7.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 155,
+      "title": "噓，國王在冬眠",
+      "totalScore": 108,
+      "genre": "陸劇",
+      "weeksOnChart": 21,
+      "avgRank": 5.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 156,
+      "title": "魔鬼的計謀 S2",
+      "totalScore": 108,
+      "genre": "實境秀",
+      "weeksOnChart": 18,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 157,
+      "title": "魅惑之人",
+      "totalScore": 107,
+      "genre": "韓劇",
+      "weeksOnChart": 25,
+      "avgRank": 6.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 158,
+      "title": "黃泉使者",
+      "totalScore": 106,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 13,
+      "avgRank": 2.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 159,
+      "title": "長安二十四計",
+      "totalScore": 105,
+      "genre": "陸劇",
+      "weeksOnChart": 23,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 160,
+      "title": "月鱗綺紀",
+      "totalScore": 105,
+      "genre": "陸劇",
+      "weeksOnChart": 23,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 161,
+      "title": "神隱",
+      "totalScore": 101,
+      "genre": "陸劇",
+      "weeksOnChart": 18,
+      "avgRank": 5.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 162,
+      "title": "孫家兄弟",
+      "totalScore": 100,
+      "genre": "美劇",
+      "weeksOnChart": 24,
+      "avgRank": 6.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 163,
+      "title": "塑膠花",
+      "totalScore": 99,
+      "genre": "台劇",
+      "weeksOnChart": 17,
+      "avgRank": 5.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 164,
+      "title": "不時輕聲地以俄語遮羞的鄰座艾莉同學",
+      "totalScore": 98,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 20,
+      "avgRank": 6.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 165,
+      "title": "問問星星吧",
+      "totalScore": 96,
+      "genre": "韓劇",
+      "weeksOnChart": 16,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 166,
+      "title": "妳和其餘的一切",
+      "totalScore": 95,
+      "genre": "韓劇",
+      "weeksOnChart": 17,
+      "avgRank": 5.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 167,
+      "title": "柏捷頓家族：名門韻事 S3",
+      "totalScore": 94,
+      "genre": "美劇",
+      "weeksOnChart": 26,
+      "avgRank": 7.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 168,
+      "title": "亦舞之城",
+      "totalScore": 94,
+      "genre": "陸劇",
+      "weeksOnChart": 14,
+      "avgRank": 4.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 169,
+      "title": "小鎮星熱點",
+      "totalScore": 93,
+      "genre": "日劇",
+      "weeksOnChart": 21,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 170,
+      "title": "夏娃的醜聞",
+      "totalScore": 91,
+      "genre": "韓劇",
+      "weeksOnChart": 19,
+      "avgRank": 6.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 171,
+      "title": "GACHIAKUTA",
+      "totalScore": 91,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 27,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 172,
+      "title": "暗河傳",
+      "totalScore": 91,
+      "genre": "陸劇",
+      "weeksOnChart": 19,
+      "avgRank": 6.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 173,
+      "title": "肌肉魔法使-MASHLE- #神覺者候補選拔試驗篇",
+      "totalScore": 91,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 12,
+      "avgRank": 3.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 174,
+      "title": "完全省錢戀愛手冊",
+      "totalScore": 90,
+      "genre": "其他",
+      "weeksOnChart": 18,
+      "avgRank": 6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 175,
+      "title": "何百芮的地獄戀曲",
+      "totalScore": 90,
+      "genre": "台劇",
+      "weeksOnChart": 23,
+      "avgRank": 7.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 176,
+      "title": "星廚之戰",
+      "totalScore": 87,
+      "genre": "實境秀",
+      "weeksOnChart": 18,
+      "avgRank": 6.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 177,
+      "title": "赤手獨攀台北101 (直播)",
+      "totalScore": 85,
+      "genre": "其他",
+      "weeksOnChart": 11,
+      "avgRank": 3.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 178,
+      "title": "轉生為第七王子，隨心所欲的魔法學習之路",
+      "totalScore": 84,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 26,
+      "avgRank": 7.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 179,
+      "title": "似錦",
+      "totalScore": 84,
+      "genre": "陸劇",
+      "weeksOnChart": 25,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 180,
+      "title": "許願吧，#精靈",
+      "totalScore": 84,
+      "genre": "韓劇",
+      "weeksOnChart": 14,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 181,
+      "title": "水龍吟",
+      "totalScore": 83,
+      "genre": "陸劇",
+      "weeksOnChart": 17,
+      "avgRank": 6.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 182,
+      "title": "體能之巔：亞洲大挑戰",
+      "totalScore": 83,
+      "genre": "實境秀",
+      "weeksOnChart": 16,
+      "avgRank": 5.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 183,
+      "title": "【我推的孩子】S3",
+      "totalScore": 83,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 21,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 184,
+      "title": "單身即地獄:重聚",
+      "totalScore": 82,
+      "genre": "實境秀",
+      "weeksOnChart": 12,
+      "avgRank": 4.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 185,
+      "title": "春色寄情人",
+      "totalScore": 81,
+      "genre": "陸劇",
+      "weeksOnChart": 25,
+      "avgRank": 7.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 186,
+      "title": "BTS THE COMEBACK 演唱會｜ARIRANG",
+      "totalScore": 81,
+      "genre": "其他",
+      "weeksOnChart": 13,
+      "avgRank": 4.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 187,
+      "title": "說走就走：李瑞鎮的德州德州",
+      "totalScore": 80,
+      "genre": "實境秀",
+      "weeksOnChart": 12,
+      "avgRank": 4.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 188,
+      "title": "Check-In 漢陽",
+      "totalScore": 79,
+      "genre": "韓劇",
+      "weeksOnChart": 17,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 189,
+      "title": "善意的競爭",
+      "totalScore": 78,
+      "genre": "韓劇",
+      "weeksOnChart": 17,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 190,
+      "title": "來吧！哪裡怕",
+      "totalScore": 77,
+      "genre": "實境秀",
+      "weeksOnChart": 17,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 191,
+      "title": "來吧！#哪裡怕",
+      "totalScore": 77,
+      "genre": "實境秀",
+      "weeksOnChart": 17,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 192,
+      "title": "忍者之家",
+      "totalScore": 76,
+      "genre": "日劇",
+      "weeksOnChart": 16,
+      "avgRank": 6.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 193,
+      "title": "艾蜜莉在巴黎 S5",
+      "totalScore": 76,
+      "genre": "美劇",
+      "weeksOnChart": 20,
+      "avgRank": 7.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 194,
+      "title": "花間令",
+      "totalScore": 75,
+      "genre": "陸劇",
+      "weeksOnChart": 16,
+      "avgRank": 6.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 195,
+      "title": "轉生為第七王子，隨心所欲的魔法學習之路 S2",
+      "totalScore": 75,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 17,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 196,
+      "title": "判處勇者刑",
+      "totalScore": 75,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 17,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 197,
+      "title": "入青雲",
+      "totalScore": 74,
+      "genre": "陸劇",
+      "weeksOnChart": 16,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 198,
+      "title": "體能之巔：#亞洲大挑戰",
+      "totalScore": 74,
+      "genre": "實境秀",
+      "weeksOnChart": 13,
+      "avgRank": 5.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 199,
+      "title": "地獄公使 第二季",
+      "totalScore": 73,
+      "genre": "韓劇",
+      "weeksOnChart": 15,
+      "avgRank": 6.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 200,
+      "title": "嗨！營業中 S3",
+      "totalScore": 72,
+      "genre": "實境秀",
+      "weeksOnChart": 19,
+      "avgRank": 7.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 201,
+      "title": "惜花芷",
+      "totalScore": 71,
+      "genre": "陸劇",
+      "weeksOnChart": 16,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 202,
+      "title": "降世神通：最後的氣宗",
+      "totalScore": 70,
+      "genre": "美劇",
+      "weeksOnChart": 14,
+      "avgRank": 6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 203,
+      "title": "激讚網紅",
+      "totalScore": 70,
+      "genre": "實境秀",
+      "weeksOnChart": 15,
+      "avgRank": 6.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 204,
+      "title": "我的英雄學院 FINAL SEASON",
+      "totalScore": 69,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 20,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 205,
+      "title": "浪漫匿名者",
+      "totalScore": 69,
+      "genre": "日劇",
+      "weeksOnChart": 16,
+      "avgRank": 6.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 206,
+      "title": "紳士追殺令",
+      "totalScore": 68,
+      "genre": "英劇",
+      "weeksOnChart": 13,
+      "avgRank": 5.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 207,
+      "title": "嗨！ 營業中 S6",
+      "totalScore": 68,
+      "genre": "實境秀",
+      "weeksOnChart": 11,
+      "avgRank": 4.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 208,
+      "title": "鐵血丹心 /金庸武俠世界之鐵血丹心",
+      "totalScore": 67,
+      "genre": "陸劇",
+      "weeksOnChart": 22,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 209,
+      "title": "武士生死鬥",
+      "totalScore": 66,
+      "genre": "日劇",
+      "weeksOnChart": 16,
+      "avgRank": 6.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 210,
+      "title": "降世神通：#最後的氣宗",
+      "totalScore": 66,
+      "genre": "美劇",
+      "weeksOnChart": 12,
+      "avgRank": 5.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 211,
+      "title": "弱美男英雄",
+      "totalScore": 65,
+      "genre": "韓劇",
+      "weeksOnChart": 12,
+      "avgRank": 5.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 212,
+      "title": "轉學來的女生：重啟",
+      "totalScore": 65,
+      "genre": "其他",
+      "weeksOnChart": 14,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 213,
+      "title": "嗨！ #營業中 S6",
+      "totalScore": 65,
+      "genre": "實境秀",
+      "weeksOnChart": 10,
+      "avgRank": 4.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 214,
+      "title": "沒有秘密",
+      "totalScore": 64,
+      "genre": "韓劇",
+      "weeksOnChart": 15,
+      "avgRank": 6.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 215,
+      "title": "零日風暴",
+      "totalScore": 64,
+      "genre": "美劇",
+      "weeksOnChart": 10,
+      "avgRank": 4.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 216,
+      "title": "狙擊蝴蝶",
+      "totalScore": 64,
+      "genre": "陸劇",
+      "weeksOnChart": 18,
+      "avgRank": 7.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 217,
+      "title": "魔法帽的工作室",
+      "totalScore": 64,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 14,
+      "avgRank": 6.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 218,
+      "title": "我們的浪漫電影",
+      "totalScore": 62,
+      "genre": "韓劇",
+      "weeksOnChart": 14,
+      "avgRank": 6.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 219,
+      "title": "不夠善良的我們",
+      "totalScore": 62,
+      "genre": "台劇",
+      "weeksOnChart": 15,
+      "avgRank": 6.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 220,
+      "title": "葬送的芙莉蓮",
+      "totalScore": 61,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 17,
+      "avgRank": 7.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 221,
+      "title": "偶像瘋子",
+      "totalScore": 61,
+      "genre": "韓劇",
+      "weeksOnChart": 19,
+      "avgRank": 7.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 222,
+      "title": "冰湖重生",
+      "totalScore": 61,
+      "genre": "陸劇",
+      "weeksOnChart": 14,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 223,
+      "title": "嗨！#營業中  第三季",
+      "totalScore": 60,
+      "genre": "實境秀",
+      "weeksOnChart": 12,
+      "avgRank": 6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 224,
+      "title": "飆馬野郎JOJO的奇妙冒險",
+      "totalScore": 59,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 11,
+      "avgRank": 5.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 225,
+      "title": "朝鮮精神科醫師劉世豐",
+      "totalScore": 58,
+      "genre": "韓劇",
+      "weeksOnChart": 16,
+      "avgRank": 7.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 226,
+      "title": "秘書俱樂部",
+      "totalScore": 58,
+      "genre": "台劇",
+      "weeksOnChart": 13,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 227,
+      "title": "章魚嗶的原罪",
+      "totalScore": 57,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 13,
+      "avgRank": 6.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 228,
+      "title": "黑鏡 S7",
+      "totalScore": 55,
+      "genre": "英劇",
+      "weeksOnChart": 12,
+      "avgRank": 6.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 229,
+      "title": "舊金山美容院",
+      "totalScore": 55,
+      "genre": "台劇",
+      "weeksOnChart": 17,
+      "avgRank": 7.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 230,
+      "title": "軍檢察官多伯曼",
+      "totalScore": 54,
+      "genre": "韓劇",
+      "weeksOnChart": 16,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 231,
+      "title": "炸雞奇遇記",
+      "totalScore": 53,
+      "genre": "韓劇",
+      "weeksOnChart": 9,
+      "avgRank": 5.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 232,
+      "title": "半熟男女",
+      "totalScore": 52,
+      "genre": "陸劇",
+      "weeksOnChart": 14,
+      "avgRank": 7.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 233,
+      "title": "艾嘉食堂",
+      "totalScore": 52,
+      "genre": "實境秀",
+      "weeksOnChart": 12,
+      "avgRank": 6.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 234,
+      "title": "浮游先生",
+      "totalScore": 52,
+      "genre": "韓劇",
+      "weeksOnChart": 19,
+      "avgRank": 8.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 235,
+      "title": "今天開始是人類",
+      "totalScore": 52,
+      "genre": "韓劇",
+      "weeksOnChart": 13,
+      "avgRank": 7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 236,
+      "title": "亂馬1/2",
+      "totalScore": 51,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 12,
+      "avgRank": 6.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 237,
+      "title": "瘋狂獨角獸",
+      "totalScore": 51,
+      "genre": "其他",
+      "weeksOnChart": 25,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 238,
+      "title": "地。-關於地球的運動-",
+      "totalScore": 50,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 11,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 239,
+      "title": "關於我轉生成史萊姆這檔事 S4",
+      "totalScore": 50,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 12,
+      "avgRank": 6.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 240,
+      "title": "地。-#關於地球的運動-",
+      "totalScore": 50,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 11,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 241,
+      "title": "治癒魔法的錯誤使用法",
+      "totalScore": 49,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 11,
+      "avgRank": 6.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 242,
+      "title": "排球少年！！",
+      "totalScore": 48,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 17,
+      "avgRank": 8.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 243,
+      "title": "大生意人",
+      "totalScore": 48,
+      "genre": "陸劇",
+      "weeksOnChart": 16,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 244,
+      "title": "新人歌手曹政奭",
+      "totalScore": 47,
+      "genre": "實境秀",
+      "weeksOnChart": 9,
+      "avgRank": 5.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 245,
+      "title": "聽見你在說謊 /無用的謊言",
+      "totalScore": 47,
+      "genre": "韓劇",
+      "weeksOnChart": 13,
+      "avgRank": 7.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 246,
+      "title": "轉學來的女生：#重啟",
+      "totalScore": 47,
+      "genre": "其他",
+      "weeksOnChart": 11,
+      "avgRank": 6.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 247,
+      "title": "鹽水大飯店",
+      "totalScore": 46,
+      "genre": "台劇",
+      "weeksOnChart": 9,
+      "avgRank": 5.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 248,
+      "title": "靠廢柴技能【狀態異常】成為最強的我將蹂躪一切",
+      "totalScore": 46,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 12,
+      "avgRank": 7.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 249,
+      "title": "Check-In #漢陽",
+      "totalScore": 46,
+      "genre": "韓劇",
+      "weeksOnChart": 7,
+      "avgRank": 4.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 250,
+      "title": "黑鴿",
+      "totalScore": 45,
+      "genre": "英劇",
+      "weeksOnChart": 13,
+      "avgRank": 7.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 251,
+      "title": "今夜一起為愛鼓掌",
+      "totalScore": 45,
+      "genre": "台劇",
+      "weeksOnChart": 12,
+      "avgRank": 7.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 252,
+      "title": "SAKAMOTO DAYS 坂本日常",
+      "totalScore": 45,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 15,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 253,
+      "title": "終末的女武神 S3",
+      "totalScore": 45,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 11,
+      "avgRank": 6.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 254,
+      "title": "單身即地獄： #重聚",
+      "totalScore": 45,
+      "genre": "實境秀",
+      "weeksOnChart": 6,
+      "avgRank": 3.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 255,
+      "title": "雖然是公會的櫃檯小姐，但因為不想加班所以打算獨自討伐迷宮頭目",
+      "totalScore": 44,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 14,
+      "avgRank": 7.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 256,
+      "title": "終末起點",
+      "totalScore": 44,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 15,
+      "avgRank": 8.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 257,
+      "title": "依然閃亮",
+      "totalScore": 44,
+      "genre": "韓劇",
+      "weeksOnChart": 15,
+      "avgRank": 8.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 258,
+      "title": "私藏浪漫",
+      "totalScore": 43,
+      "genre": "陸劇",
+      "weeksOnChart": 17,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 259,
+      "title": "機動戰士鋼彈:復仇的安魂曲",
+      "totalScore": 42,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 5.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 260,
+      "title": "荒境狂徒",
+      "totalScore": 42,
+      "genre": "美劇",
+      "weeksOnChart": 9,
+      "avgRank": 6.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 261,
+      "title": "Hell's Paradise #地獄樂 第二季",
+      "totalScore": 42,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 11,
+      "avgRank": 7.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 262,
+      "title": "星落凝成糖",
+      "totalScore": 40,
+      "genre": "陸劇",
+      "weeksOnChart": 12,
+      "avgRank": 7.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 263,
+      "title": "我們這一攤 S2",
+      "totalScore": 40,
+      "genre": "實境秀",
+      "weeksOnChart": 7,
+      "avgRank": 5.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 264,
+      "title": "政壇旋風",
+      "totalScore": 39,
+      "genre": "韓劇",
+      "weeksOnChart": 11,
+      "avgRank": 7.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 265,
+      "title": "吞金",
+      "totalScore": 39,
+      "genre": "韓劇",
+      "weeksOnChart": 13,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 266,
+      "title": "最後可以再拜託您一件事嗎？",
+      "totalScore": 39,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 6.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 267,
+      "title": "全明星出發吧！",
+      "totalScore": 38,
+      "genre": "實境秀",
+      "weeksOnChart": 7,
+      "avgRank": 5.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 268,
+      "title": "努力克服自卑的我們",
+      "totalScore": 38,
+      "genre": "韓劇",
+      "weeksOnChart": 6,
+      "avgRank": 4.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 269,
+      "title": "愛x死x機器人 S4",
+      "totalScore": 37,
+      "genre": "其他",
+      "weeksOnChart": 10,
+      "avgRank": 7.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 270,
+      "title": "安眠書店 S5",
+      "totalScore": 36,
+      "genre": "美劇",
+      "weeksOnChart": 8,
+      "avgRank": 6.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 271,
+      "title": "三傻遊肯亞",
+      "totalScore": 35,
+      "genre": "實境秀",
+      "weeksOnChart": 8,
+      "avgRank": 6.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 272,
+      "title": "嗨！#營業中5",
+      "totalScore": 35,
+      "genre": "實境秀",
+      "weeksOnChart": 6,
+      "avgRank": 5.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 273,
+      "title": "HALO 最後一戰 S1",
+      "totalScore": 34,
+      "genre": "美劇",
+      "weeksOnChart": 8,
+      "avgRank": 6.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 274,
+      "title": "人浮於愛",
+      "totalScore": 34,
+      "genre": "台劇",
+      "weeksOnChart": 10,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 275,
+      "title": "刃牙道：無敵武士",
+      "totalScore": 34,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 6.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 276,
+      "title": "以愛為營",
+      "totalScore": 33,
+      "genre": "陸劇",
+      "weeksOnChart": 13,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 277,
+      "title": "末日愚者",
+      "totalScore": 33,
+      "genre": "韓劇",
+      "weeksOnChart": 8,
+      "avgRank": 6.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 278,
+      "title": "駐韓超富族",
+      "totalScore": 33,
+      "genre": "實境秀",
+      "weeksOnChart": 8,
+      "avgRank": 6.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 279,
+      "title": "Wind BREAKER—防風少年—",
+      "totalScore": 33,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 13,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 280,
+      "title": "蜀錦人家",
+      "totalScore": 33,
+      "genre": "陸劇",
+      "weeksOnChart": 13,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 281,
+      "title": "他和她的，謊",
+      "totalScore": 33,
+      "genre": "美劇",
+      "weeksOnChart": 9,
+      "avgRank": 7.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 282,
+      "title": "格林童話變奏曲",
+      "totalScore": 32,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 7,
+      "avgRank": 6.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 283,
+      "title": "深情眼",
+      "totalScore": 32,
+      "genre": "陸劇",
+      "weeksOnChart": 13,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 284,
+      "title": "鏈鋸人",
+      "totalScore": 32,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 14,
+      "avgRank": 8.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 285,
+      "title": "紙房子 柏林",
+      "totalScore": 31,
+      "genre": "其他",
+      "weeksOnChart": 10,
+      "avgRank": 7.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 286,
+      "title": "何百芮的地獄毒白",
+      "totalScore": 31,
+      "genre": "台劇",
+      "weeksOnChart": 10,
+      "avgRank": 7.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 287,
+      "title": "紙房子 #柏林",
+      "totalScore": 31,
+      "genre": "其他",
+      "weeksOnChart": 10,
+      "avgRank": 7.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 288,
+      "title": "雨傘學院",
+      "totalScore": 30,
+      "genre": "美劇",
+      "weeksOnChart": 7,
+      "avgRank": 6.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 289,
+      "title": "模範愛侶",
+      "totalScore": 30,
+      "genre": "美劇",
+      "weeksOnChart": 10,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 290,
+      "title": "親密之海",
+      "totalScore": 30,
+      "genre": "台劇",
+      "weeksOnChart": 7,
+      "avgRank": 6.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 291,
+      "title": "無職英雄：技能什麼的毫無用處",
+      "totalScore": 30,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 7.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 292,
+      "title": "寶可夢 禮賓部",
+      "totalScore": 29,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 7,
+      "avgRank": 6.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 293,
+      "title": "九條的大罪",
+      "totalScore": 29,
+      "genre": "日劇",
+      "weeksOnChart": 10,
+      "avgRank": 8.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 294,
+      "title": "寶可夢 #禮賓部",
+      "totalScore": 29,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 7,
+      "avgRank": 6.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 295,
+      "title": "慾望城市",
+      "totalScore": 28,
+      "genre": "美劇",
+      "weeksOnChart": 7,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 296,
+      "title": "恐龍時代：你不知道的故事",
+      "totalScore": 28,
+      "genre": "其他",
+      "weeksOnChart": 10,
+      "avgRank": 8.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 297,
+      "title": "不可能的婚禮",
+      "totalScore": 28,
+      "genre": "韓劇",
+      "weeksOnChart": 6,
+      "avgRank": 6.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 298,
+      "title": "愛情發芽中",
+      "totalScore": 27,
+      "genre": "韓劇",
+      "weeksOnChart": 5,
+      "avgRank": 5.6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 299,
+      "title": "差點在迷宮深處被信任的夥伴殺掉，但靠著天賜技能「無限扭蛋」獲得等級9999的夥伴，我要向前隊友和世界展開復仇&「給他們好看！」",
+      "totalScore": 27,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 300,
+      "title": "再見的延續",
+      "totalScore": 26,
+      "genre": "日劇",
+      "weeksOnChart": 8,
+      "avgRank": 7.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 301,
+      "title": "柳舟記",
+      "totalScore": 26,
+      "genre": "陸劇",
+      "weeksOnChart": 11,
+      "avgRank": 8.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 302,
+      "title": "地下忍者",
+      "totalScore": 26,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 5.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 303,
+      "title": "光逝去的夏天",
+      "totalScore": 26,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 9,
+      "avgRank": 8.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 304,
+      "title": "玻璃之心",
+      "totalScore": 26,
+      "genre": "日劇",
+      "weeksOnChart": 13,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 305,
+      "title": "夏日咖啡男友",
+      "totalScore": 25,
+      "genre": "實境秀",
+      "weeksOnChart": 10,
+      "avgRank": 8.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 306,
+      "title": "我要【招架】一切～反誤解的世界最強想成為冒險家",
+      "totalScore": 25,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 9,
+      "avgRank": 8.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 307,
+      "title": "從Lv2開始開外掛的前勇者候補過著悠哉異世界生活",
+      "totalScore": 25,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 6,
+      "avgRank": 6.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 308,
+      "title": "Re:Monster",
+      "totalScore": 25,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 10,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 309,
+      "title": "七龍珠 DAIMA /七龍珠大魔",
+      "totalScore": 24,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 310,
+      "title": "幸福的婚姻",
+      "totalScore": 24,
+      "genre": "日劇",
+      "weeksOnChart": 5,
+      "avgRank": 6.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 311,
+      "title": "秒殺愛情",
+      "totalScore": 24,
+      "genre": "韓劇",
+      "weeksOnChart": 3,
+      "avgRank": 3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 312,
+      "title": "柏捷頓家族：#名門韻事 第3季",
+      "totalScore": 24,
+      "genre": "美劇",
+      "weeksOnChart": 5,
+      "avgRank": 6.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 313,
+      "title": "轉生貴族憑鑑定技能扭轉人生 S1",
+      "totalScore": 21,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 8,
+      "avgRank": 8.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 314,
+      "title": "隨意愛我吧",
+      "totalScore": 20,
+      "genre": "韓劇",
+      "weeksOnChart": 5,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 315,
+      "title": "新聞主播",
+      "totalScore": 20,
+      "genre": "日劇",
+      "weeksOnChart": 5,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 316,
+      "title": "重生：最後的英雄",
+      "totalScore": 20,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 4.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 317,
+      "title": "擅長逃跑的殿下",
+      "totalScore": 19,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 9,
+      "avgRank": 8.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 318,
+      "title": "掌心",
+      "totalScore": 19,
+      "genre": "陸劇",
+      "weeksOnChart": 9,
+      "avgRank": 8.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 319,
+      "title": "桃源暗鬼",
+      "totalScore": 19,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 7.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 320,
+      "title": "黑幫清潔婦",
+      "totalScore": 19,
+      "genre": "美劇",
+      "weeksOnChart": 10,
+      "avgRank": 9.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 321,
+      "title": "冰之城牆",
+      "totalScore": 19,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 7.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 322,
+      "title": "逝者不安息",
+      "totalScore": 18,
+      "genre": "英劇",
+      "weeksOnChart": 10,
+      "avgRank": 9.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 323,
+      "title": "燃油車鬥魂",
+      "totalScore": 18,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 6,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 324,
+      "title": "魷魚遊戲 S1",
+      "totalScore": 18,
+      "genre": "韓劇",
+      "weeksOnChart": 5,
+      "avgRank": 7.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 325,
+      "title": "拜託了冰箱",
+      "totalScore": 18,
+      "genre": "實境秀",
+      "weeksOnChart": 6,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 326,
+      "title": "怪物：艾德蓋恩的故事",
+      "totalScore": 18,
+      "genre": "美劇",
+      "weeksOnChart": 7,
+      "avgRank": 8.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 327,
+      "title": "HALO #最後一戰 S1",
+      "totalScore": 18,
+      "genre": "美劇",
+      "weeksOnChart": 5,
+      "avgRank": 7.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 328,
+      "title": "說走就走：#李瑞鎮的德州德州",
+      "totalScore": 18,
+      "genre": "實境秀",
+      "weeksOnChart": 4,
+      "avgRank": 6.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 329,
+      "title": "聖約之外：摩西的故事",
+      "totalScore": 17,
+      "genre": "其他",
+      "weeksOnChart": 4,
+      "avgRank": 6.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 330,
+      "title": "好女孩的謀殺調查報告",
+      "totalScore": 17,
+      "genre": "英劇",
+      "weeksOnChart": 4,
+      "avgRank": 6.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 331,
+      "title": "被逐出隊伍的治癒師，其實是最強",
+      "totalScore": 17,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 7.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 332,
+      "title": "解讀惡之心的人們",
+      "totalScore": 17,
+      "genre": "韓劇",
+      "weeksOnChart": 8,
+      "avgRank": 8.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 333,
+      "title": "再會",
+      "totalScore": 17,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 5.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 334,
+      "title": "柏捷頓家族：#名門韻事",
+      "totalScore": 17,
+      "genre": "美劇",
+      "weeksOnChart": 4,
+      "avgRank": 6.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 335,
+      "title": "柏捷頓家族：#名門韻事 S4",
+      "totalScore": 17,
+      "genre": "美劇",
+      "weeksOnChart": 6,
+      "avgRank": 8.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 336,
+      "title": "毒樓",
+      "totalScore": 16,
+      "genre": "韓劇",
+      "weeksOnChart": 5,
+      "avgRank": 7.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 337,
+      "title": "清潭國際高等學校",
+      "totalScore": 16,
+      "genre": "韓劇",
+      "weeksOnChart": 7,
+      "avgRank": 8.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 338,
+      "title": "異人之下",
+      "totalScore": 16,
+      "genre": "陸劇",
+      "weeksOnChart": 7,
+      "avgRank": 8.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 339,
+      "title": "我的婆婆怎麼那麼可愛2",
+      "totalScore": 16,
+      "genre": "台劇",
+      "weeksOnChart": 8,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 340,
+      "title": "宛如阿修羅",
+      "totalScore": 16,
+      "genre": "日劇",
+      "weeksOnChart": 7,
+      "avgRank": 8.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 341,
+      "title": "全美緝兇: 賓拉登",
+      "totalScore": 16,
+      "genre": "其他",
+      "weeksOnChart": 6,
+      "avgRank": 8.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 342,
+      "title": "以倖存者之名：深入韓國慘案",
+      "totalScore": 16,
+      "genre": "其他",
+      "weeksOnChart": 7,
+      "avgRank": 8.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 343,
+      "title": "MissKing",
+      "totalScore": 16,
+      "genre": "日劇",
+      "weeksOnChart": 4,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 344,
+      "title": "全美緝兇: #賓拉登",
+      "totalScore": 16,
+      "genre": "其他",
+      "weeksOnChart": 6,
+      "avgRank": 8.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 345,
+      "title": "轉生為第七王子，#隨心所欲的魔法學習之路 第2季",
+      "totalScore": 16,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 5.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 346,
+      "title": "單身即地獄: #重聚",
+      "totalScore": 16,
+      "genre": "實境秀",
+      "weeksOnChart": 3,
+      "avgRank": 5.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 347,
+      "title": "恐龍時代：#你不知道的故事",
+      "totalScore": 16,
+      "genre": "其他",
+      "weeksOnChart": 6,
+      "avgRank": 8.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 348,
+      "title": "狼與辛香料",
+      "totalScore": 15,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 349,
+      "title": "拳戰擂台 傑克保羅vs麥克泰森",
+      "totalScore": 15,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 3.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 350,
+      "title": "衣袖紅鑲邊",
+      "totalScore": 15,
+      "genre": "韓劇",
+      "weeksOnChart": 7,
+      "avgRank": 8.9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 351,
+      "title": "最後復活戰",
+      "totalScore": 15,
+      "genre": "實境秀",
+      "weeksOnChart": 5,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 352,
+      "title": "柏捷頓家族：#名門韻事 S4 PartII",
+      "totalScore": 15,
+      "genre": "美劇",
+      "weeksOnChart": 4,
+      "avgRank": 7.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 353,
+      "title": "刃牙道：#無敵武士",
+      "totalScore": 15,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 6,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 354,
+      "title": "無主之屋",
+      "totalScore": 14,
+      "genre": "其他",
+      "weeksOnChart": 3,
+      "avgRank": 6.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 355,
+      "title": "我的幸福婚約 S2",
+      "totalScore": 14,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 7,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 356,
+      "title": "醜聞前夕",
+      "totalScore": 14,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 6.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 357,
+      "title": "幸福到萬家",
+      "totalScore": 13,
+      "genre": "陸劇",
+      "weeksOnChart": 8,
+      "avgRank": 9.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 358,
+      "title": "暗夜情報員 S2",
+      "totalScore": 13,
+      "genre": "美劇",
+      "weeksOnChart": 7,
+      "avgRank": 9.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 359,
+      "title": "戀上幻裝娃娃 S2",
+      "totalScore": 13,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 7,
+      "avgRank": 9.1,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 360,
+      "title": "暗夜情報員 S3",
+      "totalScore": 13,
+      "genre": "美劇",
+      "weeksOnChart": 7,
+      "avgRank": 9.1,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 361,
+      "title": "杖與劍的魔劍譚 S2",
+      "totalScore": 13,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 6.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 362,
+      "title": "聖約之外：#摩西的故事",
+      "totalScore": 13,
+      "genre": "其他",
+      "weeksOnChart": 3,
+      "avgRank": 6.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 363,
+      "title": "Unnatural 法醫女王",
+      "totalScore": 12,
+      "genre": "日劇",
+      "weeksOnChart": 6,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 364,
+      "title": "杖與劍的魔劍譚",
+      "totalScore": 12,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 6,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 365,
+      "title": "妖惑心計",
+      "totalScore": 12,
+      "genre": "美劇",
+      "weeksOnChart": 6,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 366,
+      "title": "以倖存者之名：#深入韓國慘案",
+      "totalScore": 12,
+      "genre": "其他",
+      "weeksOnChart": 6,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 367,
+      "title": "有生之年",
+      "totalScore": 11,
+      "genre": "台劇",
+      "weeksOnChart": 5,
+      "avgRank": 8.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 368,
+      "title": "Okura：難解事件搜查",
+      "totalScore": 11,
+      "genre": "日劇",
+      "weeksOnChart": 6,
+      "avgRank": 9.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 369,
+      "title": "我們六個",
+      "totalScore": 11,
+      "genre": "台劇",
+      "weeksOnChart": 5,
+      "avgRank": 8.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 370,
+      "title": "Okura：#難解事件搜查",
+      "totalScore": 11,
+      "genre": "日劇",
+      "weeksOnChart": 6,
+      "avgRank": 9.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 371,
+      "title": "怪物：#艾德蓋恩的故事",
+      "totalScore": 11,
+      "genre": "美劇",
+      "weeksOnChart": 4,
+      "avgRank": 8.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 372,
+      "title": "Eye Love You",
+      "totalScore": 10,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 7.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 373,
+      "title": "幽靈醫生",
+      "totalScore": 10,
+      "genre": "韓劇",
+      "weeksOnChart": 7,
+      "avgRank": 9.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 374,
+      "title": "少年歌行",
+      "totalScore": 10,
+      "genre": "陸劇",
+      "weeksOnChart": 7,
+      "avgRank": 9.6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 375,
+      "title": "做自己的光",
+      "totalScore": 10,
+      "genre": "陸劇",
+      "weeksOnChart": 8,
+      "avgRank": 9.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 376,
+      "title": "香格里拉・開拓異境～糞作獵手挑戰神作～第2季",
+      "totalScore": 10,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 377,
+      "title": "千朵桃花一世開",
+      "totalScore": 10,
+      "genre": "陸劇",
+      "weeksOnChart": 6,
+      "avgRank": 9.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 378,
+      "title": "Destiny：#命運交會",
+      "totalScore": 10,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 7.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 379,
+      "title": "絕廟騙局",
+      "totalScore": 9,
+      "genre": "其他",
+      "weeksOnChart": 8,
+      "avgRank": 9.9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 380,
+      "title": "餓狼傳：孤狼之道",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 9.2,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 381,
+      "title": "幽暗偶遇",
+      "totalScore": 9,
+      "genre": "英劇",
+      "weeksOnChart": 4,
+      "avgRank": 8.8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 382,
+      "title": "青春之箱",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 383,
+      "title": "Dr.STONE 新石紀 第四季",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 384,
+      "title": "離開A級隊伍的我，和從前的弟子往迷宮深處邁進",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 5,
+      "avgRank": 9.2,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 385,
+      "title": "秒殺外掛太強了，異世界的傢伙們根本就不是對手。",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 4,
+      "avgRank": 8.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 386,
+      "title": "愛麻夫人熱映中",
+      "totalScore": 9,
+      "genre": "韓劇",
+      "weeksOnChart": 3,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 387,
+      "title": "身為暗殺者的我明顯比勇者還強",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 4,
+      "avgRank": 8.8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 388,
+      "title": "人來瘋：奇寶過招",
+      "totalScore": 9,
+      "genre": "英劇",
+      "weeksOnChart": 3,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 389,
+      "title": "婚姻劇毒",
+      "totalScore": 9,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 390,
+      "title": "我的英雄學院 第七季",
+      "totalScore": 8,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 8.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 391,
+      "title": "獅子的藏身處",
+      "totalScore": 8,
+      "genre": "日劇",
+      "weeksOnChart": 5,
+      "avgRank": 9.4,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 392,
+      "title": "深空永航",
+      "totalScore": 8,
+      "genre": "其他",
+      "weeksOnChart": 4,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 393,
+      "title": "狂賭之淵",
+      "totalScore": 8,
+      "genre": "美劇",
+      "weeksOnChart": 5,
+      "avgRank": 9.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 394,
+      "title": "懸案解碼",
+      "totalScore": 8,
+      "genre": "英劇",
+      "weeksOnChart": 5,
+      "avgRank": 9.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 395,
+      "title": "灰姑娘壁櫥",
+      "totalScore": 8,
+      "genre": "日劇",
+      "weeksOnChart": 4,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 396,
+      "title": "靠死亡遊戲混飯吃。",
+      "totalScore": 8,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 8.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 397,
+      "title": "命中婚劫",
+      "totalScore": 8,
+      "genre": "美劇",
+      "weeksOnChart": 5,
+      "avgRank": 9.4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 398,
+      "title": "重生：#最後的英雄",
+      "totalScore": 8,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 399,
+      "title": "臥底老紳士",
+      "totalScore": 7,
+      "genre": "美劇",
+      "weeksOnChart": 4,
+      "avgRank": 9.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 400,
+      "title": "奇案84的奇趣民宿",
+      "totalScore": 7,
+      "genre": "實境秀",
+      "weeksOnChart": 3,
+      "avgRank": 8.7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 401,
+      "title": "美樂蒂 & 酷洛米",
+      "totalScore": 7,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 2,
+      "avgRank": 7.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 402,
+      "title": "異獸魔都S2",
+      "totalScore": 7,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 2,
+      "avgRank": 7.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 403,
+      "title": "餓狼傳：#孤狼之道",
+      "totalScore": 7,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 4,
+      "avgRank": 9.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 404,
+      "title": "美樂蒂 & #酷洛米",
+      "totalScore": 7,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 7.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 405,
+      "title": "如果我不曾見過太陽 第二部",
+      "totalScore": 7,
+      "genre": "台劇",
+      "weeksOnChart": 1,
+      "avgRank": 4,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 406,
+      "title": "怪奇謎案限時破",
+      "totalScore": 6,
+      "genre": "實境秀",
+      "weeksOnChart": 4,
+      "avgRank": 9.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 407,
+      "title": "聽海湧",
+      "totalScore": 6,
+      "genre": "台劇",
+      "weeksOnChart": 4,
+      "avgRank": 9.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 408,
+      "title": "鯨魚雜貨鋪",
+      "totalScore": 6,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 409,
+      "title": "紅髮艾德: 一鏡到底",
+      "totalScore": 6,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 410,
+      "title": "素材採集家的異世界旅行記",
+      "totalScore": 6,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 411,
+      "title": "機動戰士鋼彈:#復仇的安魂曲",
+      "totalScore": 6,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 412,
+      "title": "七龍珠 DAIMA /#七龍珠大魔",
+      "totalScore": 6,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 413,
+      "title": "紅髮艾德: #一鏡到底",
+      "totalScore": 6,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 8,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 414,
+      "title": "BTS THE COMEBACK 演唱會｜#ARIRANG",
+      "totalScore": 6,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 415,
+      "title": "韓式炸醬麵狂想曲",
+      "totalScore": 5,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 8.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 416,
+      "title": "Sweet Tooth：鹿角男孩 S3",
+      "totalScore": 5,
+      "genre": "美劇",
+      "weeksOnChart": 3,
+      "avgRank": 9.3,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 417,
+      "title": "模範計程車2",
+      "totalScore": 5,
+      "genre": "韓劇",
+      "weeksOnChart": 1,
+      "avgRank": 6,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 418,
+      "title": "親愛的小早",
+      "totalScore": 5,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 9.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 419,
+      "title": "韓式飯捲與日式飯糰",
+      "totalScore": 5,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 9.3,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 420,
+      "title": "人#來瘋：奇寶過招",
+      "totalScore": 5,
+      "genre": "英劇",
+      "weeksOnChart": 2,
+      "avgRank": 8.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 421,
+      "title": "反英雄世代 /反英雄 Antihero",
+      "totalScore": 4,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 9.7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 422,
+      "title": "黑之召喚士",
+      "totalScore": 4,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 423,
+      "title": "PJ航空救難團",
+      "totalScore": 4,
+      "genre": "日劇",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 424,
+      "title": "頭號人質",
+      "totalScore": 4,
+      "genre": "英劇",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 425,
+      "title": "陰屍路",
+      "totalScore": 4,
+      "genre": "美劇",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 426,
+      "title": "Formula 1：飆速求生 S8",
+      "totalScore": 4,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 427,
+      "title": "Sweet Tooth：#鹿角男孩",
+      "totalScore": 4,
+      "genre": "美劇",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 428,
+      "title": "嗨！ #營業中 S5",
+      "totalScore": 4,
+      "genre": "實境秀",
+      "weeksOnChart": 1,
+      "avgRank": 7,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 429,
+      "title": "人來瘋：#奇寶過招",
+      "totalScore": 4,
+      "genre": "英劇",
+      "weeksOnChart": 1,
+      "avgRank": 7,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 430,
+      "title": "Formula 1：#飆速求生 S8",
+      "totalScore": 4,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 431,
+      "title": "幽遊白書",
+      "totalScore": 3,
+      "genre": "日劇",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 432,
+      "title": "極度不妥！",
+      "totalScore": 3,
+      "genre": "日劇",
+      "weeksOnChart": 3,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 433,
+      "title": "鹿角男孩",
+      "totalScore": 3,
+      "genre": "美劇",
+      "weeksOnChart": 3,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 434,
+      "title": "無能之鷹",
+      "totalScore": 3,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 435,
+      "title": "月水金火木土",
+      "totalScore": 3,
+      "genre": "韓劇",
+      "weeksOnChart": 3,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 436,
+      "title": "私人銀行家",
+      "totalScore": 3,
+      "genre": "日劇",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 437,
+      "title": "燃油車鬥魂 S2",
+      "totalScore": 3,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 3,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 438,
+      "title": "威斯特夫婦：英倫夢魘",
+      "totalScore": 3,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 439,
+      "title": "密屋陌路",
+      "totalScore": 3,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 440,
+      "title": "真相直擊：深入超級名模生死鬥",
+      "totalScore": 3,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 441,
+      "title": "靜觀法師的哲學廚房",
+      "totalScore": 3,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 442,
+      "title": "殺手青春",
+      "totalScore": 3,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 443,
+      "title": "香格里拉・開拓異境～#糞作獵手挑戰神作～第2季",
+      "totalScore": 3,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 444,
+      "title": "嗨！#營業中 S5",
+      "totalScore": 3,
+      "genre": "實境秀",
+      "weeksOnChart": 1,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 445,
+      "title": "嗨 #營業中！ S5",
+      "totalScore": 3,
+      "genre": "實境秀",
+      "weeksOnChart": 1,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 446,
+      "title": "威斯特夫婦：#英倫夢魘",
+      "totalScore": 3,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 447,
+      "title": "嗨！ #營業中！ S6",
+      "totalScore": 3,
+      "genre": "實境秀",
+      "weeksOnChart": 1,
+      "avgRank": 8,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 448,
+      "title": "真相直擊：#深入超級名模生死鬥",
+      "totalScore": 3,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 9.5,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 449,
+      "title": "特麗獨行",
+      "totalScore": 2,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 450,
+      "title": "Shooting Stars 流星",
+      "totalScore": 2,
+      "genre": "韓劇",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 451,
+      "title": "主廚的餐桌：麵食",
+      "totalScore": 2,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 452,
+      "title": "戀愛修課",
+      "totalScore": 2,
+      "genre": "英劇",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 453,
+      "title": "夏目友人帳 漆",
+      "totalScore": 2,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 454,
+      "title": "AARO 全領域異常解決室",
+      "totalScore": 2,
+      "genre": "日劇",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 455,
+      "title": "金牌之路：巴黎奧運夢幻隊",
+      "totalScore": 2,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 456,
+      "title": "終末之路",
+      "totalScore": 2,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 457,
+      "title": "轉生貴族的異世界冒險錄:不知自重的眾神使徒",
+      "totalScore": 2,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 458,
+      "title": "神探莎拉: 暗影任務",
+      "totalScore": 2,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 459,
+      "title": "有利的詐欺",
+      "totalScore": 2,
+      "genre": "韓劇",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 460,
+      "title": "七根心簡",
+      "totalScore": 2,
+      "genre": "陸劇",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 461,
+      "title": "接吻生死戰",
+      "totalScore": 2,
+      "genre": "實境秀",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 462,
+      "title": "一點點超能力",
+      "totalScore": 2,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 463,
+      "title": "炎炎消防隊 第三季 Part2",
+      "totalScore": 2,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 464,
+      "title": "Girigo：奪命許願",
+      "totalScore": 2,
+      "genre": "韓劇",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 465,
+      "title": "主廚的餐桌：#麵食",
+      "totalScore": 2,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 466,
+      "title": "藍色監獄 VS. U-20 #日本代表隊",
+      "totalScore": 2,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 9,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 467,
+      "title": "神探莎拉: #暗影任務",
+      "totalScore": 2,
+      "genre": "其他",
+      "weeksOnChart": 2,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 468,
+      "title": "美食無間",
+      "totalScore": 1,
+      "genre": "台劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 469,
+      "title": "古柯鹼教母葛蕾斯達",
+      "totalScore": 1,
+      "genre": "美劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 470,
+      "title": "非自願的不死冒險者",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 471,
+      "title": "擅長捉弄人的高木同學",
+      "totalScore": 1,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 472,
+      "title": "黑執事 寄宿學校篇",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 473,
+      "title": "黑色止血鉗２ ー惡魔外科醫生ー",
+      "totalScore": 1,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 474,
+      "title": "高爾夫物語",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 475,
+      "title": "輪迴第7次的惡役令孃，在前敵國享受自由自在的新娘生活",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 476,
+      "title": "鍍金狂戀",
+      "totalScore": 1,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 477,
+      "title": "千萬別回家",
+      "totalScore": 1,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 478,
+      "title": "轉生貴族憑鑑定技能扭轉人生 S2",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 479,
+      "title": "正義使者:我的英雄學院之非法英雄",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 480,
+      "title": "第19號病歷表",
+      "totalScore": 1,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 481,
+      "title": "雙墳",
+      "totalScore": 1,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 482,
+      "title": "亂馬1/2 第二季",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 483,
+      "title": "非殺人小說",
+      "totalScore": 1,
+      "genre": "台劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 484,
+      "title": "田鎖兄弟",
+      "totalScore": 1,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 485,
+      "title": "Sweet Tooth：#鹿角男孩 第三季",
+      "totalScore": 1,
+      "genre": "美劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 486,
+      "title": "Shooting Stars #流星",
+      "totalScore": 1,
+      "genre": "韓劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 487,
+      "title": "黑色止血鉗２ ー#惡魔外科醫生ー",
+      "totalScore": 1,
+      "genre": "日劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 488,
+      "title": "輪迴第7次的惡役令孃，#在前敵國享受自由自在的新娘生活",
+      "totalScore": 1,
+      "genre": "動畫劇 (日)",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": false
+    },
+    {
+      "rank": 489,
+      "title": "金牌之路：#巴黎奧運夢幻隊",
+      "totalScore": 1,
+      "genre": "其他",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
+    },
+    {
+      "rank": 490,
+      "title": "許願吧！#精靈",
+      "totalScore": 1,
+      "genre": "韓劇",
+      "weeksOnChart": 1,
+      "avgRank": 10,
+      "isNetflixOriginal": true
     }
   ],
   "taiwanDramaRankings": [

@@ -98,7 +98,8 @@ export interface RankingsData {
   }
   showAttributes: Record<string, ShowAttributes>
   overallRankings: OverallRankingEntry[]
+  dailyOverallRankings: OverallRankingEntry[]   // 所有節目日榜積分總排行（預計算）
   taiwanDramaRankings: TaiwanDramaRanking[]
-  dailyRankings: DailyRankingEntry[]
+  dailyRankings: DailyRankingEntry[]            // 台劇每日排名（供走勢圖使用）
   weeklyRankings: WeeklyRankingWeek[]
 }

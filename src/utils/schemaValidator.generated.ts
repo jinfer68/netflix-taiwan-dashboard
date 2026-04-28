@@ -21,6 +21,7 @@ export const OverallRankingEntry_FIELDS: FieldDef[] = [
 ]
 
 export const TaiwanDramaRanking_FIELDS: FieldDef[] = [
+  { key: 'rank', type: 'number' },
   { key: 'title', type: 'string' },
   { key: 'weeklyRank', type: 'number' },
   { key: 'weeklyScore', type: 'number' },
@@ -30,6 +31,7 @@ export const TaiwanDramaRanking_FIELDS: FieldDef[] = [
   { key: 'dailyScore', type: 'number' },
   { key: 'daysOnChart', type: 'number' },
   { key: 'dailyAvgRank', type: 'number' },
+  { key: 'totalScore', type: 'number' },
   { key: 'isNetflixOriginal', type: 'boolean' },
   { key: 'isAllAtOnce', type: 'boolean' },
   { key: 'releaseType', type: 'string' },
