@@ -328,7 +328,12 @@ console.log(`全節目日榜積分排行: ${dailyOverallRankings.length} 部`)
 // ── meta ──────────────────────────────────────────────────────────────────────
 
 const lastWeek = weeklyRankings[weeklyRankings.length - 1]
-const dataThrough = lastWeek?.dateRange.split(' ~ ')[1] || ''
+const weeklyThrough = lastWeek?.dateRange.split(' ~ ')[1] || ''
+
+// 每日榜可能比週榜更新，取兩者最大日期
+const maxDailySerial = Math.max(0, ...dailyTVRows.map(r => r['日期'] || 0).filter(Number.isFinite))
+const dailyThrough = maxDailySerial > 0 ? serialToDateStr(maxDailySerial) : ''
+const dataThrough = dailyThrough > weeklyThrough ? dailyThrough : weeklyThrough
 
 const output = {
   meta: {

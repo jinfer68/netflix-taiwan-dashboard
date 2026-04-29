@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generatedAt": "2026-04-28T15:42:06.510Z",
-    "dataThrough": "2026-04-12"
+    "generatedAt": "2026-04-29T03:30:40.082Z",
+    "dataThrough": "2026-04-27"
   },
   "showAttributes": {
     "影后": {
@@ -9263,7 +9263,7 @@
       "weeklyScore": 32,
       "weeksOnChart": 4,
       "weeklyAvgRank": 3,
-      "dailyRank": 16,
+      "dailyRank": 15,
       "dailyScore": 195,
       "daysOnChart": 23,
       "dailyAvgRank": 2.52,
@@ -9279,11 +9279,11 @@
       "weeklyScore": 31,
       "weeksOnChart": 5,
       "weeklyAvgRank": 4.8,
-      "dailyRank": 14,
-      "dailyScore": 211,
-      "daysOnChart": 36,
-      "dailyAvgRank": 5.14,
-      "totalScore": 242,
+      "dailyRank": 47,
+      "dailyScore": 0,
+      "daysOnChart": 0,
+      "dailyAvgRank": 0,
+      "totalScore": 31,
       "isNetflixOriginal": false,
       "isAllAtOnce": false,
       "releaseType": "weekly"
@@ -9295,7 +9295,7 @@
       "weeklyScore": 27,
       "weeksOnChart": 8,
       "weeklyAvgRank": 7.63,
-      "dailyRank": 17,
+      "dailyRank": 16,
       "dailyScore": 174,
       "daysOnChart": 41,
       "dailyAvgRank": 6.76,
@@ -9311,7 +9311,7 @@
       "weeklyScore": 22,
       "weeksOnChart": 3,
       "weeklyAvgRank": 3.67,
-      "dailyRank": 24,
+      "dailyRank": 22,
       "dailyScore": 109,
       "daysOnChart": 19,
       "dailyAvgRank": 5.26,
@@ -9327,7 +9327,7 @@
       "weeklyScore": 21,
       "weeksOnChart": 5,
       "weeklyAvgRank": 6.8,
-      "dailyRank": 18,
+      "dailyRank": 17,
       "dailyScore": 163,
       "daysOnChart": 32,
       "dailyAvgRank": 5.91,
@@ -9343,7 +9343,7 @@
       "weeklyScore": 19,
       "weeksOnChart": 2,
       "weeklyAvgRank": 1.5,
-      "dailyRank": 15,
+      "dailyRank": 14,
       "dailyScore": 210,
       "daysOnChart": 26,
       "dailyAvgRank": 2.19,
@@ -9359,7 +9359,7 @@
       "weeklyScore": 16,
       "weeksOnChart": 3,
       "weeklyAvgRank": 5.67,
-      "dailyRank": 22,
+      "dailyRank": 20,
       "dailyScore": 117,
       "daysOnChart": 14,
       "dailyAvgRank": 2.64,
@@ -9375,7 +9375,7 @@
       "weeklyScore": 15,
       "weeksOnChart": 3,
       "weeklyAvgRank": 6,
-      "dailyRank": 21,
+      "dailyRank": 19,
       "dailyScore": 117,
       "daysOnChart": 25,
       "dailyAvgRank": 6.32,
@@ -9391,7 +9391,7 @@
       "weeklyScore": 12,
       "weeksOnChart": 3,
       "weeklyAvgRank": 7,
-      "dailyRank": 26,
+      "dailyRank": 23,
       "dailyScore": 99,
       "daysOnChart": 17,
       "dailyAvgRank": 5.18,
@@ -9407,7 +9407,7 @@
       "weeklyScore": 11,
       "weeksOnChart": 3,
       "weeklyAvgRank": 7.33,
-      "dailyRank": 62,
+      "dailyRank": 48,
       "dailyScore": 0,
       "daysOnChart": 0,
       "dailyAvgRank": 0,
@@ -9423,7 +9423,7 @@
       "weeklyScore": 6,
       "weeksOnChart": 1,
       "weeklyAvgRank": 5,
-      "dailyRank": 35,
+      "dailyRank": 30,
       "dailyScore": 62,
       "daysOnChart": 15,
       "dailyAvgRank": 6.87,
@@ -9439,7 +9439,7 @@
       "weeklyScore": 5,
       "weeksOnChart": 2,
       "weeklyAvgRank": 8.5,
-      "dailyRank": 48,
+      "dailyRank": 41,
       "dailyScore": 16,
       "daysOnChart": 8,
       "dailyAvgRank": 9,
@@ -9455,7 +9455,7 @@
       "weeklyScore": 5,
       "weeksOnChart": 1,
       "weeklyAvgRank": 6,
-      "dailyRank": 47,
+      "dailyRank": 40,
       "dailyScore": 30,
       "daysOnChart": 7,
       "dailyAvgRank": 6.71,
@@ -9471,7 +9471,7 @@
       "weeklyScore": 5,
       "weeksOnChart": 1,
       "weeklyAvgRank": 6,
-      "dailyRank": 38,
+      "dailyRank": 32,
       "dailyScore": 55,
       "daysOnChart": 17,
       "dailyAvgRank": 7.76,
@@ -9487,7 +9487,7 @@
       "weeklyScore": 4,
       "weeksOnChart": 1,
       "weeklyAvgRank": 7,
-      "dailyRank": 46,
+      "dailyRank": 39,
       "dailyScore": 31,
       "daysOnChart": 10,
       "dailyAvgRank": 7.9,
@@ -9503,7 +9503,7 @@
       "weeklyScore": 4,
       "weeksOnChart": 1,
       "weeklyAvgRank": 7,
-      "dailyRank": 41,
+      "dailyRank": 35,
       "dailyScore": 45,
       "daysOnChart": 12,
       "dailyAvgRank": 7.25,
@@ -9519,7 +9519,7 @@
       "weeklyScore": 4,
       "weeksOnChart": 1,
       "weeklyAvgRank": 7,
-      "dailyRank": 45,
+      "dailyRank": 38,
       "dailyScore": 34,
       "daysOnChart": 10,
       "dailyAvgRank": 7.6,
@@ -9535,7 +9535,7 @@
       "weeklyScore": 4,
       "weeksOnChart": 2,
       "weeklyAvgRank": 9,
-      "dailyRank": 27,
+      "dailyRank": 24,
       "dailyScore": 90,
       "daysOnChart": 23,
       "dailyAvgRank": 7.09,
@@ -9551,7 +9551,7 @@
       "weeklyScore": 3,
       "weeksOnChart": 2,
       "weeklyAvgRank": 9.5,
-      "dailyRank": 49,
+      "dailyRank": 42,
       "dailyScore": 11,
       "daysOnChart": 5,
       "dailyAvgRank": 8.8,
@@ -9567,7 +9567,7 @@
       "weeklyScore": 3,
       "weeksOnChart": 1,
       "weeklyAvgRank": 8,
-      "dailyRank": 37,
+      "dailyRank": 31,
       "dailyScore": 58,
       "daysOnChart": 13,
       "dailyAvgRank": 6.54,
@@ -9583,7 +9583,7 @@
       "weeklyScore": 2,
       "weeksOnChart": 1,
       "weeklyAvgRank": 9,
-      "dailyRank": 40,
+      "dailyRank": 34,
       "dailyScore": 46,
       "daysOnChart": 9,
       "dailyAvgRank": 5.89,
@@ -9599,7 +9599,7 @@
       "weeklyScore": 1,
       "weeksOnChart": 1,
       "weeklyAvgRank": 10,
-      "dailyRank": 53,
+      "dailyRank": 44,
       "dailyScore": 6,
       "daysOnChart": 4,
       "dailyAvgRank": 9.5,
@@ -9615,7 +9615,7 @@
       "weeklyScore": 1,
       "weeksOnChart": 1,
       "weeklyAvgRank": 10,
-      "dailyRank": 28,
+      "dailyRank": 25,
       "dailyScore": 90,
       "daysOnChart": 18,
       "dailyAvgRank": 6,
@@ -9631,7 +9631,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 32,
+      "dailyRank": 28,
       "dailyScore": 72,
       "daysOnChart": 19,
       "dailyAvgRank": 7.21,
@@ -9647,7 +9647,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 60,
+      "dailyRank": 45,
       "dailyScore": 1,
       "daysOnChart": 1,
       "dailyAvgRank": 10,
@@ -9663,7 +9663,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 19,
+      "dailyRank": 18,
       "dailyScore": 155,
       "daysOnChart": 38,
       "dailyAvgRank": 6.92,
@@ -9679,7 +9679,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 39,
+      "dailyRank": 33,
       "dailyScore": 52,
       "daysOnChart": 12,
       "dailyAvgRank": 6.67,
@@ -9695,7 +9695,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 30,
+      "dailyRank": 27,
       "dailyScore": 77,
       "daysOnChart": 17,
       "dailyAvgRank": 6.47,
@@ -9711,7 +9711,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 43,
+      "dailyRank": 37,
       "dailyScore": 38,
       "daysOnChart": 7,
       "dailyAvgRank": 5.57,
@@ -9727,7 +9727,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 42,
+      "dailyRank": 36,
       "dailyScore": 40,
       "daysOnChart": 7,
       "dailyAvgRank": 5.29,
@@ -9743,7 +9743,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 23,
+      "dailyRank": 21,
       "dailyScore": 112,
       "daysOnChart": 19,
       "dailyAvgRank": 5.11,
@@ -9759,7 +9759,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 61,
+      "dailyRank": 46,
       "dailyScore": 1,
       "daysOnChart": 1,
       "dailyAvgRank": 10,
@@ -9775,7 +9775,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 50,
+      "dailyRank": 43,
       "dailyScore": 11,
       "daysOnChart": 5,
       "dailyAvgRank": 8.8,
@@ -9791,7 +9791,7 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 33,
+      "dailyRank": 29,
       "dailyScore": 68,
       "daysOnChart": 11,
       "dailyAvgRank": 4.82,
@@ -9807,267 +9807,11 @@
       "weeklyScore": 0,
       "weeksOnChart": 0,
       "weeklyAvgRank": 0,
-      "dailyRank": 29,
+      "dailyRank": 26,
       "dailyScore": 87,
       "daysOnChart": 18,
       "dailyAvgRank": 6.17,
       "totalScore": 87,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 49,
-      "title": "嗨！#營業中  第三季",
-      "weeklyRank": 49,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 36,
-      "dailyScore": 60,
-      "daysOnChart": 12,
-      "dailyAvgRank": 6,
-      "totalScore": 60,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 50,
-      "title": "嗨！#營業中",
-      "weeklyRank": 50,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 25,
-      "dailyScore": 109,
-      "daysOnChart": 28,
-      "dailyAvgRank": 7.11,
-      "totalScore": 109,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 51,
-      "title": "嗨！營業中",
-      "weeklyRank": 51,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 63,
-      "dailyScore": 0,
-      "daysOnChart": 1,
-      "dailyAvgRank": 10,
-      "totalScore": 0,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 52,
-      "title": "夏日咖啡男友",
-      "weeklyRank": 52,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 55,
-      "dailyScore": 4,
-      "daysOnChart": 2,
-      "dailyAvgRank": 9,
-      "totalScore": 4,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 53,
-      "title": "嗨！#營業中 第四季",
-      "weeklyRank": 53,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 20,
-      "dailyScore": 119,
-      "daysOnChart": 25,
-      "dailyAvgRank": 6.24,
-      "totalScore": 119,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 54,
-      "title": "來吧！#哪裡怕",
-      "weeklyRank": 54,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 31,
-      "dailyScore": 77,
-      "daysOnChart": 17,
-      "dailyAvgRank": 6.47,
-      "totalScore": 77,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 55,
-      "title": "玉氏夫人傳",
-      "weeklyRank": 55,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 54,
-      "dailyScore": 5,
-      "daysOnChart": 2,
-      "dailyAvgRank": 8.5,
-      "totalScore": 5,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 56,
-      "title": "嗨！#營業中5",
-      "weeklyRank": 56,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 44,
-      "dailyScore": 35,
-      "daysOnChart": 6,
-      "dailyAvgRank": 5.17,
-      "totalScore": 35,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 57,
-      "title": "嗨！#營業中 S5",
-      "weeklyRank": 57,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 57,
-      "dailyScore": 3,
-      "daysOnChart": 1,
-      "dailyAvgRank": 8,
-      "totalScore": 3,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 58,
-      "title": "嗨！ #營業中 S5",
-      "weeklyRank": 58,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 56,
-      "dailyScore": 4,
-      "daysOnChart": 1,
-      "dailyAvgRank": 7,
-      "totalScore": 4,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 59,
-      "title": "嗨！營業中S5",
-      "weeklyRank": 59,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 64,
-      "dailyScore": 0,
-      "daysOnChart": 1,
-      "dailyAvgRank": 6,
-      "totalScore": 0,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 60,
-      "title": "嗨 #營業中！ S5",
-      "weeklyRank": 60,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 58,
-      "dailyScore": 3,
-      "daysOnChart": 1,
-      "dailyAvgRank": 8,
-      "totalScore": 3,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 61,
-      "title": "嗨！ #營業中 S6",
-      "weeklyRank": 61,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 34,
-      "dailyScore": 65,
-      "daysOnChart": 10,
-      "dailyAvgRank": 4.5,
-      "totalScore": 65,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 62,
-      "title": "嗨！ #營業中！ S6",
-      "weeklyRank": 62,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 59,
-      "dailyScore": 3,
-      "daysOnChart": 1,
-      "dailyAvgRank": 8,
-      "totalScore": 3,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 63,
-      "title": "如果我不曾見過太陽 第二部",
-      "weeklyRank": 63,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 52,
-      "dailyScore": 7,
-      "daysOnChart": 1,
-      "dailyAvgRank": 4,
-      "totalScore": 7,
-      "isNetflixOriginal": false,
-      "isAllAtOnce": false,
-      "releaseType": "weekly"
-    },
-    {
-      "rank": 64,
-      "title": "獵犬 S2",
-      "weeklyRank": 64,
-      "weeklyScore": 0,
-      "weeksOnChart": 0,
-      "weeklyAvgRank": 0,
-      "dailyRank": 51,
-      "dailyScore": 8,
-      "daysOnChart": 1,
-      "dailyAvgRank": 3,
-      "totalScore": 8,
       "isNetflixOriginal": false,
       "isAllAtOnce": false,
       "releaseType": "weekly"
@@ -17558,937 +17302,6 @@
       "isAllAtOnce": true
     },
     {
-      "dayIndex": 0,
-      "title": "嗨！#營業中  第三季",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "嗨！#營業中  第三季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "嗨！#營業中  第三季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 3,
-      "title": "嗨！#營業中  第三季",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 4,
-      "title": "嗨！#營業中  第三季",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 5,
-      "title": "嗨！#營業中  第三季",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 6,
-      "title": "嗨！#營業中  第三季",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 7,
-      "title": "嗨！#營業中  第三季",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 8,
-      "title": "嗨！#營業中  第三季",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 9,
-      "title": "嗨！#營業中  第三季",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 10,
-      "title": "嗨！#營業中  第三季",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 11,
-      "title": "嗨！#營業中  第三季",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！#營業中",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 7,
-      "title": "嗨！#營業中",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 14,
-      "title": "嗨！#營業中",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 21,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！營業中",
-      "rank": 10,
-      "score": 0,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "誰是被害者",
-      "rank": 1,
-      "score": 10,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "誰是被害者",
-      "rank": 1,
-      "score": 10,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "誰是被害者",
-      "rank": 1,
-      "score": 10,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 3,
-      "title": "誰是被害者",
-      "rank": 1,
-      "score": 10,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 4,
-      "title": "誰是被害者",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 5,
-      "title": "誰是被害者",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 6,
-      "title": "誰是被害者",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 7,
-      "title": "誰是被害者",
-      "rank": 1,
-      "score": 10,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 8,
-      "title": "誰是被害者",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 9,
-      "title": "誰是被害者",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 10,
-      "title": "誰是被害者",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 11,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 12,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 13,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 14,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 15,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 16,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 17,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 18,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 19,
-      "title": "誰是被害者",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 20,
-      "title": "誰是被害者",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 21,
-      "title": "誰是被害者",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 22,
-      "title": "誰是被害者",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 23,
-      "title": "誰是被害者",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 24,
-      "title": "誰是被害者",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 25,
-      "title": "誰是被害者",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 26,
-      "title": "誰是被害者",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 27,
-      "title": "誰是被害者",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 28,
-      "title": "誰是被害者",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 29,
-      "title": "誰是被害者",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 30,
-      "title": "誰是被害者",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 31,
-      "title": "誰是被害者",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 32,
-      "title": "誰是被害者",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 33,
-      "title": "誰是被害者",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 34,
-      "title": "誰是被害者",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 35,
-      "title": "誰是被害者",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 20,
-      "title": "夏日咖啡男友",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 21,
-      "title": "夏日咖啡男友",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！#營業中 第四季",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "嗨！#營業中 第四季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "嗨！#營業中 第四季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 3,
-      "title": "嗨！#營業中 第四季",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 4,
-      "title": "嗨！#營業中 第四季",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 5,
-      "title": "嗨！#營業中 第四季",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 6,
-      "title": "嗨！#營業中 第四季",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 7,
-      "title": "嗨！#營業中 第四季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 8,
-      "title": "嗨！#營業中 第四季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 9,
-      "title": "嗨！#營業中 第四季",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 10,
-      "title": "嗨！#營業中 第四季",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 11,
-      "title": "嗨！#營業中 第四季",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 12,
-      "title": "嗨！#營業中 第四季",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 13,
-      "title": "嗨！#營業中 第四季",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 14,
-      "title": "嗨！#營業中 第四季",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 15,
-      "title": "嗨！#營業中 第四季",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 16,
-      "title": "嗨！#營業中 第四季",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 17,
-      "title": "嗨！#營業中 第四季",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 18,
-      "title": "嗨！#營業中 第四季",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 19,
-      "title": "嗨！#營業中 第四季",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 20,
-      "title": "嗨！#營業中 第四季",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 21,
-      "title": "嗨！#營業中 第四季",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 22,
-      "title": "嗨！#營業中 第四季",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 23,
-      "title": "嗨！#營業中 第四季",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 24,
-      "title": "嗨！#營業中 第四季",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 245,
-      "title": "嗨！#營業中",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 246,
-      "title": "嗨！#營業中",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 247,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 248,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 252,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 253,
-      "title": "嗨！#營業中",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 254,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 259,
-      "title": "嗨！#營業中",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 260,
-      "title": "嗨！#營業中",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 261,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 262,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 266,
-      "title": "嗨！#營業中",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 267,
-      "title": "嗨！#營業中",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "來吧！#哪裡怕",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "來吧！#哪裡怕",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "來吧！#哪裡怕",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 3,
-      "title": "來吧！#哪裡怕",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 4,
-      "title": "來吧！#哪裡怕",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 5,
-      "title": "來吧！#哪裡怕",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 6,
-      "title": "來吧！#哪裡怕",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 7,
-      "title": "來吧！#哪裡怕",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 8,
-      "title": "來吧！#哪裡怕",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 9,
-      "title": "來吧！#哪裡怕",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 10,
-      "title": "來吧！#哪裡怕",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 11,
-      "title": "來吧！#哪裡怕",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 12,
-      "title": "來吧！#哪裡怕",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 14,
-      "title": "來吧！#哪裡怕",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 15,
-      "title": "來吧！#哪裡怕",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 16,
-      "title": "來吧！#哪裡怕",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 17,
-      "title": "來吧！#哪裡怕",
-      "rank": 10,
-      "score": 1,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 41,
-      "title": "玉氏夫人傳",
-      "rank": 9,
-      "score": 2,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 42,
-      "title": "玉氏夫人傳",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！#營業中5",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "嗨！#營業中5",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "嗨！#營業中5",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 3,
-      "title": "嗨！#營業中5",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 4,
-      "title": "嗨！#營業中5",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 5,
-      "title": "嗨！#營業中5",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 448,
-      "title": "嗨！#營業中",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 449,
-      "title": "嗨！#營業中",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！#營業中 S5",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 455,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 456,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 457,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 458,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 459,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 460,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 461,
-      "title": "嗨！#營業中",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！ #營業中 S5",
-      "rank": 7,
-      "score": 4,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！營業中S5",
-      "rank": 6,
-      "score": 0,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨 #營業中！ S5",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
       "dayIndex": 11,
       "title": "拜六禮拜",
       "rank": 1,
@@ -18501,97 +17314,6 @@
       "rank": 7,
       "score": 0,
       "isAllAtOnce": true
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！ #營業中 S6",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "嗨！ #營業中 S6",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 2,
-      "title": "嗨！ #營業中 S6",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 3,
-      "title": "嗨！ #營業中 S6",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 4,
-      "title": "嗨！ #營業中 S6",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 5,
-      "title": "嗨！ #營業中 S6",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 6,
-      "title": "嗨！ #營業中 S6",
-      "rank": 5,
-      "score": 6,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 7,
-      "title": "嗨！ #營業中 S6",
-      "rank": 2,
-      "score": 9,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 8,
-      "title": "嗨！ #營業中 S6",
-      "rank": 6,
-      "score": 5,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 9,
-      "title": "嗨！ #營業中 S6",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "嗨！ #營業中！ S6",
-      "rank": 8,
-      "score": 3,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 0,
-      "title": "如果我不曾見過太陽 第二部",
-      "rank": 4,
-      "score": 7,
-      "isAllAtOnce": false
-    },
-    {
-      "dayIndex": 1,
-      "title": "獵犬 S2",
-      "rank": 3,
-      "score": 8,
-      "isAllAtOnce": false
     },
     {
       "dayIndex": 7,
