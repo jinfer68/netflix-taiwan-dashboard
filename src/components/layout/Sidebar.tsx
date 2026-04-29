@@ -114,6 +114,12 @@ export default function Sidebar({
     return GENRE_LABELS.filter(g => derived.some(d => d.genre === g))
   }, [data, selectedQuarter, selectedMonth])
 
+  function handleYearChange(y: YearFilter) {
+    setYearFilter(y)
+    setSelectedQuarter('all')
+    setSelectedMonth(null)
+  }
+
   function handleQuarterClick(q: string) {
     setSelectedQuarter(q)
     setSelectedMonth(null)
@@ -172,29 +178,6 @@ export default function Sidebar({
       flexDirection: 'column',
       overflow: 'hidden',
     }}>
-
-      {/* ── 年份篩選（全域）── */}
-      <div style={{ padding: '12px 14px 8px', borderBottom: '1px solid #1e1e2e' }}>
-        <div style={{ fontSize: 12, color: '#555', marginBottom: 7 }}>資料範圍</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-          {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
-            <button
-              key={opt}
-              onClick={() => setYearFilter(opt)}
-              style={{
-                padding: '5px 11px', borderRadius: 14, fontSize: 13, cursor: 'pointer',
-                border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
-                background: yearFilter === opt ? '#2a2060' : 'transparent',
-                color: yearFilter === opt ? '#b9aaff' : '#666',
-                fontWeight: yearFilter === opt ? 700 : 400,
-                transition: 'all 0.15s',
-              }}
-            >
-              {opt === 'all' ? '全部' : opt}
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* ── Tab 導航 ── */}
       <nav style={{ padding: '10px 12px 8px' }}>
@@ -264,9 +247,29 @@ export default function Sidebar({
                 </button>
               ))}
             </div>
-            {/* 時間範圍：週榜＋日榜都顯示（日榜僅季度，無月份）*/}
+            {/* 時間範圍 */}
             <>
               <div style={labelStyle}>時間範圍</div>
+
+              {/* 年份（週榜才顯示；日榜用季度各自獨立，年份無效）*/}
+              {rankingMode === 'weekly' && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 6 }}>
+                  {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
+                    <button key={opt} onClick={() => handleYearChange(opt)} style={{
+                      padding: '4px 10px', borderRadius: 14, fontSize: 12, cursor: 'pointer',
+                      border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
+                      background: yearFilter === opt ? '#2a2060' : 'transparent',
+                      color: yearFilter === opt ? '#b9aaff' : '#555',
+                      fontWeight: yearFilter === opt ? 700 : 400,
+                      transition: 'all 0.15s',
+                    }}>
+                      {opt === 'all' ? '全部' : opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* 季度 */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: rankingMode === 'weekly' && monthsInQuarter.length ? 7 : 0 }}>
                 {availableQuarters.map(q => {
                   const active = selectedQuarter === q && !selectedMonth
@@ -277,6 +280,8 @@ export default function Sidebar({
                   )
                 })}
               </div>
+
+              {/* 月份（週榜）*/}
               {rankingMode === 'weekly' && monthsInQuarter.length > 0 && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
                   {monthsInQuarter.map(m => {
@@ -356,6 +361,21 @@ export default function Sidebar({
         {/* ══ 類型分析：流向圖 Netflix 篩選 ══ */}
         {activeTab === 'genre' && (
           <>
+            <div style={labelStyle}>時間範圍</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 6 }}>
+              {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
+                <button key={opt} onClick={() => handleYearChange(opt)} style={{
+                  padding: '4px 10px', borderRadius: 14, fontSize: 12, cursor: 'pointer',
+                  border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
+                  background: yearFilter === opt ? '#2a2060' : 'transparent',
+                  color: yearFilter === opt ? '#b9aaff' : '#555',
+                  fontWeight: yearFilter === opt ? 700 : 400,
+                  transition: 'all 0.15s',
+                }}>
+                  {opt === 'all' ? '全部' : opt}
+                </button>
+              ))}
+            </div>
             <div style={labelStyle}>流向圖 Netflix 獨家</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {([['all', '全部'], ['original', '獨家'], ['nonOriginal', '非獨家']] as const).map(([val, label]) => (
@@ -370,6 +390,22 @@ export default function Sidebar({
         {/* ══ 台劇：台劇分析 + 走勢分析 篩選 ══ */}
         {activeTab === 'taiwan' && (
           <>
+            {/* 時間範圍 */}
+            <div style={labelStyle}>時間範圍</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 6 }}>
+              {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
+                <button key={opt} onClick={() => handleYearChange(opt)} style={{
+                  padding: '4px 10px', borderRadius: 14, fontSize: 12, cursor: 'pointer',
+                  border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
+                  background: yearFilter === opt ? '#2a2060' : 'transparent',
+                  color: yearFilter === opt ? '#b9aaff' : '#555',
+                  fontWeight: yearFilter === opt ? 700 : 400,
+                  transition: 'all 0.15s',
+                }}>
+                  {opt === 'all' ? '全部' : opt}
+                </button>
+              ))}
+            </div>
             {/* 台劇分析篩選 */}
             <div style={labelStyle}>上架方式</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
