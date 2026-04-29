@@ -264,40 +264,37 @@ export default function Sidebar({
                 </button>
               ))}
             </div>
-            {rankingMode === 'daily' && (
-              <div style={{ fontSize: 11, color: '#555', marginBottom: 6, fontStyle: 'italic', lineHeight: 1.6 }}>
-                日榜涵蓋全期資料<br />不支援年份／時間篩選
+            {/* 時間範圍：週榜＋日榜都顯示（日榜僅季度，無月份）*/}
+            <>
+              <div style={labelStyle}>時間範圍</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: rankingMode === 'weekly' && monthsInQuarter.length ? 7 : 0 }}>
+                {availableQuarters.map(q => {
+                  const active = selectedQuarter === q && !selectedMonth
+                  return (
+                    <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
+                      {quarterLabel(q)}
+                    </button>
+                  )
+                })}
               </div>
-            )}
-
-            {/* 週榜專屬：時間範圍 */}
-            {rankingMode === 'weekly' && (
-              <>
-                <div style={labelStyle}>時間範圍</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: monthsInQuarter.length ? 7 : 0 }}>
-                  {availableQuarters.map(q => {
-                    const active = selectedQuarter === q && !selectedMonth
+              {rankingMode === 'weekly' && monthsInQuarter.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
+                  {monthsInQuarter.map(m => {
+                    const active = selectedMonth === m
                     return (
-                      <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
-                        {quarterLabel(q)}
+                      <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={pillBtn(active, '#f5c518')}>
+                        {m.substring(0, 4)}/{monthLabel(m)}
                       </button>
                     )
                   })}
                 </div>
-                {monthsInQuarter.length > 0 && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
-                    {monthsInQuarter.map(m => {
-                      const active = selectedMonth === m
-                      return (
-                        <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={pillBtn(active, '#f5c518')}>
-                          {m.substring(0, 4)}/{monthLabel(m)}
-                        </button>
-                      )
-                    })}
-                  </div>
-                )}
-              </>
-            )}
+              )}
+              {rankingMode === 'daily' && (
+                <div style={{ fontSize: 11, color: '#555', marginBottom: 4, fontStyle: 'italic' }}>
+                  日榜不支援月份細分
+                </div>
+              )}
+            </>
 
             {/* 類型篩選（週榜＋日榜都顯示）*/}
             <div style={labelStyle}>類型篩選</div>

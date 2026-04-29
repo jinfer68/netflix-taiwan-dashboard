@@ -21,6 +21,7 @@ const EMPTY_DATA: RankingsData = {
   showAttributes: {},
   overallRankings: [],
   dailyOverallRankings: [],
+  dailyOverallByQuarter: {},
   taiwanDramaRankings: [],
   dailyRankings: [],
   weeklyRankings: [],
@@ -84,8 +85,11 @@ export default function App() {
   const taiwanDramas = useMemo(() => getTaiwanDramaComparison(filteredData), [filteredData])
   const genreDistribution = useMemo(() => getWeeklyGenreDistribution(filteredData), [filteredData])
   const top50GenreDistribution = useMemo(() => getTop50GenreDistribution(filteredData), [filteredData])
-  // 日榜總排行：使用完整 data（不受年份篩選影響，因為日榜涵蓋全期）
-  const dailyOverallRankings = useMemo(() => getDailyOverallRankings(data), [data])
+  // 日榜總排行：依季度篩選，'all' 時返回全期資料
+  const dailyOverallRankings = useMemo(
+    () => getDailyOverallRankings(data, rankingMode === 'daily' ? selectedQuarter : 'all'),
+    [data, rankingMode, selectedQuarter],
+  )
 
   if (loading) {
     return (
@@ -164,6 +168,9 @@ export default function App() {
               <div style={{ flex: 1, height: CHART_H, overflow: 'hidden', padding: '14px 16px' }}>
                 <QuickLookup
                   data={filteredData}
+                  fullData={data}
+                  dailyOverallRankings={dailyOverallRankings}
+                  rankingMode={rankingMode}
                   selectedShow={selectedShow}
                   onSelectShow={setSelectedShow}
                 />

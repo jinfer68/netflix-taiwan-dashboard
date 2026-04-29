@@ -1,13 +1,16 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
-import type { RankingsData } from '../../types'
-import { getAllWeeklyTitles, getShowLookupEntry } from '../../utils/dataTransforms'
+import type { RankingsData, OverallRankingEntry } from '../../types'
+import { getAllWeeklyTitles, getShowLookupEntry, getDailyShowEntry, getAllDailyTitles } from '../../utils/dataTransforms'
 import { GENRE_COLORS, GENRE_ICONS } from '../../constants/genres'
 import type { Genre } from '../../types'
 import { PILL_BTN } from '../../constants/styles'
 import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
 
 interface Props {
-  data: RankingsData
+  data: RankingsData       // 年份過濾後資料（週次快覽用）
+  fullData: RankingsData   // 完整資料（日榜模式查週榜摘要用）
+  dailyOverallRankings: OverallRankingEntry[]
+  rankingMode: 'weekly' | 'daily'
   selectedShow: string | null
   onSelectShow: (title: string | null) => void
 }
@@ -20,7 +23,7 @@ function dotColor(pos: number) {
 
 function formatYM(d: string) { return d.substring(0, 7).replace('-', '/') }
 
-export default function QuickLookup({ data, selectedShow, onSelectShow }: Props) {
+export default function QuickLookup({ data, fullData, dailyOverallRankings, rankingMode, selectedShow, onSelectShow }: Props) {
   const [activeTab, setActiveTab] = useState<'show' | 'week'>('show')
 
   // ── Show tab：搜尋 ──
@@ -41,32 +44,43 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
     setSelectedWeekNum(null)
   }, [data])
 
-  // 外部點選節目時→切到 show tab，並同步週次導航到首次上榜週
+  // 外部點選節目時→切到 show tab；週榜模式下同步週次導航到首次上榜週
   useEffect(() => {
     if (!selectedShow) return
     setActiveTab('show')
-    const firstWeek = data.weeklyRankings.find(w =>
-      w.rankings.some(r => r.title === selectedShow)
-    )
-    if (firstWeek) {
-      const dr = firstWeek.dateRange
-      setSelectedQuarter(weekToYearQuarter(dr))
-      setSelectedMonth(weekToYearMonth(dr))
-      setSelectedWeekNum(firstWeek.weekNumber)
+    if (rankingMode === 'weekly') {
+      const firstWeek = data.weeklyRankings.find(w =>
+        w.rankings.some(r => r.title === selectedShow)
+      )
+      if (firstWeek) {
+        const dr = firstWeek.dateRange
+        setSelectedQuarter(weekToYearQuarter(dr))
+        setSelectedMonth(weekToYearMonth(dr))
+        setSelectedWeekNum(firstWeek.weekNumber)
+      }
     }
-  }, [selectedShow, data])
+  }, [selectedShow, data, rankingMode])
 
-  // ── Show lookup ──
-  const allTitles = useMemo(() => getAllWeeklyTitles(data), [data])
+  // ── Show lookup（依模式切換資料來源）──
+  const allWeeklyTitles = useMemo(() => getAllWeeklyTitles(data), [data])
+  const allDailyTitles  = useMemo(() => getAllDailyTitles(dailyOverallRankings), [dailyOverallRankings])
+  const allTitles = rankingMode === 'daily' ? allDailyTitles : allWeeklyTitles
+
   const suggestions = useMemo(() =>
     searchQuery.length >= 1
       ? allTitles.filter(t => t.includes(searchQuery)).slice(0, 10)
       : [],
     [allTitles, searchQuery],
   )
-  const entry = useMemo(
-    () => selectedShow ? getShowLookupEntry(data, selectedShow) : null,
-    [data, selectedShow],
+
+  // 週榜：完整週次查詢；日榜：從 dailyOverallRankings 查統計
+  const weeklyEntry = useMemo(
+    () => (rankingMode === 'weekly' && selectedShow) ? getShowLookupEntry(data, selectedShow) : null,
+    [data, selectedShow, rankingMode],
+  )
+  const dailyEntry = useMemo(
+    () => (rankingMode === 'daily' && selectedShow) ? getDailyShowEntry(dailyOverallRankings, selectedShow) : null,
+    [dailyOverallRankings, selectedShow, rankingMode],
   )
 
   // ── Week tab：可用時間區段 ──
@@ -199,94 +213,59 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
               )}
             </div>
 
-            {/* 節目詳情卡片 */}
-            {entry ? (
+            {/* ── 週榜節目詳情卡片 ── */}
+            {rankingMode === 'weekly' && weeklyEntry && (
               <div style={{ background: '#16162a', border: '1px solid #2a2a3e', borderRadius: 10, padding: 14 }}>
-
-                {/* 標題行 */}
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 16, fontWeight: 700, color: '#eee', lineHeight: 1.4, flex: 1 }}>{entry.title}</span>
-                  <button
-                    onClick={() => { onSelectShow(null); setSearchQuery('') }}
-                    style={{ background: 'transparent', border: '1px solid #333', borderRadius: 6, color: '#555', fontSize: 11, padding: '3px 8px', cursor: 'pointer', flexShrink: 0 }}
-                  >
+                  <span style={{ fontSize: 16, fontWeight: 700, color: '#eee', lineHeight: 1.4, flex: 1 }}>{weeklyEntry.title}</span>
+                  <button onClick={() => { onSelectShow(null); setSearchQuery('') }}
+                    style={{ background: 'transparent', border: '1px solid #333', borderRadius: 6, color: '#555', fontSize: 11, padding: '3px 8px', cursor: 'pointer', flexShrink: 0 }}>
                     清除
                   </button>
                 </div>
-
-                {/* Badges */}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-                  <span style={{
-                    padding: '3px 10px', borderRadius: 4, fontSize: 12, fontWeight: 600,
-                    background: GENRE_COLORS[entry.genre] + '33',
-                    border: `1px solid ${GENRE_COLORS[entry.genre]}`,
-                    color: GENRE_COLORS[entry.genre],
-                  }}>
-                    {GENRE_ICONS[entry.genre]} {entry.genre}
+                  <span style={{ padding: '3px 10px', borderRadius: 4, fontSize: 12, fontWeight: 600,
+                    background: GENRE_COLORS[weeklyEntry.genre] + '33', border: `1px solid ${GENRE_COLORS[weeklyEntry.genre]}`, color: GENRE_COLORS[weeklyEntry.genre] }}>
+                    {GENRE_ICONS[weeklyEntry.genre]} {weeklyEntry.genre}
                   </span>
-                  {entry.isNetflixOriginal && (
-                    <span style={{ padding: '3px 8px', borderRadius: 4, fontSize: 12, fontWeight: 700, background: '#e50914', color: '#fff' }}>
-                      N 原創
-                    </span>
+                  {weeklyEntry.isNetflixOriginal && (
+                    <span style={{ padding: '3px 8px', borderRadius: 4, fontSize: 12, fontWeight: 700, background: '#e50914', color: '#fff' }}>N 原創</span>
                   )}
                 </div>
-
-                {/* 2×2 統計格 */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
                   {([
-                    ['最高名次', `#${entry.peakRank}`, '#1db954'],
-                    ['平均名次', `${entry.avgRank}`, '#aaa'],
-                    ['上榜週數', `${entry.weeksOnChart} 週`, '#f5c518'],
-                    ['累積積分', `${entry.totalScore}`, '#e50914'],
+                    ['最高名次', `#${weeklyEntry.peakRank}`, '#1db954'],
+                    ['平均名次', `${weeklyEntry.avgRank}`, '#aaa'],
+                    ['上榜週數', `${weeklyEntry.weeksOnChart} 週`, '#f5c518'],
+                    ['累積積分', `${weeklyEntry.totalScore}`, '#e50914'],
                   ] as const).map(([label, val, col]) => (
-                    <div key={label} style={{ background: '#0f0f1e', borderRadius: 8, padding: '10px 10px', textAlign: 'center' }}>
+                    <div key={label} style={{ background: '#0f0f1e', borderRadius: 8, padding: '10px', textAlign: 'center' }}>
                       <div style={{ fontSize: 11, color: '#555', marginBottom: 4 }}>{label}</div>
                       <div style={{ fontSize: 18, fontWeight: 700, color: col }}>{val}</div>
                     </div>
                   ))}
                 </div>
-
-                {/* 上榜期間 */}
                 <div style={{ fontSize: 12, color: '#666', marginBottom: 12 }}>
-                  上榜期間&ensp;
-                  <span style={{ color: '#bbb' }}>{formatYM(entry.firstWeekDate)} ～ {formatYM(entry.lastWeekDate)}</span>
+                  上榜期間&ensp;<span style={{ color: '#bbb' }}>{formatYM(weeklyEntry.firstWeekDate)} ～ {formatYM(weeklyEntry.lastWeekDate)}</span>
                 </div>
-
-                {/* 各週名次 dots */}
                 <div style={{ fontSize: 11, color: '#555', marginBottom: 7 }}>
-                  各週名次
-                  <span style={{ marginLeft: 8, color: '#333', fontStyle: 'italic' }}>點擊跳至該週榜單</span>
+                  各週名次<span style={{ marginLeft: 8, color: '#333', fontStyle: 'italic' }}>點擊跳至該週榜單</span>
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 10 }}>
-                  {entry.weekAppearances.map(w => {
+                  {weeklyEntry.weekAppearances.map(w => {
                     const c = dotColor(w.position)
                     return (
-                      <div
-                        key={w.weekNumber}
+                      <div key={w.weekNumber}
                         title={`W${String(w.weekNumber).padStart(2, '0')}  ${w.dateRange}  第 ${w.position} 名`}
-                        onClick={() => {
-                          setSelectedQuarter(weekToYearQuarter(w.dateRange))
-                          setSelectedMonth(weekToYearMonth(w.dateRange))
-                          setSelectedWeekNum(w.weekNumber)
-                          setActiveTab('week')
-                        }}
-                        style={{
-                          width: 26, height: 26, borderRadius: '50%', fontSize: 11,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          background: c.bg, border: `1.5px solid ${c.border}`, color: c.text,
-                          cursor: 'pointer', fontWeight: 700,
-                          transition: 'transform 0.1s',
-                        }}
+                        onClick={() => { setSelectedQuarter(weekToYearQuarter(w.dateRange)); setSelectedMonth(weekToYearMonth(w.dateRange)); setSelectedWeekNum(w.weekNumber); setActiveTab('week') }}
+                        style={{ width: 26, height: 26, borderRadius: '50%', fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: c.bg, border: `1.5px solid ${c.border}`, color: c.text, cursor: 'pointer', fontWeight: 700, transition: 'transform 0.1s' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.25)' }}
                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
-                      >
-                        {w.position}
-                      </div>
+                      >{w.position}</div>
                     )
                   })}
                 </div>
-
-                {/* 圖例 */}
                 <div style={{ display: 'flex', gap: 12, fontSize: 11, color: '#444' }}>
                   {[['#1-3', '#1db954'], ['#4-7', '#f5c518'], ['#8-10', '#555']].map(([lbl, col]) => (
                     <span key={lbl}>
@@ -296,7 +275,90 @@ export default function QuickLookup({ data, selectedShow, onSelectShow }: Props)
                   ))}
                 </div>
               </div>
-            ) : (
+            )}
+
+            {/* ── 日榜節目詳情卡片 ── */}
+            {rankingMode === 'daily' && dailyEntry && (() => {
+              const genre = dailyEntry.genre as Genre
+              const color = GENRE_COLORS[genre] ?? '#95a5a6'
+              // 查看同節目是否也有週榜資料（用完整資料，不受年份篩選影響）
+              const alsoWeekly = getShowLookupEntry(fullData, dailyEntry.title)
+              return (
+                <div style={{ background: '#16162a', border: '1px solid #2a2a3e', borderRadius: 10, padding: 14 }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 16, fontWeight: 700, color: '#eee', lineHeight: 1.4, flex: 1 }}>{dailyEntry.title}</span>
+                    <button onClick={() => { onSelectShow(null); setSearchQuery('') }}
+                      style={{ background: 'transparent', border: '1px solid #333', borderRadius: 6, color: '#555', fontSize: 11, padding: '3px 8px', cursor: 'pointer', flexShrink: 0 }}>
+                      清除
+                    </button>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
+                    <span style={{ padding: '3px 10px', borderRadius: 4, fontSize: 12, fontWeight: 600,
+                      background: color + '33', border: `1px solid ${color}`, color }}>
+                      {GENRE_ICONS[genre]} {genre}
+                    </span>
+                    {dailyEntry.isNetflixOriginal && (
+                      <span style={{ padding: '3px 8px', borderRadius: 4, fontSize: 12, fontWeight: 700, background: '#e50914', color: '#fff' }}>N 原創</span>
+                    )}
+                    <span style={{ padding: '3px 8px', borderRadius: 4, fontSize: 11, border: '1px solid #f5c51844', color: '#f5c518', background: '#f5c51811' }}>
+                      🌙 日榜 #{dailyEntry.rank}
+                    </span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+                    {([
+                      ['日榜積分', `${dailyEntry.totalScore}`, '#f5c518'],
+                      ['上榜天數', `${dailyEntry.weeksOnChart} 天`, '#aaa'],
+                      ['平均名次', `${dailyEntry.avgRank}`, '#aaa'],
+                      ['日榜排名', `#${dailyEntry.rank}`, '#1db954'],
+                    ] as const).map(([label, val, col]) => (
+                      <div key={label} style={{ background: '#0f0f1e', borderRadius: 8, padding: '10px', textAlign: 'center' }}>
+                        <div style={{ fontSize: 11, color: '#555', marginBottom: 4 }}>{label}</div>
+                        <div style={{ fontSize: 18, fontWeight: 700, color: col }}>{val}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* 若也有週榜資料，顯示摘要 */}
+                  {alsoWeekly && (
+                    <div style={{ borderTop: '1px solid #1e1e2e', paddingTop: 10, marginTop: 4 }}>
+                      <div style={{ fontSize: 11, color: '#555', marginBottom: 8 }}>📅 週榜資料</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, marginBottom: 10 }}>
+                        {([
+                          ['週榜積分', `${alsoWeekly.totalScore}`],
+                          ['上榜週數', `${alsoWeekly.weeksOnChart} 週`],
+                          ['平均名次', `${alsoWeekly.avgRank}`],
+                        ] as const).map(([label, val]) => (
+                          <div key={label} style={{ background: '#0f0f1e', borderRadius: 6, padding: '8px', textAlign: 'center' }}>
+                            <div style={{ fontSize: 10, color: '#444', marginBottom: 3 }}>{label}</div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: '#888' }}>{val}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ fontSize: 11, color: '#555', marginBottom: 6 }}>
+                        各週名次<span style={{ marginLeft: 8, color: '#333', fontStyle: 'italic' }}>點擊跳至該週</span>
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                        {alsoWeekly.weekAppearances.map(w => {
+                          const c = dotColor(w.position)
+                          return (
+                            <div key={w.weekNumber}
+                              title={`W${String(w.weekNumber).padStart(2, '0')}  ${w.dateRange}  第 ${w.position} 名`}
+                              onClick={() => { setSelectedQuarter(weekToYearQuarter(w.dateRange)); setSelectedMonth(weekToYearMonth(w.dateRange)); setSelectedWeekNum(w.weekNumber); setActiveTab('week') }}
+                              style={{ width: 26, height: 26, borderRadius: '50%', fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                background: c.bg, border: `1.5px solid ${c.border}`, color: c.text, cursor: 'pointer', fontWeight: 700, transition: 'transform 0.1s' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.25)' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
+                            >{w.position}</div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
+
+            {/* ── 空狀態 ── */}
+            {!weeklyEntry && !dailyEntry && (
               <div style={{ color: '#333', fontSize: 13, padding: '20px 0', textAlign: 'center', lineHeight: 2 }}>
                 點擊左側積分榜的節目<br />或搜尋節目名稱<br />即可查看詳情
               </div>

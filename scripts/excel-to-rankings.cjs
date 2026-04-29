@@ -325,6 +325,67 @@ const dailyOverallRankings = [...allDailyMap.entries()]
 
 console.log(`全節目日榜積分排行: ${dailyOverallRankings.length} 部`)
 
+// ── dailyOverallByQuarter（按季度分組的日榜排行）──────────────────────────────
+
+function getQtr(month) {
+  if (month <= 3) return 'Q1'
+  if (month <= 6) return 'Q2'
+  if (month <= 9) return 'Q3'
+  return 'Q4'
+}
+
+const quarterMaps = new Map() // "2024-Q1" → Map<title, {...}>
+
+for (const r of dailyTVRows) {
+  const title = r['節目名稱']
+  const rank  = r['排名']
+  const score = r['積分']
+  const dateSerial = r['日期']
+  if (!title || !rank || rank < 1 || rank > 10 || !dateSerial) continue
+
+  const dateStr = serialToDateStr(dateSerial)
+  const year  = dateStr.substring(0, 4)
+  const month = parseInt(dateStr.substring(5, 7))
+  const qKey  = `${year}-${getQtr(month)}`
+
+  if (!quarterMaps.has(qKey)) quarterMaps.set(qKey, new Map())
+  const qMap = quarterMaps.get(qKey)
+
+  if (!qMap.has(title)) {
+    qMap.set(title, {
+      totalScore: 0, days: 0, rankSum: 0,
+      genre: mapGenre(r['類型']),
+      isNetflixOriginal: r['是否Netflix Original'] === 1,
+    })
+  }
+  const e = qMap.get(title)
+  e.totalScore += score || 0
+  e.days++
+  e.rankSum += rank
+}
+
+function mapToRankings(map) {
+  return [...map.entries()]
+    .filter(([, e]) => e.totalScore > 0)
+    .map(([title, e]) => ({
+      title,
+      totalScore: e.totalScore,
+      genre: e.genre,
+      weeksOnChart: e.days,
+      avgRank: Math.round((e.rankSum / e.days) * 10) / 10,
+      isNetflixOriginal: e.isNetflixOriginal,
+    }))
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .map((item, i) => ({ rank: i + 1, ...item }))
+}
+
+const dailyOverallByQuarter = {}
+for (const [q, map] of [...quarterMaps.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+  dailyOverallByQuarter[q] = mapToRankings(map)
+}
+
+console.log(`日榜季度分組: ${Object.keys(dailyOverallByQuarter).join(', ')}`)
+
 // ── meta ──────────────────────────────────────────────────────────────────────
 
 const lastWeek = weeklyRankings[weeklyRankings.length - 1]
@@ -343,6 +404,7 @@ const output = {
   showAttributes,
   overallRankings,
   dailyOverallRankings,
+  dailyOverallByQuarter,
   taiwanDramaRankings,
   dailyRankings,
   weeklyRankings,

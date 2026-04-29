@@ -164,7 +164,7 @@ export default function Top20Chart({
   const firstWeekStart = filteredWeeklyData.weeklyRankings[0]?.dateRange.split(' ~ ')[0] ?? ''
   const lastWeekStart  = filteredWeeklyData.weeklyRankings[filteredWeeklyData.weeklyRankings.length - 1]?.dateRange.split(' ~ ')[0] ?? ''
 
-  const barColor = rankingMode === 'daily' ? '#f5c518' : undefined
+  // 日榜與週榜都使用類型配色
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '16px 20px' }}>
@@ -180,9 +180,9 @@ export default function Top20Chart({
             <XAxis
               type="number"
               domain={[0, 'dataMax + 5']}
-              tick={{ fill: rankingMode === 'daily' ? '#f5c518' : '#aaa', fontSize: 12 }}
+              tick={{ fill: '#aaa', fontSize: 12 }}
               label={rankingMode === 'daily'
-                ? { value: '日榜積分', fill: '#f5c518', fontSize: 11, position: 'insideBottomRight', offset: -5 }
+                ? { value: '日榜積分', fill: '#aaa', fontSize: 11, position: 'insideBottomRight', offset: -5 }
                 : undefined
               }
             />
@@ -214,7 +214,7 @@ export default function Top20Chart({
               {chartData.map((entry) => (
                 <Cell
                   key={entry.title}
-                  fill={barColor ?? (GENRE_COLORS[entry.genre] ?? '#95a5a6')}
+                  fill={GENRE_COLORS[entry.genre] ?? '#95a5a6'}
                   fillOpacity={selectedShow && selectedShow !== entry.title ? 0.35 : 1}
                   stroke={selectedShow === entry.title ? '#fff' : 'none'}
                   strokeWidth={selectedShow === entry.title ? 1.5 : 0}

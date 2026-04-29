@@ -67,9 +67,29 @@ export function getTop20(data: RankingsData): OverallRankingEntry[] {
     .slice(0, 20)
 }
 
-/** 直接返回預計算的全節目日榜總積分排行（由 Excel 轉換腳本產生）*/
-export function getDailyOverallRankings(data: RankingsData): OverallRankingEntry[] {
+/** 返回日榜積分排行；quarter 非 'all' 時取對應季度預計算資料 */
+export function getDailyOverallRankings(
+  data: RankingsData,
+  quarter = 'all',
+): OverallRankingEntry[] {
+  if (quarter !== 'all') {
+    const q = data.dailyOverallByQuarter?.[quarter]
+    if (q && q.length > 0) return q
+  }
   return data.dailyOverallRankings ?? []
+}
+
+/** 取得單一節目在日榜的統計資料 */
+export function getDailyShowEntry(
+  dailyRankings: OverallRankingEntry[],
+  title: string,
+): OverallRankingEntry | null {
+  return dailyRankings.find(r => r.title === title) ?? null
+}
+
+/** 日榜所有節目名稱（排序） */
+export function getAllDailyTitles(dailyRankings: OverallRankingEntry[]): string[] {
+  return dailyRankings.map(r => r.title).sort()
 }
 
 export function getTaiwanDramaComparison(data: RankingsData): TaiwanDramaRanking[] {
