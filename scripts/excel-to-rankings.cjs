@@ -386,6 +386,52 @@ for (const [q, map] of [...quarterMaps.entries()].sort(([a], [b]) => a.localeCom
 
 console.log(`日榜季度分組: ${Object.keys(dailyOverallByQuarter).join(', ')}`)
 
+// ── dailyOverallByWeek（按週分組的日榜排行）──────────────────────────────────
+// 以 weekNumber 為鍵，聚合該週每日 Top10 日榜積分
+
+// 先建立 dateSerial → weekNumber 查找表（每週 7 天）
+const dateSerialToWeek = new Map()
+sortedWeekKeys.forEach((key, i) => {
+  const [startSerial, endSerial] = key.split('-').map(Number)
+  for (let d = startSerial; d <= endSerial; d++) {
+    dateSerialToWeek.set(d, i + 1)
+  }
+})
+
+const weekMapsDaily = new Map() // weekNumber → Map<title, {...}>
+
+for (const r of dailyTVRows) {
+  const title      = r['節目名稱']
+  const rank       = r['排名']
+  const score      = r['積分']
+  const dateSerial = r['日期']
+  if (!title || !rank || rank < 1 || rank > 10 || !dateSerial) continue
+
+  const wn = dateSerialToWeek.get(Math.floor(dateSerial))
+  if (wn === undefined) continue
+
+  if (!weekMapsDaily.has(wn)) weekMapsDaily.set(wn, new Map())
+  const wMap = weekMapsDaily.get(wn)
+  if (!wMap.has(title)) {
+    wMap.set(title, {
+      totalScore: 0, days: 0, rankSum: 0,
+      genre: mapGenre(r['類型']),
+      isNetflixOriginal: r['是否Netflix Original'] === 1,
+    })
+  }
+  const e = wMap.get(title)
+  e.totalScore += score || 0
+  e.days++
+  e.rankSum += rank
+}
+
+const dailyOverallByWeek = {}
+for (const [wn, map] of [...weekMapsDaily.entries()].sort(([a], [b]) => a - b)) {
+  dailyOverallByWeek[wn] = mapToRankings(map)
+}
+
+console.log(`日榜週分組: ${Object.keys(dailyOverallByWeek).length} 週`)
+
 // ── meta ──────────────────────────────────────────────────────────────────────
 
 const lastWeek = weeklyRankings[weeklyRankings.length - 1]
@@ -405,6 +451,7 @@ const output = {
   overallRankings,
   dailyOverallRankings,
   dailyOverallByQuarter,
+  dailyOverallByWeek,
   taiwanDramaRankings,
   dailyRankings,
   weeklyRankings,

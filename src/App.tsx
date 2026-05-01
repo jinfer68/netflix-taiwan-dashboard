@@ -22,6 +22,7 @@ const EMPTY_DATA: RankingsData = {
   overallRankings: [],
   dailyOverallRankings: [],
   dailyOverallByQuarter: {},
+  dailyOverallByWeek: {},
   taiwanDramaRankings: [],
   dailyRankings: [],
   weeklyRankings: [],
@@ -66,6 +67,9 @@ export default function App() {
   const [filterRelease, setFilterRelease] = useState<ReleaseFilter>('all')
   const [filterNetflix, setFilterNetflix] = useState<NetflixFilter>('all')
 
+  // ── 日榜週次篩選狀態 ─────────────────────────────────────────
+  const [selectedDailyWeek, setSelectedDailyWeek] = useState<number | null>(null)
+
   // ── 走勢分析篩選狀態 ─────────────────────────────────────────
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const [search, setSearch] = useState('')
@@ -85,10 +89,16 @@ export default function App() {
   const taiwanDramas = useMemo(() => getTaiwanDramaComparison(filteredData), [filteredData])
   const genreDistribution = useMemo(() => getWeeklyGenreDistribution(filteredData), [filteredData])
   const top50GenreDistribution = useMemo(() => getTop50GenreDistribution(filteredData), [filteredData])
-  // 日榜總排行：依季度篩選，'all' 時返回全期資料
+  // 日榜總排行：週次 > 月份 > 季度 > 年度 > 全期
   const dailyOverallRankings = useMemo(
-    () => getDailyOverallRankings(data, rankingMode === 'daily' ? selectedQuarter : 'all'),
-    [data, rankingMode, selectedQuarter],
+    () => getDailyOverallRankings(
+      data,
+      rankingMode === 'daily' ? selectedQuarter : 'all',
+      rankingMode === 'daily' ? selectedDailyWeek : null,
+      rankingMode === 'daily' ? yearFilter : null,
+      rankingMode === 'daily' ? selectedMonth : null,
+    ),
+    [data, rankingMode, selectedQuarter, selectedDailyWeek, yearFilter, selectedMonth],
   )
 
   if (loading) {
@@ -130,6 +140,8 @@ export default function App() {
           setSelectedQuarter={setSelectedQuarter}
           selectedMonth={selectedMonth}
           setSelectedMonth={setSelectedMonth}
+          selectedDailyWeek={selectedDailyWeek}
+          setSelectedDailyWeek={setSelectedDailyWeek}
           sortMode={sortMode}
           setSortMode={setSortMode}
           filterRelease={filterRelease}

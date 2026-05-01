@@ -100,6 +100,7 @@ export interface RankingsData {
   overallRankings: OverallRankingEntry[]
   dailyOverallRankings: OverallRankingEntry[]                    // 全期日榜積分總排行
   dailyOverallByQuarter: Record<string, OverallRankingEntry[]>   // 各季度日榜積分排行
+  dailyOverallByWeek: Record<number, OverallRankingEntry[]>      // 各週日榜積分排行
   taiwanDramaRankings: TaiwanDramaRanking[]
   dailyRankings: DailyRankingEntry[]            // 台劇每日排名（供走勢圖使用）
   weeklyRankings: WeeklyRankingWeek[]

@@ -1,4 +1,5 @@
 import type { RankingsData, OverallRankingEntry, TaiwanDramaRanking, Genre, ShowLookupEntry } from '../types'
+import { weekToYearMonth } from './dateHelpers'
 
 // 年度類型河流圖顯示的類型清單（不在清單內的歸入「其他」）
 export const FLOW_DISPLAY_GENRES = ['韓劇','台劇','日劇','動畫劇 (日)','美劇','陸劇','實境秀','其他']
@@ -67,14 +68,118 @@ export function getTop20(data: RankingsData): OverallRankingEntry[] {
     .slice(0, 20)
 }
 
-/** 返回日榜積分排行；quarter 非 'all' 時取對應季度預計算資料 */
+/** 將同年度所有季度的日榜資料加總，產生年度日榜排行 */
+function combineDailyYearQuarters(data: RankingsData, year: string): OverallRankingEntry[] {
+  const qEntries = Object.entries(data.dailyOverallByQuarter ?? {})
+    .filter(([k]) => k.startsWith(year + '-'))
+  if (qEntries.length === 0) return data.dailyOverallRankings ?? []
+
+  const combined = new Map<string, {
+    totalScore: number; days: number; rankSum: number
+    genre: Genre; isNetflixOriginal: boolean
+  }>()
+
+  for (const [, rows] of qEntries) {
+    for (const e of rows) {
+      const prev = combined.get(e.title)
+      if (prev) {
+        prev.totalScore += e.totalScore
+        prev.days       += e.weeksOnChart
+        prev.rankSum    += e.avgRank * e.weeksOnChart
+      } else {
+        combined.set(e.title, {
+          totalScore:      e.totalScore,
+          days:            e.weeksOnChart,
+          rankSum:         e.avgRank * e.weeksOnChart,
+          genre:           e.genre,
+          isNetflixOriginal: e.isNetflixOriginal,
+        })
+      }
+    }
+  }
+
+  return [...combined.entries()]
+    .filter(([, e]) => e.days > 0)
+    .map(([title, e]) => ({
+      rank: 0, title,
+      totalScore:   e.totalScore,
+      genre:        e.genre,
+      weeksOnChart: e.days,
+      avgRank:      Math.round((e.rankSum / e.days) * 10) / 10,
+      isNetflixOriginal: e.isNetflixOriginal,
+    }))
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .map((item, i) => ({ ...item, rank: i + 1 }))
+}
+
+/** 將選定月份所屬的所有週次日榜資料加總 */
+function combineDailyMonthWeeks(data: RankingsData, month: string): OverallRankingEntry[] {
+  const weekNums = data.weeklyRankings
+    .filter(w => weekToYearMonth(w.dateRange) === month)
+    .map(w => w.weekNumber)
+  if (weekNums.length === 0) return []
+
+  const combined = new Map<string, {
+    totalScore: number; days: number; rankSum: number
+    genre: Genre; isNetflixOriginal: boolean
+  }>()
+
+  for (const wn of weekNums) {
+    const rows = data.dailyOverallByWeek?.[wn] ?? []
+    for (const e of rows) {
+      const prev = combined.get(e.title)
+      if (prev) {
+        prev.totalScore += e.totalScore
+        prev.days       += e.weeksOnChart
+        prev.rankSum    += e.avgRank * e.weeksOnChart
+      } else {
+        combined.set(e.title, {
+          totalScore:        e.totalScore,
+          days:              e.weeksOnChart,
+          rankSum:           e.avgRank * e.weeksOnChart,
+          genre:             e.genre,
+          isNetflixOriginal: e.isNetflixOriginal,
+        })
+      }
+    }
+  }
+
+  return [...combined.entries()]
+    .filter(([, e]) => e.days > 0)
+    .map(([title, e]) => ({
+      rank: 0, title,
+      totalScore:   e.totalScore,
+      genre:        e.genre,
+      weeksOnChart: e.days,
+      avgRank:      Math.round((e.rankSum / e.days) * 10) / 10,
+      isNetflixOriginal: e.isNetflixOriginal,
+    }))
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .map((item, i) => ({ ...item, rank: i + 1 }))
+}
+
+/** 返回日榜積分排行；weekNumber > month > quarter > year > 全期 */
 export function getDailyOverallRankings(
   data: RankingsData,
   quarter = 'all',
+  weekNumber: number | null = null,
+  year: string | null = null,
+  month: string | null = null,
 ): OverallRankingEntry[] {
+  if (weekNumber !== null) {
+    const w = data.dailyOverallByWeek?.[weekNumber]
+    if (w && w.length > 0) return w
+  }
+  if (month !== null) {
+    const m = combineDailyMonthWeeks(data, month)
+    if (m.length > 0) return m
+  }
   if (quarter !== 'all') {
     const q = data.dailyOverallByQuarter?.[quarter]
     if (q && q.length > 0) return q
+  }
+  if (year !== null && year !== 'all') {
+    return combineDailyYearQuarters(data, year)
   }
   return data.dailyOverallRankings ?? []
 }

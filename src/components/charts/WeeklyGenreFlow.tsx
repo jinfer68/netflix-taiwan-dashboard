@@ -96,15 +96,15 @@ export default function WeeklyGenreFlow({ data, netflixFilter }: { data: Ranking
       const arr: any[] = Array.isArray(params) ? params : [params]
       if (!arr.length || !arr[0]?.data) return ''
       const wn: number = Math.round(arr[0].data[0])
-      const dr = weekDateRanges[wn] ?? ('W' + String(wn).padStart(2, '0'))
+      const dr = weekDateRanges[wn] ?? ''
       const titles = titlesByWeekGenre[wn] ?? {}
       const genreRows = FLOW_DISPLAY_GENRES
         .map(g => ({ genre: g, count: (titles[g] ?? []).length, color: GENRE_COLORS[g as Genre] ?? '#95a5a6' }))
         .filter(r => r.count > 0)
         .sort((a, b) => b.count - a.count)
-      let html = '<div style="font-weight:700;margin-bottom:8px;font-size:14px">W'
-        + String(wn).padStart(2, '0')
-        + ' &nbsp;<span style="color:#aaa;font-size:12px">' + dr + '</span></div>'
+      let html = '<div style="font-weight:700;margin-bottom:8px;font-size:14px">'
+        + dr
+        + '</div>'
       for (const row of genreRows) {
         const shows = (titles[row.genre] ?? []).map((t: string) => '• ' + t).join('<br/>')
         html += '<div style="margin:5px 0">'

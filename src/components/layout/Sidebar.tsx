@@ -28,6 +28,8 @@ interface Props {
   setSelectedQuarter: (v: string) => void
   selectedMonth: string | null
   setSelectedMonth: (v: string | null) => void
+  selectedDailyWeek: number | null
+  setSelectedDailyWeek: (v: number | null) => void
 
   // 台劇分析
   sortMode: 'weekly' | 'daily'
@@ -71,6 +73,7 @@ export default function Sidebar({
   netflixOnly, setNetflixOnly,
   selectedQuarter, setSelectedQuarter,
   selectedMonth, setSelectedMonth,
+  selectedDailyWeek, setSelectedDailyWeek,
   sortMode, setSortMode,
   filterRelease, setFilterRelease,
   filterNetflix, setFilterNetflix,
@@ -118,22 +121,46 @@ export default function Sidebar({
     setYearFilter(y)
     setSelectedQuarter('all')
     setSelectedMonth(null)
+    setSelectedDailyWeek(null)
   }
 
   function handleQuarterClick(q: string) {
-    setSelectedQuarter(q)
+    // 再點同一季度即取消選取，回到全季
+    const next = selectedQuarter === q ? 'all' : q
+    setSelectedQuarter(next)
     setSelectedMonth(null)
+    setSelectedDailyWeek(null)
   }
 
   function quarterLabel(q: string) {
     if (q === 'all') return '全部'
-    const [year, quarter] = q.split('-')
-    return `${year.substring(2)} ${quarter}`
+    // 已在年份層選好年，此處只顯示 Q1/Q2/Q3/Q4
+    const [, quarter] = q.split('-')
+    return quarter
   }
 
   function monthLabel(m: string) {
     return `${parseInt(m.substring(5, 7))}月`
   }
+
+  /** 將 "2026-03-30 ~ 2026-04-05" 簡化為 "3/30~4/5" 或 "3/23~29" */
+  function weekShortLabel(dateRange: string): string {
+    const [start, end] = dateRange.split(' ~ ')
+    const sm = parseInt(start.substring(5, 7))
+    const sd = parseInt(start.substring(8, 10))
+    const em = parseInt(end.substring(5, 7))
+    const ed = parseInt(end.substring(8, 10))
+    return sm === em ? `${sm}/${sd}~${ed}` : `${sm}/${sd}~${em}/${ed}`
+  }
+
+  /** 日榜模式下：已選季度（必須）且已選月份時，返回該月的週次 */
+  const weeksInDailyQuarter = useMemo(() => {
+    if (rankingMode !== 'daily' || selectedQuarter === 'all' || !selectedMonth) return []
+    return data.weeklyRankings.filter(w =>
+      weekToYearQuarter(w.dateRange) === selectedQuarter &&
+      weekToYearMonth(w.dateRange) === selectedMonth
+    )
+  }, [data, rankingMode, selectedQuarter, selectedMonth])
 
   function toggleGenre(g: string) {
     const next = new Set(activeGenres)
@@ -247,56 +274,72 @@ export default function Sidebar({
                 </button>
               ))}
             </div>
-            {/* 時間範圍 */}
+            {/* 時間範圍 — 三層 drill-down：年 → 季 → 月/週 */}
             <>
               <div style={labelStyle}>時間範圍</div>
 
-              {/* 年份（週榜才顯示；日榜用季度各自獨立，年份無效）*/}
-              {rankingMode === 'weekly' && (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 6 }}>
-                  {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
-                    <button key={opt} onClick={() => handleYearChange(opt)} style={{
-                      padding: '4px 10px', borderRadius: 14, fontSize: 12, cursor: 'pointer',
-                      border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
-                      background: yearFilter === opt ? '#2a2060' : 'transparent',
-                      color: yearFilter === opt ? '#b9aaff' : '#555',
-                      fontWeight: yearFilter === opt ? 700 : 400,
-                      transition: 'all 0.15s',
-                    }}>
-                      {opt === 'all' ? '全部' : opt}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* 季度 */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: rankingMode === 'weekly' && monthsInQuarter.length ? 7 : 0 }}>
-                {availableQuarters.map(q => {
-                  const active = selectedQuarter === q && !selectedMonth
-                  return (
-                    <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
-                      {quarterLabel(q)}
-                    </button>
-                  )
-                })}
+              {/* 第一層：年份（週榜＋日榜都顯示）*/}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: yearFilter !== 'all' ? 6 : 0 }}>
+                {(['2024', '2025', '2026', 'all'] as YearFilter[]).map(opt => (
+                  <button key={opt} onClick={() => handleYearChange(opt)} style={{
+                    padding: '4px 10px', borderRadius: 14, fontSize: 12, cursor: 'pointer',
+                    border: yearFilter === opt ? '1px solid #7c6fff' : '1px solid #2a2a3e',
+                    background: yearFilter === opt ? '#2a2060' : 'transparent',
+                    color: yearFilter === opt ? '#b9aaff' : '#555',
+                    fontWeight: yearFilter === opt ? 700 : 400,
+                    transition: 'all 0.15s',
+                  }}>
+                    {opt === 'all' ? '全部' : opt}
+                  </button>
+                ))}
               </div>
 
-              {/* 月份（週榜）*/}
-              {rankingMode === 'weekly' && monthsInQuarter.length > 0 && (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: 6 }}>
-                  {monthsInQuarter.map(m => {
-                    const active = selectedMonth === m
+              {/* 第二層：季度（選了年份後才展開）*/}
+              {yearFilter !== 'all' && availableQuarters.filter(q => q !== 'all').length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 4, marginBottom: selectedQuarter !== 'all' ? 6 : 0 }}>
+                  {availableQuarters.filter(q => q !== 'all').map(q => {
+                    const active = selectedQuarter === q
                     return (
-                      <button key={m} onClick={() => setSelectedMonth(active ? null : m)} style={pillBtn(active, '#f5c518')}>
-                        {m.substring(0, 4)}/{monthLabel(m)}
+                      <button key={q} onClick={() => handleQuarterClick(q)} style={pillBtn(active, '#7c6fff')}>
+                        {quarterLabel(q)}
                       </button>
                     )
                   })}
                 </div>
               )}
-              {rankingMode === 'daily' && (
-                <div style={{ fontSize: 11, color: '#555', marginBottom: 4, fontStyle: 'italic' }}>
-                  日榜不支援月份細分
+
+              {/* 第三層：月份（週榜＋日榜，選了季度後才展開）*/}
+              {monthsInQuarter.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 12, marginBottom: selectedMonth && rankingMode === 'daily' ? 6 : 0 }}>
+                  {monthsInQuarter.map(m => {
+                    const active = selectedMonth === m
+                    return (
+                      <button key={m} onClick={() => {
+                        setSelectedMonth(active ? null : m)
+                        setSelectedDailyWeek(null)
+                      }} style={pillBtn(active, '#f5c518')}>
+                        {monthLabel(m)}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* 第四層：週次（日榜，選了月份後才展開）*/}
+              {rankingMode === 'daily' && weeksInDailyQuarter.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, paddingLeft: 20, marginBottom: 6 }}>
+                  {weeksInDailyQuarter.map(w => {
+                    const active = selectedDailyWeek === w.weekNumber
+                    return (
+                      <button
+                        key={w.weekNumber}
+                        onClick={() => setSelectedDailyWeek(active ? null : w.weekNumber)}
+                        style={pillBtn(active, '#46d369')}
+                      >
+                        {weekShortLabel(w.dateRange)}
+                      </button>
+                    )
+                  })}
                 </div>
               )}
             </>

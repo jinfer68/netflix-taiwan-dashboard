@@ -43,7 +43,28 @@
       "Bash(gh workflow:*)",
       "Bash(wc -l \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src/components/charts\"/*.tsx)",
       "Bash(grep \"from 'recharts'\" \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src/components/charts\"/*.tsx)",
-      "Bash(grep \"ShowLookupEntry\\\\|DailyPoint\\\\|DailyTrendSeries\" \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src\"/**/*.tsx)"
+      "Bash(grep \"ShowLookupEntry\\\\|DailyPoint\\\\|DailyTrendSeries\" \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板/src\"/**/*.tsx)",
+      "Bash(git checkout *)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"try { require\\('xlsx'\\); console.log\\('ok'\\); } catch\\(e\\) { console.log\\('not found'\\); }\")",
+      "Bash(node scripts/excel-to-rankings.js)",
+      "Bash(node scripts/excel-to-rankings.cjs)",
+      "Bash(bash \"C:/Users/User/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Users/User/Desktop/影視數據儀表板\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git merge *)",
+      "Bash(git show-branch *)",
+      "Bash(node -e \"const d=require\\('./public/data/rankings.json'\\); console.log\\('dailyRankings count:', d.dailyRankings?.length ?? 0\\); if\\(d.dailyRankings?.length\\) { console.log\\('sample:', JSON.stringify\\(d.dailyRankings.slice\\(0,3\\), null, 2\\)\\); }\")",
+      "Bash(git commit *)",
+      "Bash(curl -s http://localhost:5173/data/rankings.json)",
+      "Bash(curl -s \"http://localhost:5173/netflix-taiwan-dashboard/data/rankings.json\")",
+      "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('public/data/rankings.json','utf8'\\)\\); console.log\\('dailyOverallRankings count:', d.dailyOverallRankings?.length\\); console.log\\('first entry:', JSON.stringify\\(d.dailyOverallRankings?.[0]\\)\\); console.log\\('second entry:', JSON.stringify\\(d.dailyOverallRankings?.[1]\\)\\);\")",
+      "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('public/data/rankings.json','utf8'\\)\\); const genres = [...new Set\\(d.dailyOverallRankings.map\\(e=>e.genre\\)\\)]; console.log\\('genres in dailyOverallRankings:', genres\\);\")",
+      "Bash(netstat -ano)",
+      "Bash(findstr \":5173\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('public/data/rankings.json','utf8'\\)\\); console.log\\('dataThrough:', d.meta.dataThrough\\); console.log\\('週排行:', d.weeklyRankings.length, '週'\\); console.log\\('總積分榜:', d.overallRankings.length, '部'\\); console.log\\('台劇積分榜:', d.taiwanDramaRankings.length, '部'\\); console.log\\('每日\\(台劇\\):', d.dailyRankings.length, '筆'\\); console.log\\('日榜總排行:', d.dailyOverallRankings.length, '部'\\); console.log\\('Top3日榜:', d.dailyOverallRankings.slice\\(0,3\\).map\\(r=>r.rank+'. '+r.title+' '+r.totalScore+'分/'+r.weeksOnChart+'天'\\).join\\(', '\\)\\);\")",
+      "Bash(dir \"C:\\\\Users\\\\User\\\\Desktop\\\\爬蟲臉書\\\\output\\\\export.xlsx\")",
+      "Bash(node -e \"const XLSX=require\\('xlsx'\\); const wb=XLSX.readFile\\('C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx'\\); const sheet=wb.Sheets['Netflix 每週節目排名'] || wb.Sheets['Netflix 每週電排名']; const rows=XLSX.utils.sheet_to_json\\(sheet,{defval:''}\\); const dates=rows.map\\(r=>r['日期迄']\\).filter\\(Boolean\\); const maxSerial=Math.max\\(...dates\\); const d=new Date\\(\\(maxSerial-25569\\)*86400*1000\\); console.log\\('Excel最新日期迄:', d.toISOString\\(\\).split\\('T'\\)[0]\\); console.log\\('週排行筆數:', rows.length\\);\")"
     ]
   }
 }
