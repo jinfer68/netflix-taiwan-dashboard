@@ -30,19 +30,17 @@ The goal is not only to display rankings, but to turn scattered social media pos
 
 ## Screenshots
 
-> Add dashboard screenshots to `docs/screenshots/` using the filenames below. Once the images are uploaded, they will appear here automatically.
-
 ### Overall Rankings
 
-![Overall Rankings Dashboard](docs/screenshots/overall-rankings.png)
+![Overall Rankings Dashboard](docs/screenshots/overall-rankings.svg)
 
 ### Genre Analysis
 
-![Genre Analysis Dashboard](docs/screenshots/genre-analysis.png)
+![Genre Analysis Dashboard](docs/screenshots/genre-analysis.svg)
 
 ### Taiwanese Drama Analysis
 
-![Taiwanese Drama Analysis Dashboard](docs/screenshots/taiwan-drama-analysis.png)
+![Taiwanese Drama Analysis Dashboard](docs/screenshots/taiwan-drama-analysis.svg)
 
 ---
 
