@@ -32,15 +32,15 @@ The goal is not only to display rankings, but to turn scattered social media pos
 
 ### Overall Rankings
 
-![Overall Rankings Dashboard](docs/screenshots/overall-rankings.svg)
+![Overall Rankings Dashboard](docs/screenshots/overall-rankings.png)
 
 ### Genre Analysis
 
-![Genre Analysis Dashboard](docs/screenshots/genre-analysis.svg)
+![Genre Analysis Dashboard](docs/screenshots/genre-analysis.png)
 
 ### Taiwanese Drama Analysis
 
-![Taiwanese Drama Analysis Dashboard](docs/screenshots/taiwan-drama-analysis.svg)
+![Taiwanese Drama Analysis Dashboard](docs/screenshots/taiwan-drama-analysis.png)
 
 ---
 
