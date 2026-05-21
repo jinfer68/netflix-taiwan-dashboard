@@ -18,7 +18,7 @@ convert_excel.py
 import json
 import sys
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 try:
@@ -28,7 +28,7 @@ except ImportError:
     sys.exit(1)
 
 # 預設 Excel 路徑（可透過命令列參數覆蓋）
-DEFAULT_EXCEL = Path("C:/Users/User/Downloads/Netflix 台灣收視排名數據分析.xlsx")
+DEFAULT_EXCEL = Path("C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx")
 OUTPUT_DIR = Path(__file__).parent.parent
 
 # 縮寫名稱 → 正式全名對照表
@@ -41,9 +41,35 @@ TITLE_MAP = {
 }
 
 # Sheet 名稱常數（用名稱查找，不用 index）
-SHEET_WEEKLY = "Netflix 每週節目排名"
-SHEET_DAILY  = "Clean Data - 台劇每日排名"
-SHEET_ATTRS  = "劇集屬性資料庫"
+SHEET_WEEKLY        = "Netflix 每週節目排名"
+SHEET_DAILY         = "Clean Data - 台劇每日排名"
+SHEET_ATTRS         = "劇集屬性資料庫"
+SHEET_DAILY_OVERALL = "每天節目排名資料"
+
+# 日榜類型正規化對照表（Excel 的原始值 → 標準 Genre 值）
+DAILY_GENRE_MAP: dict[str, str] = {
+    "動畫劇(日)":    "動畫劇 (日)",
+    "動畫":          "動畫劇 (日)",
+    "實境(韓)":      "實境秀",
+    "實境(日)":      "實境秀",
+    "實境(台)":      "實境秀",
+    "韓綜":          "實境秀",
+    "泰劇":          "其他",
+    "直播(美)":      "其他",
+    "直播(韓)":      "其他",
+    "紀實(美)":      "其他",
+    "紀實(韓)":      "其他",
+    "紀實(英)":      "其他",
+    "動畫劇(法/美)": "其他",
+    "挪威":          "其他",
+    "西班牙":        "其他",
+    "德劇":          "其他",
+    "義大利":        "其他",
+    "墨西哥劇":      "其他",
+    "阿根廷":        "其他",
+    "英/加拿大":     "英劇",
+    "音樂體驗(美)":  "其他",
+}
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -379,6 +405,94 @@ def derive_overall_rankings(weekly, show_attrs):
     return results
 
 
+# ── Daily overall rankings（每天節目排名資料）────────────────────────────────
+
+def parse_daily_overall(ws, weekly_weeks):
+    """解析每天節目排名資料，衍生日榜整體 / 季度 / 週次排行"""
+    # 建立日期字串 → 週次對照表
+    date_to_week = {}
+    for week in weekly_weeks:
+        dr = week.get("dateRange", "")
+        if " ~ " not in dr:
+            continue
+        try:
+            start = datetime.strptime(dr.split(" ~ ")[0].strip(), "%Y-%m-%d")
+            end   = datetime.strptime(dr.split(" ~ ")[1].strip(), "%Y-%m-%d")
+        except ValueError:
+            continue
+        d = start
+        while d <= end:
+            date_to_week[d.strftime("%Y-%m-%d")] = week["weekNumber"]
+            d += timedelta(days=1)
+
+    def new_stats():
+        return defaultdict(lambda: {
+            "totalScore": 0.0, "days": 0, "rankSum": 0,
+            "genre": "其他", "isNetflixOriginal": False,
+        })
+
+    all_stats     = new_stats()
+    quarter_stats = defaultdict(new_stats)
+    week_stats    = defaultdict(new_stats)
+
+    for j, row in enumerate(ws.iter_rows(values_only=True)):
+        if j <= 1:          # skip empty row 0 and header row 1
+            continue
+        if row[0] is None or isinstance(row[0], str):
+            continue        # skip repeated header rows
+
+        date    = row[0]
+        rank    = safe_int(row[1])
+        title   = clean_title(row[2]) if row[2] else ""
+        raw_genre = str(row[3]).strip() if row[3] else "其他"
+        genre     = DAILY_GENRE_MAP.get(raw_genre, raw_genre)
+        is_orig   = safe_bool(row[4])
+        score     = safe_float(row[5], 0)
+
+        if not title or rank is None or not isinstance(date, datetime):
+            continue
+
+        date_str    = date.strftime("%Y-%m-%d")
+        month       = date.month
+        quarter_key = f"{date.year}-Q{(month - 1) // 3 + 1}"
+        week_num    = date_to_week.get(date_str)
+
+        for target in [all_stats, quarter_stats[quarter_key], *(([week_stats[week_num]] if week_num else []))]:
+            s = target[title]
+            s["totalScore"] += score
+            s["days"]       += 1
+            s["rankSum"]    += rank
+            s["genre"]       = genre
+            if is_orig:
+                s["isNetflixOriginal"] = True
+
+    def to_ranking_list(stats_dict):
+        results = []
+        for title, s in stats_dict.items():
+            days = s["days"]
+            if days == 0:
+                continue
+            results.append({
+                "rank": 0,
+                "title": title,
+                "totalScore": round(s["totalScore"], 2),
+                "genre": s["genre"],
+                "weeksOnChart": days,
+                "avgRank": round(s["rankSum"] / days, 2),
+                "isNetflixOriginal": s["isNetflixOriginal"],
+            })
+        results.sort(key=lambda x: -x["totalScore"])
+        for i, r in enumerate(results):
+            r["rank"] = i + 1
+        return results
+
+    daily_overall    = to_ranking_list(all_stats)
+    daily_by_quarter = {q: to_ranking_list(s) for q, s in sorted(quarter_stats.items())}
+    daily_by_week    = {wn: to_ranking_list(s) for wn, s in sorted(week_stats.items())}
+
+    return daily_overall, daily_by_quarter, daily_by_week
+
+
 # ── Taiwan drama daily rankings ──────────────────────────────────────────────
 
 def parse_daily_clean(ws):
@@ -642,6 +756,16 @@ def main():
     overall = derive_overall_rankings(weekly, show_attrs)
     print(f"  → {len(overall)} 筆整體排名")
 
+    # ── 每天節目排名資料（日榜整體 / 季度 / 週次）──
+    daily_overall, daily_by_quarter, daily_by_week = [], {}, {}
+    ws_daily_overall = find_sheet(wb, SHEET_DAILY_OVERALL)
+    if ws_daily_overall:
+        print(f"\n解析每天節目排名：{SHEET_DAILY_OVERALL}")
+        daily_overall, daily_by_quarter, daily_by_week = parse_daily_overall(ws_daily_overall, weekly)
+        print(f"  → 日榜整體 {len(daily_overall)} 筆，{len(daily_by_quarter)} 個季度，{len(daily_by_week)} 個週次")
+    else:
+        print(f"  ⚠ 找不到 sheet「{SHEET_DAILY_OVERALL}」，跳過日榜整體排名")
+
     # ── 台劇每日排名 ──
     daily = []
     ws_daily = find_sheet(wb, SHEET_DAILY)
@@ -670,6 +794,9 @@ def main():
         },
         "showAttributes": show_attrs,
         "overallRankings": overall,
+        "dailyOverallRankings": daily_overall,
+        "dailyOverallByQuarter": daily_by_quarter,
+        "dailyOverallByWeek": daily_by_week,
         "taiwanDramaRankings": taiwan,
         "dailyRankings": daily,
         "weeklyRankings": weekly,
@@ -690,6 +817,9 @@ def main():
     print(f"\n完成！")
     print(f"  劇集屬性：{len(show_attrs)} 筆")
     print(f"  整體排名：{len(overall)} 筆")
+    print(f"  日榜整體：{len(daily_overall)} 筆")
+    print(f"  日榜季度：{len(daily_by_quarter)} 個季度")
+    print(f"  日榜週次：{len(daily_by_week)} 個週次")
     print(f"  台劇排名：{len(taiwan)} 筆")
     print(f"  每日排名：{len(daily)} 筆")
     print(f"  週榜：{len(weekly)} 週")

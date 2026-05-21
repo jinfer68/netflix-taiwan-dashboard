@@ -1,5 +1,5 @@
 // ⚠ 此檔案由 convert_excel.py 自動產生，請勿手動編輯
-// 產生時間：2026-04-12T01:13:28.265238
+// 產生時間：2026-05-21T13:59:54.075064
 //
 // 用途：開發時驗證 rankings.json 的欄位是否與 TypeScript 型別一致
 // 若 Python 輸出了新欄位但 types/index.ts 未宣告，validateSchema() 會在 console 警告
@@ -21,7 +21,6 @@ export const OverallRankingEntry_FIELDS: FieldDef[] = [
 ]
 
 export const TaiwanDramaRanking_FIELDS: FieldDef[] = [
-  { key: 'rank', type: 'number' },
   { key: 'title', type: 'string' },
   { key: 'weeklyRank', type: 'number' },
   { key: 'weeklyScore', type: 'number' },
@@ -31,7 +30,6 @@ export const TaiwanDramaRanking_FIELDS: FieldDef[] = [
   { key: 'dailyScore', type: 'number' },
   { key: 'daysOnChart', type: 'number' },
   { key: 'dailyAvgRank', type: 'number' },
-  { key: 'totalScore', type: 'number' },
   { key: 'isNetflixOriginal', type: 'boolean' },
   { key: 'isAllAtOnce', type: 'boolean' },
   { key: 'releaseType', type: 'string' },
