@@ -1,20 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { RankingsData } from './types'
 import Header from './components/layout/Header'
-import Sidebar from './components/layout/Sidebar'
-import type { TabType, YearFilter } from './components/layout/Sidebar'
-import Top20Chart from './components/charts/Top20Chart'
-import TaiwanDramaChart from './components/charts/TaiwanDramaChart'
 import GenreDistribution from './components/charts/GenreDistribution'
-import RankTrendChart from './components/charts/RankTrendChart'
-import WeeklyGenreFlow from './components/charts/WeeklyGenreFlow'
-import QuickLookup from './components/charts/QuickLookup'
-import {
-  getTaiwanDramaComparison,
-  getWeeklyGenreDistribution,
-  getTop50GenreDistribution,
-  getDailyOverallRankings,
-} from './utils/dataTransforms'
+import { getWeeklyDerivedRankings, getWeeklyGenreDistribution } from './utils/dataTransforms'
+import { GENRE_COLORS, GENRE_ICONS } from './constants/genres'
 
 const EMPTY_DATA: RankingsData = {
   meta: { generatedAt: '', dataThrough: '' },
@@ -28,226 +17,153 @@ const EMPTY_DATA: RankingsData = {
   weeklyRankings: [],
 }
 
-type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
-type NetflixFilter = 'all' | 'original' | 'nonOriginal'
+type ViewMode = 'overview' | 'momentum' | 'catalog'
 
 export default function App() {
   const [rankingsData, setRankingsData] = useState<RankingsData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [mode, setMode] = useState<ViewMode>('overview')
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/rankings.json`)
       .then(res => res.json())
-      .then((json: RankingsData) => {
-        if (import.meta.env.DEV) {
-          import('./utils/schemaValidator.generated').then(m => m.validateSchema(json)).catch(() => {})
-        }
-        setRankingsData(json?.overallRankings ? json : null)
-      })
+      .then((json: RankingsData) => setRankingsData(json?.overallRankings ? json : null))
       .catch(() => setRankingsData(null))
       .finally(() => setLoading(false))
   }, [])
 
   const data: RankingsData = rankingsData ?? EMPTY_DATA
 
-  // ── 全域狀態 ─────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<TabType>('rankings')
-  const [yearFilter, setYearFilter] = useState<YearFilter>('2026')
-  const [selectedShow, setSelectedShow] = useState<string | null>(null)
+  const weeklyTop = useMemo(() => getWeeklyDerivedRankings(data).slice(0, 20), [data])
+  const genreDistribution = useMemo(() => getWeeklyGenreDistribution(data), [data])
 
-  // ── TOP 20 篩選狀態 ──────────────────────────────────────────
-  const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
-  const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set())
-  const [netflixOnly, setNetflixOnly] = useState(false)
-  const [selectedQuarter, setSelectedQuarter] = useState<string>('all')
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
-
-  // ── 台劇分析篩選狀態 ─────────────────────────────────────────
-  const [sortMode, setSortMode] = useState<'weekly' | 'daily'>('weekly')
-  const [filterRelease, setFilterRelease] = useState<ReleaseFilter>('all')
-  const [filterNetflix, setFilterNetflix] = useState<NetflixFilter>('all')
-
-  // ── 日榜週次篩選狀態 ─────────────────────────────────────────
-  const [selectedDailyWeek, setSelectedDailyWeek] = useState<number | null>(null)
-
-  // ── 走勢分析篩選狀態 ─────────────────────────────────────────
-  const [selectedTitles, setSelectedTitles] = useState<string[]>([])
-  const [search, setSearch] = useState('')
-
-  // ── 流向圖篩選狀態 ───────────────────────────────────────────
-  const [flowNetflixFilter, setFlowNetflixFilter] = useState<NetflixFilter>('all')
-
-  // ── 年份篩選資料 ─────────────────────────────────────────────
-  const filteredData = useMemo((): RankingsData => {
-    if (yearFilter === 'all') return data
+  const kpis = useMemo(() => {
+    const titles = new Set(data.weeklyRankings.flatMap(w => w.rankings.map(r => r.title).filter(Boolean)))
+    const originals = weeklyTop.filter(r => r.isNetflixOriginal).length
+    const avgWeeks = weeklyTop.length > 0
+      ? (weeklyTop.reduce((sum, row) => sum + row.weeksOnChart, 0) / weeklyTop.length)
+      : 0
     return {
-      ...data,
-      weeklyRankings: data.weeklyRankings.filter(w => w.dateRange.startsWith(yearFilter)),
+      totalWeeks: data.weeklyRankings.length,
+      uniqueTitles: titles.size,
+      originals,
+      avgWeeks: Math.round(avgWeeks * 10) / 10,
     }
-  }, [data, yearFilter])
+  }, [data, weeklyTop])
 
-  const taiwanDramas = useMemo(() => getTaiwanDramaComparison(filteredData), [filteredData])
-  const genreDistribution = useMemo(() => getWeeklyGenreDistribution(filteredData), [filteredData])
-  const top50GenreDistribution = useMemo(() => getTop50GenreDistribution(filteredData), [filteredData])
-  // 日榜總排行：週次 > 月份 > 季度 > 年度 > 全期
-  const dailyOverallRankings = useMemo(
-    () => getDailyOverallRankings(
-      data,
-      rankingMode === 'daily' ? selectedQuarter : 'all',
-      rankingMode === 'daily' ? selectedDailyWeek : null,
-      rankingMode === 'daily' ? yearFilter : null,
-      rankingMode === 'daily' ? selectedMonth : null,
-    ),
-    [data, rankingMode, selectedQuarter, selectedDailyWeek, yearFilter, selectedMonth],
-  )
+  const recentWeeks = useMemo(() => data.weeklyRankings.slice(0, 8), [data])
 
   if (loading) {
     return (
       <div style={{ background: '#0a0a16', height: '100vh', color: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 18, marginBottom: 8 }}>載入資料中…</div>
-          <div style={{ fontSize: 13, color: '#666' }}>正在讀取 rankings.json</div>
-        </div>
+        載入中…
       </div>
     )
   }
 
-  // 固定高度讓 Recharts ResponsiveContainer 可正確量測
-  const CHART_H = 'calc(100vh - 60px)'
-
   return (
-    <div style={{ background: '#0a0a16', height: '100vh', overflow: 'hidden', color: '#eee' }}>
-      <Header
-        dataFrom={data.weeklyRankings[0]?.dateRange.split(' ~ ')[0]}
-        dataThrough={data.meta.dataThrough || undefined}
-      />
+    <div style={{ background: '#0a0a16', minHeight: '100vh', color: '#eee' }}>
+      <Header dataFrom={data.weeklyRankings[0]?.dateRange.split(' ~ ')[0]} dataThrough={data.meta.dataThrough || undefined} />
 
-      <div style={{ display: 'flex', height: CHART_H }}>
-        {/* ── 左側 Sidebar ── */}
-        <Sidebar
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          data={filteredData}
-          yearFilter={yearFilter}
-          setYearFilter={setYearFilter}
-          rankingMode={rankingMode}
-          setRankingMode={setRankingMode}
-          activeGenres={activeGenres}
-          setActiveGenres={setActiveGenres}
-          netflixOnly={netflixOnly}
-          setNetflixOnly={setNetflixOnly}
-          selectedQuarter={selectedQuarter}
-          setSelectedQuarter={setSelectedQuarter}
-          selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
-          selectedDailyWeek={selectedDailyWeek}
-          setSelectedDailyWeek={setSelectedDailyWeek}
-          sortMode={sortMode}
-          setSortMode={setSortMode}
-          filterRelease={filterRelease}
-          setFilterRelease={setFilterRelease}
-          filterNetflix={filterNetflix}
-          setFilterNetflix={setFilterNetflix}
-          selectedTitles={selectedTitles}
-          setSelectedTitles={setSelectedTitles}
-          search={search}
-          setSearch={setSearch}
-          flowNetflixFilter={flowNetflixFilter}
-          setFlowNetflixFilter={setFlowNetflixFilter}
-        />
+      <div style={{ padding: '16px 20px 24px', maxWidth: 1400, margin: '0 auto' }}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+          {([
+            ['overview', '總覽敘事'],
+            ['momentum', '近期動能'],
+            ['catalog', '片庫結構'],
+          ] as const).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setMode(key)}
+              style={{
+                borderRadius: 20,
+                border: mode === key ? '1px solid #7c6fff' : '1px solid #2a2a3e',
+                background: mode === key ? '#2a2060' : 'transparent',
+                color: mode === key ? '#c9bbff' : '#aaa',
+                padding: '6px 12px',
+                fontSize: 12,
+                cursor: 'pointer',
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
 
-        {/* ── 右側圖表區域 ── */}
-        <main style={{ flex: 1, height: CHART_H, overflow: 'hidden', minWidth: 0 }}>
-
-          {/* ══ 總排行榜頁：TOP 20（左）＋ 快速查詢（右）══ */}
-          {activeTab === 'rankings' && (
-            <div style={{ display: 'flex', height: CHART_H, gap: 0 }}>
-              {/* TOP 20 約佔 60% */}
-              <div style={{ flex: '0 0 60%', height: CHART_H, borderRight: '1px solid #1e1e30' }}>
-                <Top20Chart
-                  data={filteredData}
-                  rankingMode={rankingMode}
-                  dailyRankings={dailyOverallRankings}
-                  activeGenres={activeGenres}
-                  netflixOnly={netflixOnly}
-                  selectedQuarter={selectedQuarter}
-                  selectedMonth={selectedMonth}
-                  selectedShow={selectedShow}
-                  onSelectShow={setSelectedShow}
-                />
-              </div>
-              {/* 快速查詢直式面板約佔 40% */}
-              <div style={{ flex: 1, height: CHART_H, overflow: 'hidden', padding: '14px 16px' }}>
-                <QuickLookup
-                  data={filteredData}
-                  fullData={data}
-                  dailyOverallRankings={dailyOverallRankings}
-                  rankingMode={rankingMode}
-                  selectedShow={selectedShow}
-                  onSelectShow={setSelectedShow}
-                />
-              </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 12, marginBottom: 18 }}>
+          {[
+            ['追蹤週數', `${kpis.totalWeeks}`],
+            ['上榜節目數', `${kpis.uniqueTitles}`],
+            ['Top20 原創數', `${kpis.originals}`],
+            ['Top20 平均在榜', `${kpis.avgWeeks} 週`],
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: '#111124', border: '1px solid #2a2a3e', borderRadius: 12, padding: 14 }}>
+              <div style={{ color: '#888', fontSize: 12, marginBottom: 6 }}>{label}</div>
+              <div style={{ fontWeight: 700, fontSize: 22 }}>{value}</div>
             </div>
-          )}
+          ))}
+        </div>
 
-          {/* ══ 類型分析頁：圓餅圖（上固定高）＋ 河流圖（下）══ */}
-          {activeTab === 'genre' && (
-            <div style={{ height: CHART_H, overflow: 'auto' }}>
-              {/* 圓餅圖：固定 370px，確保小螢幕也能正確渲染 */}
-              <div style={{
-                height: 370, flexShrink: 0,
-                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16,
-                padding: '12px 20px 0',
-                borderBottom: '1px solid #1e1e30',
-              }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 4 }}>
-                    週榜 Top 10 出現次數
+        {mode === 'overview' && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 16 }}>
+            <div style={{ background: '#111124', border: '1px solid #2a2a3e', borderRadius: 12, overflow: 'hidden' }}>
+              <div style={{ padding: '12px 14px', borderBottom: '1px solid #2a2a3e', fontWeight: 700 }}>我的版本：Top 20 積分榜</div>
+              <div style={{ maxHeight: 540, overflow: 'auto' }}>
+                {weeklyTop.map(row => (
+                  <div key={row.title} style={{ display: 'grid', gridTemplateColumns: '48px 1fr 90px 86px', gap: 8, padding: '10px 14px', borderBottom: '1px solid #1e1e30' }}>
+                    <div style={{ color: '#aaa' }}>#{row.rank}</div>
+                    <div>
+                      <div style={{ fontWeight: 600 }}>{row.title}</div>
+                      <div style={{ color: GENRE_COLORS[row.genre], fontSize: 12 }}>{GENRE_ICONS[row.genre]} {row.genre}</div>
+                    </div>
+                    <div style={{ color: '#f5c518', fontWeight: 700 }}>{row.totalScore}</div>
+                    <div style={{ color: '#aaa' }}>{row.weeksOnChart} 週</div>
                   </div>
-                  <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 4 }}>
-                    Top 50 積分榜部數
+                ))}
+              </div>
+            </div>
+            <div style={{ background: '#111124', border: '1px solid #2a2a3e', borderRadius: 12, padding: 10 }}>
+              <div style={{ padding: '6px 8px 12px', fontWeight: 700 }}>類型結構</div>
+              <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
+            </div>
+          </div>
+        )}
+
+        {mode === 'momentum' && (
+          <div style={{ background: '#111124', border: '1px solid #2a2a3e', borderRadius: 12, padding: 14 }}>
+            <div style={{ fontWeight: 700, marginBottom: 10 }}>近期 8 週冠軍動能</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+              {recentWeeks.map(week => {
+                const champion = week.rankings.find(r => r.position === 1)
+                return (
+                  <div key={week.weekNumber} style={{ background: '#16162a', border: '1px solid #2a2a3e', borderRadius: 10, padding: 10 }}>
+                    <div style={{ color: '#888', fontSize: 12 }}>Week {week.weekNumber} · {week.dateRange}</div>
+                    <div style={{ marginTop: 6, fontWeight: 700, fontSize: 16 }}>{champion?.title || '—'}</div>
+                    <div style={{ marginTop: 4, color: '#aaa', fontSize: 13 }}>#{champion?.position ?? '-'} · {champion?.genre ?? '未知類型'}</div>
                   </div>
-                  <GenreDistribution data={top50GenreDistribution} countLabel="部數" />
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {mode === 'catalog' && (
+          <div style={{ background: '#111124', border: '1px solid #2a2a3e', borderRadius: 12, padding: 14 }}>
+            <div style={{ fontWeight: 700, marginBottom: 10 }}>Top 20 片庫組成</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+              {weeklyTop.map(row => (
+                <div key={row.title} style={{ background: '#16162a', border: '1px solid #2a2a3e', borderRadius: 8, padding: '8px 10px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                    <span style={{ fontWeight: 600 }}>{row.title}</span>
+                    {row.isNetflixOriginal && <span style={{ color: '#e50914', fontSize: 12, fontWeight: 700 }}>N 原創</span>}
+                  </div>
+                  <div style={{ marginTop: 4, color: GENRE_COLORS[row.genre], fontSize: 12 }}>{GENRE_ICONS[row.genre]} {row.genre}</div>
+                  <div style={{ marginTop: 4, color: '#aaa', fontSize: 12 }}>平均名次 {row.avgRank} · 在榜 {row.weeksOnChart} 週</div>
                 </div>
-              </div>
-              {/* 河流圖：自然高度（EChart 420px + 統計表），小螢幕可向下捲動 */}
-              <WeeklyGenreFlow data={filteredData} netflixFilter={flowNetflixFilter} />
+              ))}
             </div>
-          )}
-
-          {/* ══ 台劇分析頁：台劇積分榜（上 58%）＋ 走勢圖（下 42%）══ */}
-          {activeTab === 'taiwan' && (
-            <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
-              {/* 台劇積分榜：佔較多空間（節目多，需要高度）*/}
-              <div style={{ flex: '0 0 58%', minHeight: 0, borderBottom: '2px solid #1e1e30', overflow: 'auto' }}>
-                <TaiwanDramaChart
-                  data={taiwanDramas}
-                  showAttributes={data.showAttributes}
-                  sortMode={sortMode}
-                  filterRelease={filterRelease}
-                  filterNetflix={filterNetflix}
-                  selectedTitles={selectedTitles}
-                  onToggleTitle={title => setSelectedTitles(prev =>
-                    prev.includes(title)
-                      ? prev.filter(t => t !== title)
-                      : prev.length >= 10 ? prev : [...prev, title]
-                  )}
-                />
-              </div>
-              {/* 走勢分析：固定下方 42% */}
-              <div style={{ flex: 1, minHeight: 0 }}>
-                <RankTrendChart
-                  data={filteredData}
-                  selectedTitles={selectedTitles}
-                />
-              </div>
-            </div>
-          )}
-
-        </main>
+          </div>
+        )}
       </div>
     </div>
   )
