@@ -1,5 +1,5 @@
 // ⚠ 此檔案由 convert_excel.py 自動產生，請勿手動編輯
-// 產生時間：2026-05-21T13:59:54.075064
+// 產生時間：2026-07-17T01:44:38.059569
 //
 // 用途：開發時驗證 rankings.json 的欄位是否與 TypeScript 型別一致
 // 若 Python 輸出了新欄位但 types/index.ts 未宣告，validateSchema() 會在 console 警告
