@@ -11,6 +11,12 @@ dist
 .vscode
 .idea
 
+# Python
+__pycache__/
+
+# 爬蟲：獨立 repo（jinfer68/otthot-netflix-scraper），僅放在此處方便執行，不納入本 repo 版控
+爬蟲臉書/
+
 # OS
 .DS_Store
 Thumbs.db

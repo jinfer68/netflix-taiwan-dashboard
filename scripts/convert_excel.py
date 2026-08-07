@@ -17,9 +17,12 @@ convert_excel.py
 
 import json
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from genre_rules import canonicalize
 
 try:
     import openpyxl
@@ -27,9 +30,10 @@ except ImportError:
     print("ERROR: openpyxl not installed. Run: pip install openpyxl")
     sys.exit(1)
 
+OUTPUT_DIR = Path(__file__).resolve().parent.parent
+
 # 預設 Excel 路徑（可透過命令列參數覆蓋）
-DEFAULT_EXCEL = Path("C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx")
-OUTPUT_DIR = Path(__file__).parent.parent
+DEFAULT_EXCEL = OUTPUT_DIR / "爬蟲臉書" / "output" / "export.xlsx"
 
 # 縮寫名稱 → 正式全名對照表
 TITLE_MAP = {
@@ -46,30 +50,41 @@ SHEET_DAILY         = "Clean Data - 台劇每日排名"
 SHEET_ATTRS         = "劇集屬性資料庫"
 SHEET_DAILY_OVERALL = "每天節目排名資料"
 
-# 日榜類型正規化對照表（Excel 的原始值 → 標準 Genre 值）
-DAILY_GENRE_MAP: dict[str, str] = {
-    "動畫劇(日)":    "動畫劇 (日)",
-    "動畫":          "動畫劇 (日)",
-    "實境(韓)":      "實境秀",
-    "實境(日)":      "實境秀",
-    "實境(台)":      "實境秀",
-    "韓綜":          "實境秀",
-    "泰劇":          "其他",
-    "直播(美)":      "其他",
-    "直播(韓)":      "其他",
-    "紀實(美)":      "其他",
-    "紀實(韓)":      "其他",
-    "紀實(英)":      "其他",
-    "動畫劇(法/美)": "其他",
-    "挪威":          "其他",
-    "西班牙":        "其他",
-    "德劇":          "其他",
-    "義大利":        "其他",
-    "墨西哥劇":      "其他",
-    "阿根廷":        "其他",
-    "英/加拿大":     "英劇",
-    "音樂體驗(美)":  "其他",
-}
+# 類型正規化統計（規則層為純函式，統計在此累積）
+GENRE_REASONS: Counter = Counter()   # 判定依據 → 列數
+GENRE_PENDING: Counter = Counter()   # 待審原始寫法 → 列數
+
+
+def to_genre(raw) -> str:
+    """套用 genre_rules 並累積統計，回傳合法 Genre"""
+    genre, reason = canonicalize(raw)
+    GENRE_REASONS[reason] += 1
+    if reason == "pending":
+        GENRE_PENDING[str(raw).strip()] += 1
+    return genre
+
+
+def print_genre_report():
+    total = sum(GENRE_REASONS.values())
+    if not total:
+        return
+    canon = GENRE_REASONS["canon"] + GENRE_REASONS["reviewed"]
+    rules = {k: v for k, v in GENRE_REASONS.most_common()
+             if k not in ("canon", "reviewed", "pending")}
+    print(f"\n類型正規化：{total:,} 列")
+    print(f"  已合法    {canon:,}")
+    if rules:
+        detail = " / ".join(f"{k} {v}" for k, v in rules.items())
+        print(f"  規則修正  {sum(rules.values()):,}   {detail}")
+    if GENRE_PENDING:
+        n = sum(GENRE_PENDING.values())
+        print(f"  待審      {n:,} 列 / {len(GENRE_PENDING)} 種（已歸「其他」）")
+        for g, c in GENRE_PENDING.most_common():
+            print(f"     {g!r} × {c}")
+        print("  ※ 確認維持「其他」→ 加進 scripts/genre_rules.py 的 REVIEWED")
+        print("  ※ 要升格成正式類別 → 見該檔頂端升格步驟")
+    else:
+        print("  待審      0")
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -90,6 +105,19 @@ def safe_float(v, default=None):
         return round(float(v), 2)
     except (ValueError, TypeError):
         return default
+
+
+def resolve_score(score, rank):
+    """積分 = 11 - 排名。
+
+    Excel 的積分欄是表格公式（=11-表格X[[#This Row],[排名]]），openpyxl 存檔時
+    會清掉公式快取，data_only=True 便讀成 None → 0。此處直接由排名推回。
+    """
+    if score:
+        return score
+    if rank is not None and 1 <= rank <= 10:
+        return float(11 - rank)
+    return score or 0
 
 
 def safe_bool(v):
@@ -262,9 +290,9 @@ def parse_weekly_clean(ws):
         date_to = get_col(row, col_map, "日期迄")
         rank = safe_int(get_col(row, col_map, "排名"))
         title = clean_title(get_col(row, col_map, "節目名稱"))
-        genre = str(get_col(row, col_map, "類型", "其他")).strip()
+        genre = to_genre(get_col(row, col_map, "類型"))
         is_orig = safe_bool(get_col(row, col_map, "是否Netflix Original"))
-        score = safe_float(get_col(row, col_map, "積分"), 0)
+        score = resolve_score(safe_float(get_col(row, col_map, "積分"), 0), rank)
 
         if date_from is None:
             continue
@@ -310,15 +338,15 @@ def _parse_weekly_indexed(ws):
                 continue
             rank = safe_int(row[3])
             title = clean_title(row[4]) if row[4] else ""
-            genre = str(row[5]).strip() if row[5] else "其他"
+            genre = to_genre(row[5])
             is_orig = safe_bool(row[6])
-            score = safe_float(row[7], 0)
+            score = resolve_score(safe_float(row[7], 0), rank)
         else:
             rank = safe_int(row[2])
             title = clean_title(row[3]) if row[3] else ""
-            genre = str(row[4]).strip() if row[4] else "其他"
+            genre = to_genre(row[4])
             is_orig = safe_bool(row[5])
-            score = safe_float(row[6], 0)
+            score = resolve_score(safe_float(row[6], 0), rank)
 
         if date_from is None:
             continue
@@ -436,7 +464,7 @@ def parse_daily_overall(ws, weekly_weeks):
     week_stats    = defaultdict(new_stats)
 
     for j, row in enumerate(ws.iter_rows(values_only=True)):
-        if j <= 1:          # skip empty row 0 and header row 1
+        if j == 0:          # skip header row
             continue
         if row[0] is None or isinstance(row[0], str):
             continue        # skip repeated header rows
@@ -444,13 +472,14 @@ def parse_daily_overall(ws, weekly_weeks):
         date    = row[0]
         rank    = safe_int(row[1])
         title   = clean_title(row[2]) if row[2] else ""
-        raw_genre = str(row[3]).strip() if row[3] else "其他"
-        genre     = DAILY_GENRE_MAP.get(raw_genre, raw_genre)
+        genre     = to_genre(row[3])
         is_orig   = safe_bool(row[4])
         score     = safe_float(row[5], 0)
 
         if not title or rank is None or not isinstance(date, datetime):
             continue
+
+        score = resolve_score(score, rank)
 
         date_str    = date.strftime("%Y-%m-%d")
         month       = date.month
@@ -507,13 +536,13 @@ def parse_daily_clean(ws):
             title = clean_title(get_col(row, col_map, "節目名稱"))
             day_idx = safe_int(get_col(row, col_map, "上線天數"))
             rank = safe_int(get_col(row, col_map, "排名"))
-            score = safe_float(get_col(row, col_map, "積分"), 0)
+            score = resolve_score(safe_float(get_col(row, col_map, "積分"), 0), rank)
             is_all = safe_bool(get_col(row, col_map, "是否單次上架"))
         else:
             title = clean_title(row[1]) if row[1] else ""
             day_idx = safe_int(row[3])
             rank = safe_int(row[4])
-            score = safe_float(row[5], 0)
+            score = resolve_score(safe_float(row[5], 0), rank)
             is_all = safe_bool(row[6]) if len(row) > 6 else False
 
         if title and day_idx is not None and rank is not None:
@@ -775,6 +804,8 @@ def main():
         print(f"  → {len(daily)} 筆每日排名")
     else:
         print(f"  ⚠ 找不到 sheet「{SHEET_DAILY}」，跳過台劇每日排名")
+
+    print_genre_report()
 
     # ── 計算台劇排名 ──
     taiwan = compute_taiwan_drama_rankings(daily, weekly, show_attrs)
