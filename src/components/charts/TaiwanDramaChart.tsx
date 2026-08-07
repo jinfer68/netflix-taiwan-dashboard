@@ -3,7 +3,10 @@ import {
   ResponsiveContainer, LabelList, Cell,
 } from 'recharts'
 import type { TaiwanDramaRanking, ShowAttributes } from '../../types'
-import { TOOLTIP_STYLE } from '../../constants/styles'
+import {
+  TOOLTIP_STYLE, ACCENT, INK, INK_MUTED, INK_SECONDARY,
+  PAPER, RULE, RULE_STRONG, NUM,
+} from '../../constants/styles'
 
 type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
 type NetflixFilter = 'all' | 'original' | 'nonOriginal'
@@ -25,14 +28,17 @@ interface ChartItem extends TaiwanDramaRanking {
   scorePerWeek: number
   weeklyCoverage: number
   dailyCoverage: number
-  barColor: string
 }
 
+// 上架方式為分類識別，非數值大小 — 沿用經驗證的類型色階
 const RELEASE_COLORS: Record<string, string> = {
-  weekly: '#6a5acd', allAtOnce: '#46d369', split: '#f5c518',
+  weekly: '#7b5cb8', allAtOnce: '#1f6f3f', split: '#b07d10',
 }
 const RELEASE_LABELS: Record<string, string> = {
   weekly: '週播', allAtOnce: '一次上架', split: '拆分上架',
+}
+const RELEASE_SHORT: Record<string, string> = {
+  weekly: '週播', allAtOnce: '一次', split: '拆分',
 }
 
 const SPECIAL_NOTES: Record<string, string> = {
@@ -40,157 +46,83 @@ const SPECIAL_NOTES: Record<string, string> = {
   '誰是被害者 第1季': '第二季上架，第一季回鍋上榜',
 }
 
-function getWeeklyBarColor(item: ChartItem): string {
-  const cov = item.weeklyCoverage
-  if (item.releaseType === 'weekly') {
-    if (cov > 1.0)  return '#c4b5ff'
-    if (cov >= 0.8) return '#9b8aff'
-    if (cov >= 0.5) return '#7c6fff'
-    return '#5a4abf'
-  }
-  if (item.weeksOnChart >= 8) return '#5eff8a'
-  if (item.weeksOnChart >= 5) return '#46d369'
-  return '#2e8b47'
+function Row({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 20 }}>
+      <span style={{ color: INK_SECONDARY }}>{label}</span>
+      <span style={{ ...NUM, color: INK, fontWeight: strong ? 700 : 400 }}>{value}</span>
+    </div>
+  )
 }
 
-function getDailyBarColor(item: ChartItem): string {
-  const cov = item.dailyCoverage
-  if (item.releaseType === 'weekly') {
-    if (cov >= 0.7) return '#ff9b5a'
-    if (cov >= 0.4) return '#e07030'
-    return '#a04820'
-  }
-  const covPct = cov * 100
-  if (covPct >= 300) return '#5ac8ff'
-  if (covPct >= 150) return '#3090d0'
-  return '#206090'
+function CoverageBar({ ratio, color }: { ratio: number; color: string }) {
+  return (
+    <div style={{ height: 4, background: RULE, marginTop: 4 }}>
+      <div style={{ width: `${Math.min(100, ratio * 100)}%`, height: '100%', background: color }} />
+    </div>
+  )
 }
 
-function WeeklyTooltip({ active, payload, label }: {
+function ShowTooltip({ active, payload, label, sortMode }: {
   active?: boolean; payload?: { payload?: ChartItem }[]; label?: string
+  sortMode: 'weekly' | 'daily'
 }) {
   if (!active || !payload?.length) return null
   const item = payload[0]?.payload
   if (!item) return null
 
-  const releaseColor = RELEASE_COLORS[item.releaseType] ?? '#888'
+  const releaseColor = RELEASE_COLORS[item.releaseType] ?? INK_MUTED
   const releaseLabel = RELEASE_LABELS[item.releaseType] ?? item.releaseType
   const specialNote = SPECIAL_NOTES[item.title]
+  const totalDays = (item.releaseWeeks ?? 1) * 7
+  const isWeekly = sortMode === 'weekly'
+  const coverage = isWeekly ? item.weeklyCoverage : item.dailyCoverage
 
   return (
     <div style={{ ...TOOLTIP_STYLE, minWidth: 230 }}>
-      <div style={{ fontWeight: 700, marginBottom: 4 }}>{label}</div>
-      {specialNote && (
-        <div style={{ fontSize: 10, color: '#f5c518', background: '#2a2000', padding: '3px 8px', borderRadius: 4, marginBottom: 6, border: '1px solid #f5c51830' }}>
-          {specialNote}
-        </div>
-      )}
-      <div style={{ color: '#e50914', fontSize: 13 }}>
-        週榜積分：<strong>{item.weeklyScore}</strong> 分
-      </div>
-      <div style={{ marginTop: 8, padding: '8px 10px', borderRadius: 6, background: '#0d0d1a', border: '1px solid #2a2a3e' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-          <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: 11, fontWeight: 600, background: `${releaseColor}25`, color: releaseColor, border: `1px solid ${releaseColor}50` }}>
-            {releaseLabel}
-          </span>
-          {item.totalEpisodes && <span style={{ fontSize: 11, color: '#aaa' }}>{item.totalEpisodes}</span>}
-        </div>
-        <div style={{ display: 'flex', gap: 16, fontSize: 11 }}>
-          <div>
-            <div style={{ color: '#666', marginBottom: 2 }}>上架</div>
-            <div style={{ color: '#ddd', fontWeight: 600, fontSize: 14 }}>{item.releaseWeeks != null ? `${item.releaseWeeks} 週` : '-'}</div>
-          </div>
-          <div style={{ borderLeft: '1px solid #333', paddingLeft: 16 }}>
-            <div style={{ color: '#666', marginBottom: 2 }}>上榜</div>
-            <div style={{ color: '#ddd', fontWeight: 600, fontSize: 14 }}>{item.weeksOnChart} 週</div>
-          </div>
-          <div style={{ borderLeft: '1px solid #333', paddingLeft: 16 }}>
-            <div style={{ color: '#666', marginBottom: 2 }}>效率</div>
-            <div style={{ color: '#e50914', fontWeight: 600, fontSize: 14 }}>{item.scorePerWeek} 分/週</div>
-          </div>
-        </div>
-        {item.releaseWeeks != null && item.releaseWeeks > 0 && (
-          <div style={{ marginTop: 8 }}>
-            <div style={{ fontSize: 10, color: '#666', marginBottom: 3 }}>
-              {item.releaseType === 'weekly'
-                ? `上榜覆蓋率 ${Math.round(item.weeklyCoverage * 100)}%（${item.weeksOnChart}/${item.releaseWeeks} 週）`
-                : `上榜持續 ${item.weeksOnChart} 週（上架 ${item.releaseWeeks} 週）`}
-            </div>
-            <div style={{ height: 5, borderRadius: 3, background: '#222', overflow: 'hidden' }}>
-              <div style={{ width: `${Math.min(100, item.weeklyCoverage * 100)}%`, height: '100%', borderRadius: 3, background: item.barColor }} />
-            </div>
-          </div>
+      <div style={{ fontWeight: 700, marginBottom: 6, color: INK }}>
+        {label}
+        {item.isNetflixOriginal && (
+          <span style={{ marginLeft: 6, fontSize: 11, fontWeight: 700, color: ACCENT }}>N</span>
         )}
       </div>
-      {item.releaseType === 'weekly' && item.releaseWeeks != null && item.releaseWeeks >= 4 && (
-        <div style={{ fontSize: 10, color: '#666', marginTop: 4, fontStyle: 'italic' }}>
-          週播 {item.releaseWeeks} 週，有更多機會累積週榜積分
+
+      <Row label={isWeekly ? '週榜積分' : '日榜積分'} value={`${isWeekly ? item.weeklyScore : item.dailyScore} 分`} strong />
+      <Row label="上架方式" value={releaseLabel} />
+      {item.totalEpisodes && <Row label="總集數" value={item.totalEpisodes} />}
+      <Row
+        label={isWeekly ? '上架 / 上榜' : '上架 / 上榜'}
+        value={isWeekly
+          ? `${item.releaseWeeks != null ? `${item.releaseWeeks} 週` : '—'} / ${item.weeksOnChart} 週`
+          : `${totalDays} 天 / ${item.daysOnChart} 天`}
+      />
+      <Row
+        label="效率"
+        value={isWeekly
+          ? `${item.scorePerWeek} 分/週`
+          : `${item.daysOnChart > 0 ? Math.round(item.dailyScore / item.daysOnChart * 10) / 10 : 0} 分/天`}
+      />
+
+      <div style={{ marginTop: 8, borderTop: `1px solid ${RULE}`, paddingTop: 8 }}>
+        <div style={{ ...NUM, fontSize: 11, color: INK_SECONDARY }}>
+          上榜覆蓋率 {Math.round(coverage * 100)}%
         </div>
-      )}
-    </div>
-  )
-}
+        <CoverageBar ratio={coverage} color={releaseColor} />
+      </div>
 
-function DailyTooltip({ active, payload, label }: {
-  active?: boolean; payload?: { payload?: ChartItem }[]; label?: string
-}) {
-  if (!active || !payload?.length) return null
-  const item = payload[0]?.payload
-  if (!item) return null
-
-  const releaseColor = RELEASE_COLORS[item.releaseType] ?? '#888'
-  const releaseLabel = RELEASE_LABELS[item.releaseType] ?? item.releaseType
-  const totalDays = (item.releaseWeeks ?? 1) * 7
-  const specialNote = SPECIAL_NOTES[item.title]
-
-  return (
-    <div style={{ ...TOOLTIP_STYLE, minWidth: 230 }}>
-      <div style={{ fontWeight: 700, marginBottom: 4 }}>{label}</div>
       {specialNote && (
-        <div style={{ fontSize: 10, color: '#f5c518', background: '#2a2000', padding: '3px 8px', borderRadius: 4, marginBottom: 6, border: '1px solid #f5c51830' }}>
-          {specialNote}
+        <div style={{ fontSize: 11, color: INK_MUTED, marginTop: 8, borderTop: `1px solid ${RULE}`, paddingTop: 6 }}>
+          ※ {specialNote}
         </div>
       )}
-      <div style={{ color: '#f5c518', fontSize: 13 }}>
-        日榜積分：<strong>{item.dailyScore}</strong> 分
-      </div>
-      <div style={{ marginTop: 8, padding: '8px 10px', borderRadius: 6, background: '#0d0d1a', border: '1px solid #2a2a3e' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-          <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: 11, fontWeight: 600, background: `${releaseColor}25`, color: releaseColor, border: `1px solid ${releaseColor}50` }}>
-            {releaseLabel}
-          </span>
-          {item.totalEpisodes && <span style={{ fontSize: 11, color: '#aaa' }}>{item.totalEpisodes}</span>}
-        </div>
-        <div style={{ display: 'flex', gap: 16, fontSize: 11 }}>
-          <div>
-            <div style={{ color: '#666', marginBottom: 2 }}>上架期間</div>
-            <div style={{ color: '#ddd', fontWeight: 600, fontSize: 14 }}>{totalDays} 天</div>
-          </div>
-          <div style={{ borderLeft: '1px solid #333', paddingLeft: 16 }}>
-            <div style={{ color: '#666', marginBottom: 2 }}>上榜天數</div>
-            <div style={{ color: '#ddd', fontWeight: 600, fontSize: 14 }}>{item.daysOnChart} 天</div>
-          </div>
-          <div style={{ borderLeft: '1px solid #333', paddingLeft: 16 }}>
-            <div style={{ color: '#666', marginBottom: 2 }}>效率</div>
-            <div style={{ color: '#f5c518', fontWeight: 600, fontSize: 14 }}>
-              {item.daysOnChart > 0 ? Math.round(item.dailyScore / item.daysOnChart * 10) / 10 : 0} 分/天
-            </div>
-          </div>
-        </div>
-        <div style={{ marginTop: 8 }}>
-          <div style={{ fontSize: 10, color: '#666', marginBottom: 3 }}>
-            日榜覆蓋率 {Math.round(item.dailyCoverage * 100)}%（{item.daysOnChart}/{totalDays} 天）
-          </div>
-          <div style={{ height: 5, borderRadius: 3, background: '#222', overflow: 'hidden' }}>
-            <div style={{ width: `${Math.min(100, item.dailyCoverage * 100)}%`, height: '100%', borderRadius: 3, background: item.barColor }} />
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
 
-export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, filterRelease, filterNetflix, selectedTitles = [], onToggleTitle }: Props) {
+export default function TaiwanDramaChart({
+  data, showAttributes = {}, sortMode, filterRelease, filterNetflix,
+  selectedTitles = [], onToggleTitle,
+}: Props) {
   const filtered = data.filter(d => {
     if (filterRelease !== 'all' && d.releaseType !== filterRelease) return false
     if (filterNetflix === 'original'    && !d.isNetflixOriginal) return false
@@ -206,127 +138,143 @@ export default function TaiwanDramaChart({ data, showAttributes = {}, sortMode, 
       const weeksOn = d.weeksOnChart || 0
       const rw = attr?.releaseWeeks ?? 1
       const totalDays = rw * 7
-      const weeklyCov = rw > 0 ? weeksOn / rw : 0
-      const dailyCov = totalDays > 0 ? d.daysOnChart / totalDays : 0
-
-      const base: ChartItem = {
+      return {
         ...d,
-        displayTitle: (d.isNetflixOriginal ? '★ ' : '') + d.title,
+        displayTitle: d.title,
         releaseWeeks: attr?.releaseWeeks,
         totalEpisodes: attr?.totalEpisodes,
         scorePerWeek: weeksOn > 0 ? Math.round((d.weeklyScore / weeksOn) * 10) / 10 : 0,
-        weeklyCoverage: weeklyCov,
-        dailyCoverage: dailyCov,
-        barColor: '',
+        weeklyCoverage: rw > 0 ? weeksOn / rw : 0,
+        dailyCoverage: totalDays > 0 ? d.daysOnChart / totalDays : 0,
       }
-      base.barColor = sortMode === 'weekly' ? getWeeklyBarColor(base) : getDailyBarColor(base)
-      return base
     })
 
   if (chartData.length === 0) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#555', fontSize: 14 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: INK_MUTED, fontSize: 13 }}>
         無符合條件的節目
       </div>
     )
   }
 
-  const chartHeight = Math.max(400, chartData.length * 52 + 60)
+  const usedReleaseTypes = ['weekly', 'allAtOnce', 'split'].filter(
+    rt => chartData.some(d => d.releaseType === rt)
+  )
+
+  const chartHeight = Math.max(360, chartData.length * 44 + 40)
+  const dataKey = sortMode === 'weekly' ? 'weeklyScore' : 'dailyScore'
 
   return (
-    <div style={{ height: chartHeight, padding: '16px 20px' }}>
-      <ResponsiveContainer key={sortMode} width="100%" height={chartHeight}>
-        <BarChart
-          layout="vertical" data={chartData}
-          margin={{ top: 4, right: 64, left: 0, bottom: 4 }}
-          barSize={22}
-          barCategoryGap="30%"
-        >
-          <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#333" />
-          <XAxis
-            type="number"
-            tick={{ fill: sortMode === 'weekly' ? '#e50914' : '#f5c518', fontSize: 11 }}
-            label={{
-              value: sortMode === 'weekly' ? '週榜積分' : '日榜積分',
-              fill: sortMode === 'weekly' ? '#e50914' : '#f5c518',
-              fontSize: 11, position: 'insideBottomRight', offset: -5,
-            }}
-          />
-          <YAxis
-            type="category" dataKey="displayTitle" width={240}
-            tick={(props: { x: number; y: number; payload: { value: string; index: number } }) => {
-              const { x, y, payload } = props
-              const item = chartData[payload.index]
-              if (!item) return <text x={x} y={y} />
-              const releaseColor = RELEASE_COLORS[item.releaseType] ?? '#888'
-              const isSplit = item.releaseType === 'split'
-              const releaseShort = item.releaseType === 'weekly' ? '週播' : isSplit ? '拆分' : '一次'
-              const ep = item.totalEpisodes?.replace(/\s*集/, '') ?? ''
-              const rw = item.releaseWeeks ?? ''
-              const woc = item.weeksOnChart
-              const hasNote = SPECIAL_NOTES[item.title]
-              const infoText = [ep ? `${ep}集` : '', rw ? `${rw}→${woc}週` : `${woc}週`].filter(Boolean).join(' · ')
-              return (
-                <g>
-                  {/* 標題行 */}
-                  <text x={x - 4} y={y - 7} textAnchor="end" fill="#ddd" fontSize={12} fontWeight={500}>
-                    {item.displayTitle}{hasNote ? ' *' : ''}
-                  </text>
-                  {/* 標籤行：上架方式 + 集數/週數（tspan 混色） */}
-                  <text x={x - 4} y={y + 8} textAnchor="end" fontSize={10}>
-                    <tspan fill="#555">{infoText} · </tspan>
-                    <tspan fill={releaseColor} fontWeight={600}>{releaseShort}</tspan>
-                  </text>
-                </g>
-              )
-            }}
-          />
-          <Tooltip content={sortMode === 'weekly' ? <WeeklyTooltip /> : <DailyTooltip />} />
-          {sortMode === 'weekly' ? (
+    <div style={{ padding: '14px 20px 12px' }}>
+
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 16, marginBottom: 10 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: INK_SECONDARY, letterSpacing: 1, whiteSpace: 'nowrap' }}>
+          台劇{sortMode === 'weekly' ? '週榜' : '日榜'}積分
+          <span style={{ ...NUM, marginLeft: 8, fontWeight: 400, color: INK_MUTED }}>{chartData.length} 部</span>
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', columnGap: 12, rowGap: 2 }}>
+          {usedReleaseTypes.map(rt => (
+            <span key={rt} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: INK_SECONDARY }}>
+              <span style={{ width: 8, height: 8, background: RELEASE_COLORS[rt], flexShrink: 0 }} />
+              {RELEASE_LABELS[rt]}
+            </span>
+          ))}
+          <span style={{ fontSize: 11, color: INK_MUTED }}>
+            <span style={{ color: ACCENT, fontWeight: 700 }}>N</span> ＝ Netflix 獨家
+          </span>
+        </div>
+      </div>
+
+      <div style={{ height: chartHeight }}>
+        <ResponsiveContainer key={sortMode} width="100%" height={chartHeight}>
+          <BarChart
+            layout="vertical" data={chartData}
+            margin={{ top: 4, right: 60, left: 0, bottom: 4 }}
+            barSize={14}
+            barCategoryGap="34%"
+          >
+            <CartesianGrid strokeDasharray="0" horizontal={false} stroke={RULE} />
+            <XAxis
+              type="number"
+              tick={{ fill: INK_SECONDARY, fontSize: 11 }}
+              axisLine={{ stroke: RULE_STRONG }}
+              tickLine={false}
+            />
+            <YAxis
+              type="category" dataKey="displayTitle" width={230}
+              axisLine={{ stroke: RULE_STRONG }}
+              tickLine={false}
+              tick={(props: { x: number; y: number; payload: { value: string; index: number } }) => {
+                const { x, y, payload } = props
+                const item = chartData[payload.index]
+                if (!item) return <text x={x} y={y} />
+                const isSelected = selectedTitles.includes(item.title)
+                const ep = item.totalEpisodes?.replace(/\s*集/, '') ?? ''
+                const rw = item.releaseWeeks ?? ''
+                const woc = item.weeksOnChart
+                const infoText = [
+                  RELEASE_SHORT[item.releaseType] ?? item.releaseType,
+                  ep ? `${ep}集` : '',
+                  rw ? `${rw}→${woc}週` : `${woc}週`,
+                ].filter(Boolean).join(' · ')
+                return (
+                  <g>
+                    <text x={x - 6} y={y - 6} textAnchor="end"
+                      fill={isSelected ? INK : INK_SECONDARY} fontSize={12} fontWeight={isSelected ? 700 : 400}>
+                      {item.displayTitle}
+                      {SPECIAL_NOTES[item.title] ? ' ※' : ''}
+                      {item.isNetflixOriginal && <tspan fill={ACCENT} fontSize={10} fontWeight={700} dx={4}>N</tspan>}
+                    </text>
+                    <text x={x - 6} y={y + 9} textAnchor="end" fill={INK_MUTED} fontSize={10}
+                      style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      {infoText}
+                    </text>
+                  </g>
+                )
+              }}
+            />
+            <Tooltip
+              cursor={{ fill: 'rgba(26,26,24,0.04)' }}
+              content={({ active, payload, label }) =>
+                <ShowTooltip
+                  active={active}
+                  payload={payload as { payload?: ChartItem }[]}
+                  label={label as string}
+                  sortMode={sortMode}
+                />
+              }
+            />
             <Bar
-              dataKey="weeklyScore" name="週榜積分" radius={[0, 3, 3, 0]}
+              dataKey={dataKey}
+              name={sortMode === 'weekly' ? '週榜積分' : '日榜積分'}
+              radius={[0, 2, 2, 0]}
+              isAnimationActive={false}
               style={{ cursor: onToggleTitle ? 'pointer' : 'default' }}
               onClick={(entry: ChartItem) => onToggleTitle?.(entry.title)}
             >
-              {chartData.map((d, i) => {
+              {chartData.map(d => {
                 const isSelected = selectedTitles.includes(d.title)
                 const dimmed = selectedTitles.length > 0 && !isSelected
                 return (
                   <Cell
-                    key={i}
-                    fill={d.barColor}
-                    opacity={dimmed ? 0.35 : 1}
-                    stroke={isSelected ? '#fff' : 'none'}
-                    strokeWidth={isSelected ? 1.5 : 0}
+                    key={d.title}
+                    fill={RELEASE_COLORS[d.releaseType] ?? INK_MUTED}
+                    fillOpacity={dimmed ? 0.28 : 1}
+                    stroke={isSelected ? PAPER : 'none'}
+                    strokeWidth={isSelected ? 2 : 0}
                   />
                 )
               })}
-              <LabelList dataKey="weeklyScore" position="right" style={{ fill: '#ccc', fontSize: 11 }} />
+              <LabelList
+                dataKey={dataKey}
+                position="right"
+                offset={8}
+                style={{ fill: INK_SECONDARY, fontSize: 11, fontVariantNumeric: 'tabular-nums' }}
+              />
             </Bar>
-          ) : (
-            <Bar
-              dataKey="dailyScore" name="日榜積分" radius={[0, 3, 3, 0]}
-              style={{ cursor: onToggleTitle ? 'pointer' : 'default' }}
-              onClick={(entry: ChartItem) => onToggleTitle?.(entry.title)}
-            >
-              {chartData.map((d, i) => {
-                const isSelected = selectedTitles.includes(d.title)
-                const dimmed = selectedTitles.length > 0 && !isSelected
-                return (
-                  <Cell
-                    key={i}
-                    fill={d.barColor}
-                    opacity={dimmed ? 0.35 : 1}
-                    stroke={isSelected ? '#fff' : 'none'}
-                    strokeWidth={isSelected ? 1.5 : 0}
-                  />
-                )
-              })}
-              <LabelList dataKey="dailyScore" position="right" style={{ fill: '#ccc', fontSize: 11 }} />
-            </Bar>
-          )}
-        </BarChart>
-      </ResponsiveContainer>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   )
 }

@@ -31,7 +31,7 @@ These rules define how to translate Figma inputs into code for this project and 
 ### Asset Handling
 
 - **IMPORTANT:** If the Figma MCP server returns a localhost source for an image or SVG, use that source directly
-- **IMPORTANT:** DO NOT install new icon packages — this project uses Unicode emoji for icons (see `GENRE_ICONS` in `src/constants/genres.ts`)
+- **IMPORTANT:** DO NOT install new icon packages — and do not use emoji either; category identity is a colour dot plus a text label (see `DOT` in `src/constants/styles.ts`)
 - **IMPORTANT:** DO NOT use or create placeholders if a localhost asset source is provided
 - Static assets go in `public/`; there is currently no `public/assets/` subdirectory — create it if needed
 
@@ -39,64 +39,69 @@ These rules define how to translate Figma inputs into code for this project and 
 
 ## Design System Structure
 
+The full rationale lives in [`docs/design-guidelines.md`](docs/design-guidelines.md) — read it before any visual change. The aesthetic is **editorial data journalism**: paper-white surface, ink type, hairline rules, no cards, no gradients, no shadows, no emoji, one small-area accent.
+
 ### 1. Color Tokens
 
-**Global palette** (use these hex values — never introduce new hardcoded colors):
+**Global palette** (exported from `src/constants/styles.ts` — never introduce new hex values):
 
 | Token | Value | Usage |
 |---|---|---|
-| `bg-page` | `#0a0a16` | Page / app background |
-| `bg-card` | `#111124` | Card / section background (`SECTION_STYLE`) |
-| `bg-tooltip` | `#1a1a2e` | Tooltip background (`TOOLTIP_STYLE`) |
-| `border-default` | `#222` | Default borders |
-| `border-subtle` | `#1e1e30` | Subtle dividers |
-| `border-section` | `#2a2a3e` | Section title bottom border |
-| `text-primary` | `#eee` | Primary text |
-| `text-muted` | `#aaa` | Muted / secondary text |
-| `text-faint` | `#666` | Faint / disabled text |
-| `text-dim` | `#888` | Dim labels |
-| `accent-purple` | `#7c6fff` | Primary accent, active pill buttons |
-| `accent-yellow` | `#f5c518` | IMDb-style rating, highlights |
-| `accent-red` | `#e50914` | Netflix red / Korean dramas |
-| `accent-green` | `#46d369` | Netflix green / Taiwan dramas |
+| `PAPER` | `#fcfcfb` | Page / chart surface |
+| `PAPER_RAISED` | `#f5f4f1` | Sidebar, table headers, row hover |
+| `INK` | `#1a1a18` | Primary text and numbers |
+| `INK_SECONDARY` | `#55544f` | Secondary text, axis labels |
+| `INK_MUTED` | `#8a8984` | Captions, disabled state |
+| `RULE` | `#e3e1dc` | Hairline dividers, grid lines |
+| `RULE_STRONG` | `#c9c7c0` | Section boundaries, axis lines, input borders |
+| `ACCENT` | `#e50914` | Netflix red — logo, active state, selection only. **Never a data color** |
+| `ACCENT_WASH` | `rgba(229,9,20,0.06)` | Selected row background |
 
-**IMPORTANT:** Never hardcode a color that isn't in this palette without first checking `src/constants/styles.ts` and `src/constants/genres.ts`.
+**IMPORTANT:** The accent must stay under ~5% of any screen. It marks focus; it is not a theme color.
 
-**Genre colors** (defined in `src/constants/genres.ts` as `GENRE_COLORS`):
+**Genre colors** (`GENRE_COLORS` in `src/constants/genres.ts`). The first eight are OKLab-validated: colorblind-separable in adjacent order, distinguishable to normal vision, ≥ 3:1 contrast on `PAPER`. The listed order is the fixed legend / stacking order — never re-sort by value.
 
-| Genre | Color |
-|---|---|
-| 韓劇 | `#e50914` |
-| 台劇 | `#1db954` |
-| 陸劇 | `#f5a623` |
-| 動畫劇 (日) | `#9b59b6` |
-| 日劇 | `#f72585` |
-| 美劇 | `#3498db` |
-| 英劇 | `#e74c3c` |
-| 實境秀 | `#e67e22` |
-| 其他 | `#95a5a6` |
+| # | Genre | Color |
+|---|---|---|
+| 1 | 韓劇 | `#b3302b` |
+| 2 | 美劇 | `#3568b0` |
+| 3 | 陸劇 | `#b07d10` |
+| 4 | 動畫劇 (日) | `#7b5cb8` |
+| 5 | 日劇 | `#c4527e` |
+| 6 | 台劇 | `#1f6f3f` |
+| 7 | 實境秀 | `#c67612` |
+| 8 | 英劇 | `#0d9488` |
+| 9 | 其他 | `#9a9a94` |
 
-Always import and use `GENRE_COLORS[genre]` — never hardcode genre colors inline.
+Always import and use `GENRE_COLORS[genre]` — never hardcode genre colors inline. Color follows the entity: a filter that changes the series count must not repaint the survivors. `SERIES_COLORS` (same eight hues) drives multi-show comparison; `MAX_SERIES` caps selection at 8 — do not add a 9th generated hue.
 
 ### 2. Shared Style Constants (`src/constants/styles.ts`)
 
-These are the only shared style objects. Always prefer these over writing equivalent inline objects:
+Always prefer these over writing equivalent inline objects:
 
 ```typescript
-import { TOOLTIP_STYLE, SECTION_STYLE, SECTION_TITLE, PILL_BTN } from './constants/styles'
+import {
+  TOOLTIP_STYLE, SECTION_STYLE, SECTION_TITLE,
+  SEGMENT_BTN, GENRE_TOGGLE, DOT, NUM, INPUT_STYLE,
+} from './constants/styles'
 
-// Card/section container
-<div style={SECTION_STYLE}>
+// Section container / heading
+<div style={SECTION_STYLE}><div style={SECTION_TITLE}>標題</div></div>
 
-// Section heading
-<div style={SECTION_TITLE}>標題</div>
-
-// Recharts custom tooltip
+// Custom chart tooltip
 <div style={TOOLTIP_STYLE}>
 
-// Filter pill button (active: boolean, accent?: string)
-<button style={PILL_BTN(isActive, '#7c6fff')}>標籤</button>
+// Filter control — text segmented control, accent underline when active
+<button style={SEGMENT_BTN(isActive)}>標籤</button>
+
+// Multi-select with leading colour dot (filled = selected)
+<button style={GENRE_TOGGLE(isActive)}><span style={DOT(color, isActive)} />韓劇</button>
+
+// Every numeric value must align vertically
+<span style={NUM}>{score}</span>
 ```
+
+There are no pill buttons. `PILL_BTN` was removed — use `SEGMENT_BTN`.
 
 ### 3. Typography
 
@@ -109,31 +114,28 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Micr
 
 | Usage | Size | Weight | Color |
 |---|---|---|---|
-| Section title | 16px | 700 | `#eee` |
-| Chart label / muted caption | 13px | 400–600 | `#aaa` |
-| Pill button | 12px | 400 / 700 | context |
-| Tooltip content | 13px | 400 | `#eee` |
-| Faint meta text | 12–13px | 400 | `#666` |
+| Page title | 17px | 700 | `INK` |
+| Section / group label | 12px | 700 + `letterSpacing: 1` | `INK_SECONDARY` |
+| Data body, table cells | 13px | 400 | `INK` |
+| Headline figures | 15–18px | 700 | `INK` |
+| Chart axis, legend, caption | 11px | 400 | `INK_SECONDARY` / `INK_MUTED` |
+| Tooltip content | 12–13px | 400 | `INK` |
 
 **IMPORTANT:** Never introduce `rem`, `em`, or Tailwind typography classes — use `px` units in inline styles throughout.
+
+Every number carries `NUM` (`fontVariantNumeric: 'tabular-nums'`) so columns align. Ranks 1–3 may be emphasised with weight and one size step — never with medal emoji or gold/silver/bronze colors.
 
 ### 4. Spacing & Layout
 
 - Base unit: **4px**. Use multiples: 4, 8, 12, 16, 20, 24px
-- Section padding: `20px 24px` (from `SECTION_STYLE`)
-- Section margin-bottom: `24px`
-- Pill button padding: `4px 12px`
-- Border radius: cards = `12px`, pills = `20px`, tooltips = `8px`
-- Chart fixed heights: page chart area = `calc(100vh - 60px)`, pie charts = `370px`
+- Section padding: `16px 20px`; sections butt against each other separated by a 1px `RULE` — no card gaps
+- Border radius: containers = `0`; tooltips and small marks = `2px` max
+- Chart fixed heights: page chart area = `calc(100vh - 60px)`, pie row = `370px`
+- Ranked content is tabular: aligned columns, `PAPER_RAISED` header row, 1px `RULE` between rows, `PAPER_RAISED` on hover, `ACCENT_WASH` + 2px left `ACCENT` border when selected
 
 ### 5. Icon System
 
-Icons are **Unicode emoji** mapped in `src/constants/genres.ts` as `GENRE_ICONS`. Import and use them — never add an icon library:
-
-```typescript
-import { GENRE_ICONS } from '../constants/genres'
-// Usage: {GENRE_ICONS['韓劇']}  →  🇰🇷
-```
+**There is no icon system, and emoji are banned from the UI.** Category identity is an 8px colour square or dot plus a text label (`DOT` in `styles.ts`). Status marks use text symbols: `※`, `—`, `←`, `→`. Never add an icon library.
 
 ---
 
@@ -154,7 +156,7 @@ src/
 │       └── Sidebar.tsx
 ├── constants/
 │   ├── styles.ts     ← Shared CSSProperties tokens (SECTION_STYLE, PILL_BTN, …)
-│   └── genres.ts     ← GENRE_COLORS, GENRE_ICONS, GENRE_LABELS
+│   └── genres.ts     ← GENRE_COLORS, GENRE_LABELS, SERIES_COLORS, MAX_SERIES
 ├── types/
 │   └── index.ts      ← All TypeScript interfaces (RankingsData, Genre, …)
 ├── utils/
@@ -179,8 +181,8 @@ Every component follows this structure:
 ```typescript
 import type { CSSProperties } from 'react'
 import type { RankingsData } from '../../types'
-import { SECTION_STYLE, SECTION_TITLE, PILL_BTN } from '../../constants/styles'
-import { GENRE_COLORS, GENRE_ICONS } from '../../constants/genres'
+import { SECTION_STYLE, SECTION_TITLE, SEGMENT_BTN } from '../../constants/styles'
+import { GENRE_COLORS } from '../../constants/genres'
 
 interface Props {
   data: RankingsData
@@ -237,12 +239,24 @@ export default function MyComponent({ data }: Props) {
 
 | Library | Usage |
 |---|---|
-| **Recharts** `^2.13.3` | Bar charts, tooltips, cartesian grids (`Top20Chart`, `TaiwanDramaChart`, `RankTrendChart`) |
-| **ECharts** `^5.6.0` + **echarts-for-react** `^3.0.6` | Pie charts, stream/river charts (`GenreDistribution`, `WeeklyGenreFlow`) |
+| **Recharts** `^2.13.3` | Bar, line, pie charts (`Top20Chart`, `TaiwanDramaChart`, `RankTrendChart`, `GenreDistribution`) |
+| **ECharts** `^5.6.0` + **echarts-for-react** `^3.0.6` | Stream / river chart (`WeeklyGenreFlow`) |
 
 - Always use `ResponsiveContainer` from Recharts for responsive bar/line charts
 - For ECharts, pass options as a typed `EChartsOption` object to `ReactECharts`
 - Never install additional charting libraries
+
+### Chart Rules
+
+1. **Recessive chrome.** Axis lines `RULE_STRONG`, tick text 11px `INK_SECONDARY`, `tickLine={false}`. Grid lines `RULE`, solid, and only the set perpendicular to reading direction (horizontal bars keep vertical grid only). No chart frame.
+2. **Thin marks.** `barSize` 14, `radius` ≤ 2, solid genre fill, no gradients. Leave a 2px `PAPER` gap between adjacent or stacked fills.
+3. **Lines** are 2px; dots hidden until hover (≥ 8px then). The rank axis stays reversed so #1 sits on top.
+4. **Direct labels beat lookups.** Bar charts label the value at the bar end; line charts with ≤ 4 series label the show name at the line end.
+5. **A legend is always present for ≥ 2 series** — an 8px colour square plus text, in a row above the plot. Never the library's default legend.
+6. **One value axis.** Dual y-axes are forbidden; use two charts or index to a common base.
+7. **Tooltips everywhere**, using `TOOLTIP_STYLE`: bold title, then label/value rows aligned left/right with `NUM` on the values.
+8. **Text wears text tokens.** Values, labels and legends use the `INK` scale; identity is carried by the adjacent colour mark, never by coloured text.
+9. Set `isAnimationActive={false}` — this is a reference tool, not a presentation.
 
 ---
 
