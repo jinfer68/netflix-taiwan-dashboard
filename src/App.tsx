@@ -15,6 +15,8 @@ import {
   getTop50GenreDistribution,
   getDailyOverallRankings,
 } from './utils/dataTransforms'
+import { MAX_SERIES } from './constants/genres'
+import { INK, INK_MUTED, INK_SECONDARY, PAPER, RULE_STRONG } from './constants/styles'
 
 const EMPTY_DATA: RankingsData = {
   meta: { generatedAt: '', dataThrough: '' },
@@ -103,10 +105,10 @@ export default function App() {
 
   if (loading) {
     return (
-      <div style={{ background: '#0a0a16', height: '100vh', color: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: PAPER, height: '100vh', color: INK, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 18, marginBottom: 8 }}>載入資料中…</div>
-          <div style={{ fontSize: 13, color: '#666' }}>正在讀取 rankings.json</div>
+          <div style={{ fontSize: 16, marginBottom: 6 }}>載入資料中…</div>
+          <div style={{ fontSize: 12, color: INK_MUTED }}>正在讀取 rankings.json</div>
         </div>
       </div>
     )
@@ -116,7 +118,7 @@ export default function App() {
   const CHART_H = 'calc(100vh - 60px)'
 
   return (
-    <div style={{ background: '#0a0a16', height: '100vh', overflow: 'hidden', color: '#eee' }}>
+    <div style={{ background: PAPER, height: '100vh', overflow: 'hidden', color: INK }}>
       <Header
         dataFrom={data.weeklyRankings[0]?.dateRange.split(' ~ ')[0]}
         dataThrough={data.meta.dataThrough || undefined}
@@ -163,7 +165,7 @@ export default function App() {
           {activeTab === 'rankings' && (
             <div style={{ display: 'flex', height: CHART_H, gap: 0 }}>
               {/* TOP 20 約佔 60% */}
-              <div style={{ flex: '0 0 60%', height: CHART_H, borderRight: '1px solid #1e1e30' }}>
+              <div style={{ flex: '0 0 60%', height: CHART_H }}>
                 <Top20Chart
                   data={filteredData}
                   rankingMode={rankingMode}
@@ -177,7 +179,7 @@ export default function App() {
                 />
               </div>
               {/* 快速查詢直式面板約佔 40% */}
-              <div style={{ flex: 1, height: CHART_H, overflow: 'hidden', padding: '14px 16px' }}>
+              <div style={{ flex: 1, height: CHART_H, overflow: 'hidden' }}>
                 <QuickLookup
                   data={filteredData}
                   fullData={data}
@@ -196,18 +198,18 @@ export default function App() {
               {/* 圓餅圖：固定 370px，確保小螢幕也能正確渲染 */}
               <div style={{
                 height: 370, flexShrink: 0,
-                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16,
-                padding: '12px 20px 0',
-                borderBottom: '1px solid #1e1e30',
+                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24,
+                padding: '14px 20px 12px',
+                borderBottom: `1px solid ${RULE_STRONG}`,
               }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 4 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: INK_SECONDARY, letterSpacing: 1, marginBottom: 4 }}>
                     週榜 Top 10 出現次數
                   </div>
                   <GenreDistribution data={genreDistribution} countLabel="上榜次數" />
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#aaa', textAlign: 'center', marginBottom: 4 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: INK_SECONDARY, letterSpacing: 1, marginBottom: 4 }}>
                     Top 50 積分榜部數
                   </div>
                   <GenreDistribution data={top50GenreDistribution} countLabel="部數" />
@@ -222,7 +224,7 @@ export default function App() {
           {activeTab === 'taiwan' && (
             <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
               {/* 台劇積分榜：佔較多空間（節目多，需要高度）*/}
-              <div style={{ flex: '0 0 58%', minHeight: 0, borderBottom: '2px solid #1e1e30', overflow: 'auto' }}>
+              <div style={{ flex: '0 0 58%', minHeight: 0, borderBottom: `1px solid ${RULE_STRONG}`, overflow: 'auto' }}>
                 <TaiwanDramaChart
                   data={taiwanDramas}
                   showAttributes={data.showAttributes}
@@ -233,7 +235,7 @@ export default function App() {
                   onToggleTitle={title => setSelectedTitles(prev =>
                     prev.includes(title)
                       ? prev.filter(t => t !== title)
-                      : prev.length >= 10 ? prev : [...prev, title]
+                      : prev.length >= MAX_SERIES ? prev : [...prev, title]
                   )}
                 />
               </div>

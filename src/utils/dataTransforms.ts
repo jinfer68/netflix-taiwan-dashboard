@@ -2,7 +2,7 @@ import type { RankingsData, OverallRankingEntry, TaiwanDramaRanking, Genre, Show
 import { weekToYearMonth } from './dateHelpers'
 
 // 年度類型河流圖顯示的類型清單（不在清單內的歸入「其他」）
-export const FLOW_DISPLAY_GENRES = ['韓劇','台劇','日劇','動畫劇 (日)','美劇','陸劇','實境秀','其他']
+export const FLOW_DISPLAY_GENRES = ['韓劇','美劇','陸劇','動畫劇 (日)','日劇','台劇','實境秀','其他']
 
 // 週榜 genre → Genre 型別對照（不在清單內的歸入其他）
 const WEEKLY_GENRE_MAP: Record<string, Genre> = {
@@ -403,7 +403,8 @@ export function getShowLookupEntry(data: RankingsData, title: string): ShowLooku
   for (const week of data.weeklyRankings) {
     const item = week.rankings.find(r => r.title === title)
     if (!item) continue
-    const score = item.score ?? (11 - item.position)
+    // 資料中的 score 欄多為 0，一律以名次換算（與 getWeeklyDerivedRankings 一致）
+    const score = 11 - item.position
     totalScore += score
     if (item.position < peakRank) peakRank = item.position
     genre = (WEEKLY_GENRE_MAP[item.genre] ?? '其他') as Genre

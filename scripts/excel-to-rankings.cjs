@@ -8,7 +8,7 @@ const XLSX = require('xlsx')
 const fs = require('fs')
 const path = require('path')
 
-const EXCEL_PATH = 'C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx'
+const EXCEL_PATH = path.join(__dirname, '..', '爬蟲臉書', 'output', 'export.xlsx')
 const OUT_PATH = path.join(__dirname, '../public/data/rankings.json')
 
 // ── 工具函式 ─────────────────────────────────────────────────────────────────
