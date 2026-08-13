@@ -2,7 +2,10 @@
 
 **日期：** 2026-08-14
 **建議分支：** `feat/movie-page`
-**影響範圍：** `scripts/convert_excel.py`、`scripts/language_rules.py`（新增）、`src/types/index.ts`、`src/constants/languages.ts`（新增）、`src/utils/movieTransforms.ts`（新增）、`src/hooks/useShowFilters.ts` 與 `useMovieFilters.ts`（新增）、`src/components/layout/Sidebar.tsx`、`src/App.tsx`、`src/components/charts/Movie*.tsx`（新增四支）
+**影響範圍：**
+新增 — `scripts/language_rules.py`、`src/constants/languages.ts`、`src/utils/boardTransforms.ts`、`src/hooks/{useTimeFilters,useShowFilters,useMovieFilters}.ts`、`src/components/charts/Movie*.tsx`（四支）
+修改 — `scripts/convert_excel.py`、`src/types/index.ts`、`src/App.tsx`、`src/components/layout/Sidebar.tsx`
+刪除 — `scripts/excel-to-rankings.cjs`、`package.json` 的 `xlsx` 依賴、`.claude/settings.local.json` 中對應的兩條 Bash 權限
 
 ---
 
@@ -61,7 +64,8 @@
 | 時間範圍 | 日榜開放至 2021，週榜維持 2024 起 | 資料既然有就該用；之後劇集也會比照開放 |
 | 缺漏日 | 一律不內插，線在缺漏處中斷；顯示實際覆蓋率 | 內插會畫出不存在的資料 |
 | 資料檔 | 新開 `public/data/movies.json` | 不動 `rankings.json`；切到電影模式才 fetch |
-| 管線歸屬 | 擴充 `convert_excel.py` | 它才是正牌管線（同時產生 schema validator） |
+| 管線歸屬 | 擴充 `convert_excel.py`，刪除重複的 `excel-to-rankings.cjs` | 兩份管線寫同一個輸出檔，跑錯就讓資料退版 |
+| 與劇集的關係 | 結構泛型化，作為劇集之後收斂的目標形狀 | 電影自成一套的話，劇集重構時就得再寫第三套 |
 
 ### 明確不做（YAGNI）
 
@@ -152,7 +156,7 @@
       // …
     ]
   },
-  "movies": {
+  "entities": {
     "雙囍": {
       "language": "台灣",
       "format": "劇情片",
@@ -175,17 +179,17 @@
 }
 ```
 
-**檔案只存原始事實，不存任何可推導的聚合。** `dailyBoard` 是唯一的每日資料來源，`weeklyRankings` 是唯一的每週資料來源；積分總排行、季／月／週的期間排行、每片的名次序列，全部由前端在 `src/utils/movieTransforms.ts` 以純函式衍生，比照既有 `dataTransforms.ts` 的作法並以 `useMemo` 快取。
+**檔案只存原始事實，不存任何可推導的聚合。** `dailyBoard` 是唯一的每日資料來源，`weeklyRankings` 是唯一的每週資料來源；積分總排行、季／月／週的期間排行、每片的名次序列，全部由 `src/utils/boardTransforms.ts` 的純函式衍生，以 `useMemo` 快取。
 
-這與劇集的 `rankings.json` 不同 —— 後者存了 `dailyOverallRankings`、`dailyOverallByQuarter`、`dailyOverallByWeek` 三份預先聚合。那些是既有包袱，不在本次重構範圍，但新檔案不重蹈覆轍：同一份資料存兩遍必然會不同步。
+`entities` 是唯一的例外，它必須留在檔案裡 —— 語言歸屬的多數決是管線的判斷結果，不是前端能推導的事實。
 
-`movies` 是例外，它必須留在檔案裡 —— 語言歸屬的多數決是管線的判斷結果，不是前端能推導的事實。
+劇集的 `rankings.json` 目前存了 `dailyOverallRankings`、`dailyOverallByQuarter`、`dailyOverallByWeek` 三份預先聚合，是同一份資料存四遍。本規格的結構就是劇集之後要收斂過去的目標形狀 —— 見〈與劇集程式的收斂路徑〉。
 
 **體積預算**：17k 筆日榜項目，估計 600KB–900KB。若超過 1MB，改用字串池（`titles: string[]` + `entries` 存索引）壓縮，可省約一半。此優化在超過門檻前不做。
 
 ### 6. Schema validator
 
-比照既有作法，在 `generate_schema_validator` 加入電影型別的樣本，涵蓋 json 中實際存在的三種結構：`MovieAttributes`、`MovieDailyBoard`、`MovieWeeklyWeek`。衍生型別（`MovieOverallEntry`）不進驗證器 —— 它不存在於檔案中，由 TypeScript 編譯期把關。
+比照既有作法，在 `generate_schema_validator` 加入電影型別的樣本，涵蓋 json 中實際存在的三種結構：`MovieAttributes`、`DailyBoard`、`WeeklyBoard`。衍生型別（`MovieOverallEntry`）不進驗證器 —— 它不存在於檔案中，由 TypeScript 編譯期把關。
 
 ---
 
@@ -208,38 +212,46 @@ export interface MovieAttributes {
   totalScore: number
 }
 
-export interface MovieDailyBoard {
+export interface DailyBoard {
   date: string
   entries: { rank: number; title: string }[]
 }
 
-export interface MovieWeeklyItem {
+export interface WeeklyBoardItem {
   rank: number
   title: string
   score: number
 }
 
-export interface MovieWeeklyWeek {
+export interface WeeklyBoard {
   weekNumber: number
   dateRange: string         // "YYYY-MM-DD ~ YYYY-MM-DD"
-  rankings: MovieWeeklyItem[]
+  rankings: WeeklyBoardItem[]
 }
 
-export interface MovieYearCoverage {
+export interface YearCoverage {
   year: string
   haveDays: number
   missingDays: number
 }
-
-export interface MoviesData {
-  meta: { generatedAt: string; dataThrough: string; coverage: MovieYearCoverage[] }
-  movies: Record<string, MovieAttributes>
-  dailyBoard: MovieDailyBoard[]
-  weeklyRankings: MovieWeeklyWeek[]
-}
 ```
 
-衍生型別（`movieTransforms.ts` 的回傳值，不出現在 json）：
+資料集本身**設計成泛型**，因為劇集之後要收斂到同一個形狀（見〈與劇集程式的收斂路徑〉）。電影只是第一個使用者，不是特例：
+
+```typescript
+export interface BoardDataset<TAttrs> {
+  meta: { generatedAt: string; dataThrough: string; coverage: YearCoverage[] }
+  entities: Record<string, TAttrs>      // 片名／劇名 → 屬性
+  dailyBoard: DailyBoard[]
+  weeklyRankings: WeeklyBoard[]
+}
+
+export type MoviesData = BoardDataset<MovieAttributes>
+```
+
+`entities` 刻意不叫 `movies` —— 同一個欄位之後要裝劇集屬性。`dailyBoard` 與 `weeklyRankings` 兩種榜單結構對電影和劇集完全相同（都是「某日／某週的名次與片名」），因此不泛型化。
+
+衍生型別（`boardTransforms.ts` 的回傳值，不出現在 json）：
 
 ```typescript
 export interface MovieOverallEntry {
@@ -265,12 +277,18 @@ export interface MovieOverallEntry {
 
 `App.tsx` 目前有 20 個以上的 `useState` 平鋪在單一元件裡，`Sidebar` 的 props 介面已達 30 個欄位。再加一組電影狀態會失控。
 
-**在動電影功能之前**，先把既有狀態抽成 hook：
+**在動電影功能之前**，先抽出三個 hook：
 
-- `src/hooks/useShowFilters.ts` — 既有的劇集篩選狀態（年份、季月週、類型、片源、走勢選片…），回傳一個物件
-- `src/hooks/useMovieFilters.ts` — 電影篩選狀態（年份、季月週、語言、形式、片源）
+```
+useTimeFilters()    ← 年 / 季 / 月 / 週下鑽 + 榜單類型（週榜／日榜）
+                       兩種模式完全共用，含年份收斂規則
+useShowFilters()    ← useTimeFilters() + 類型、上架方式、片源、走勢選片
+useMovieFilters()   ← useTimeFilters() + 語言、形式、片源
+```
 
-`Sidebar` 改成接收兩個 filter 物件與當前 mode，而非 30 個獨立 prop。這是為了本次工作而做的必要整理，不是無關重構。
+時間下鑽是兩者一模一樣的邏輯（現在寫在 `App.tsx` 與 `Sidebar` 裡各一份），必須共用 —— 否則之後修一個下鑽的 bug 要改兩個地方。模式專屬的只有各自的分類篩選。
+
+`Sidebar` 改成接收「當前 mode + 該 mode 的 filter 物件」，而非 30 個獨立 prop。這是本次工作的必要整理，不是無關重構。
 
 ### 2. 頂層模式切換
 
@@ -315,7 +333,7 @@ export type AppMode = 'shows' | 'movies'
 │ MovieTop20Chart      (60%)   │ MovieQuickLookup  │  上列 55%
 │ 積分榜，語言色長條             │       (40%)       │
 ├──────────────────────────────┼───────────────────┤
-│ MovieDailyBoard      (44%)   │ MovieRaceChart    │  下列 45%
+│ MovieBoardTable      (44%)   │ MovieRaceChart    │  下列 45%
 │ 當日榜單 + 迷你走勢            │      (56%)        │
 └──────────────────────────────┴───────────────────┘
 ```
@@ -324,7 +342,7 @@ export type AppMode = 'shows' | 'movies'
 
 依 CLAUDE.md 規定，四支元件都放 `src/components/charts/`，檔名加 `Movie` 前綴。若第二階段元件數再增加，屆時再議是否開子目錄（連同 CLAUDE.md 一併更新）。
 
-### 6. `MovieDailyBoard` — 當日榜單 + 迷你走勢
+### 6. `MovieBoardTable` — 當日榜單 + 迷你走勢
 
 表格，每列一部片：
 
@@ -415,6 +433,39 @@ export const FORMAT_LABELS: MovieFormat[]
 7. 2021 年（缺 102 天）的競逐圖在缺漏處確實斷線，未出現橫跨缺口的直線
 8. 在榜 1 天的電影（如「驚天凍地」）在迷你走勢欄可見一個圓點，非空白
 9. 全站無新增 `className`、無新增 hex 色值、無新增 npm 套件
+10. `scripts/excel-to-rankings.cjs` 已刪除，`npm ci && npm run build` 在移除 `xlsx` 依賴後仍通過
+11. 時間下鑽的邏輯只有一份（`useTimeFilters`），劇集與電影共用；`App.tsx` 與 `Sidebar.tsx` 中不再有重複的季／月／週推導
+
+---
+
+## 與劇集程式的收斂路徑
+
+本規格的每一項結構選擇，都是為了讓劇集之後**搬過來而不是重寫**。以下記錄目標形狀與差距，讓後續的劇集重構有依據。
+
+### 共用而非複製
+
+| 元件 | 本次建立 | 劇集現況 | 收斂方式 |
+|---|---|---|---|
+| 時間下鑽狀態 | `useTimeFilters()` | 散在 `App.tsx` 與 `Sidebar.tsx` | 劇集改用同一個 hook，刪除重複邏輯 |
+| 榜單衍生函式 | `boardTransforms.ts`（泛型，吃 `DailyBoard[]`） | `dataTransforms.ts` 讀預聚合欄位 | 劇集資料改成 `DailyBoard[]` 後直接套用同一批函式 |
+| 資料集型別 | `BoardDataset<TAttrs>` | `RankingsData`，欄位平鋪 | `RankingsData` 收斂為 `BoardDataset<ShowAttributes>` |
+| 語言／類型常數 | `languages.ts` 的 `LANGUAGE_COLORS` + 固定順序 | `genres.ts` 同樣模式 | 兩者已同構，不需改動 |
+
+**本次做到哪裡**：劇集的**狀態**改用 `useTimeFilters` / `useShowFilters`（這是兩種模式共用時間下鑽的前提，無法迴避）；劇集的**資料與圖表元件一律不動** —— 不改 `rankings.json`、不改 `convert_excel.py` 既有的劇集輸出、不改 `Top20Chart`／`TaiwanDramaChart`／`GenreDistribution`／`RankTrendChart`／`WeeklyGenreFlow`／`QuickLookup`。上表第二、三列是路線圖，不是本次工作項目。
+
+### 劇集之後要拆掉的三份預聚合
+
+`rankings.json` 的 `dailyOverallRankings`、`dailyOverallByQuarter`、`dailyOverallByWeek` 是同一份日榜資料的三種切法，三份都由 `convert_excel.py` 預先算好寫進檔案。問題有二：檔案膨脹；任何一個聚合邏輯改動都要重跑管線，前端無法自己修正。
+
+收斂後劇集只需存 `dailyBoard`，三份聚合改由 `boardTransforms.ts` 衍生 —— 也就是本次電影已經在做的事。屆時 `getDailyOverallRankings()` 那組簽章會被泛型版本取代。
+
+### 舊管線
+
+`scripts/excel-to-rankings.cjs` 是 `convert_excel.py` 的重複實作，同樣讀 `export.xlsx`、同樣寫 `public/data/rankings.json`，但沒有類型正規化、也不產生 schema validator。兩份管線寫同一個輸出檔，跑錯一個就讓資料悄悄退版。
+
+**本次一併刪除**，連同 `package.json` 中僅供它使用的 `xlsx` 依賴（`convert_excel.py` 走 Python 的 openpyxl）。
+
+已確認的引用狀況：`package.json` scripts、`.github/workflows/`、README、任何 `.ts`／`.tsx` 皆無引用；唯一提及處是 `.claude/settings.local.json` 的兩條 Bash 執行權限（`scripts/excel-to-rankings.js` 與 `.cjs`），一併移除。
 
 ---
 
