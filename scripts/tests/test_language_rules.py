@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from language_rules import clean, split_raw
+from language_rules import clean, split_raw, categorize
 
 
 def test_clean_converts_fullwidth_parens():
@@ -76,3 +76,69 @@ def test_split_ampersand_coproduction():
 
 def test_split_empty_input():
     assert split_raw("") == ("劇情片", "")
+
+
+def test_categorize_taiwan_is_its_own_bucket():
+    assert categorize("台") == ("台灣", "劇情片", "台", "國別")
+
+
+def test_categorize_hongkong_is_chinese():
+    assert categorize("港") == ("華語", "劇情片", "港", "國別")
+
+
+def test_categorize_china_is_chinese():
+    assert categorize("中") == ("華語", "劇情片", "中", "國別")
+
+
+def test_categorize_us_is_english():
+    assert categorize("美") == ("英語", "劇情片", "美", "國別")
+
+
+def test_categorize_uk_is_english():
+    assert categorize("英") == ("英語", "劇情片", "英", "國別")
+
+
+def test_categorize_alias_meiju_is_us_not_a_show():
+    """電影表裡的「美劇」是爬蟲錯標，不是劇集"""
+    assert categorize("美劇") == ("英語", "劇情片", "美", "別名")
+
+
+def test_categorize_alias_taiju():
+    assert categorize("台劇") == ("台灣", "劇情片", "台", "別名")
+
+
+def test_categorize_alias_japan_fullname():
+    assert categorize("日本") == ("日語", "劇情片", "日", "別名")
+
+
+def test_categorize_alias_short_spain():
+    """別名解析成功，但西班牙不在語言對照表 → 仍是 pending，等待人工決定"""
+    assert categorize("西") == ("其他語言", "劇情片", "西班牙", "pending")
+
+
+def test_categorize_animation_japan_keeps_format():
+    assert categorize("動畫 (日)") == ("日語", "動畫", "日", "國別")
+
+
+def test_categorize_documentary_uk():
+    assert categorize("紀錄片 (英)") == ("英語", "紀錄片", "英", "國別")
+
+
+def test_categorize_unmapped_country_is_pending():
+    assert categorize("波蘭") == ("其他語言", "劇情片", "波蘭", "pending")
+
+
+def test_categorize_garbage_is_pending():
+    lang, fmt, origin, reason = categorize("(2020) 9900萬戶")
+    assert lang == "其他語言"
+    assert reason == "pending"
+
+
+def test_categorize_empty_is_pending():
+    lang, fmt, origin, reason = categorize("")
+    assert lang == "其他語言"
+    assert reason == "pending"
+
+
+def test_categorize_coproduction_uses_first_country():
+    assert categorize("美/南非/冰島") == ("英語", "劇情片", "美", "國別")

@@ -58,3 +58,46 @@ def split_raw(raw) -> tuple[str, str]:
     fmt = _to_format(base)
     origin = _SEPARATORS.split(loc)[0].strip()
     return fmt, origin
+
+
+# 須與 src/types/index.ts 的 MovieLanguage union 一致
+CANONICAL_LANGUAGES = frozenset({
+    "英語", "其他語言", "台灣", "日語", "韓語", "華語",
+})
+
+# 資料本身的髒寫法／同義寫法。左側是爬蟲產出的錯字或縮寫，不是分類決策。
+_ALIAS = {
+    "美劇": "美", "台劇": "台", "韓劇": "韓", "日劇": "日",
+    "英劇": "英", "法劇": "法", "荷蘭劇": "荷蘭",
+    "日本": "日", "西": "西班牙", "印": "印度",
+    "義": "義大利", "俄": "俄羅斯", "澳洲": "澳大利亞",
+}
+
+# 產地 → 語言。未列出者一律「其他語言」並列入待審。
+_LANGUAGE = {
+    "台": "台灣",
+    "中": "華語", "港": "華語", "新加坡": "華語", "馬來西亞": "華語",
+    "韓": "韓語",
+    "日": "日語",
+    "美": "英語", "英": "英語", "澳大利亞": "英語",
+    "加拿大": "英語", "紐西蘭": "英語", "愛爾蘭": "英語", "南非": "英語",
+}
+
+
+def categorize(raw) -> tuple[str, str, str, str]:
+    """回傳 (語言, 形式, 正規化產地, 判定依據)
+
+    判定依據：'國別' | '別名' | 'pending'
+    語言一定是 CANONICAL_LANGUAGES 的成員。
+    """
+    fmt, origin = split_raw(raw)
+
+    aliased = _ALIAS.get(origin)
+    reason = "別名" if aliased else "國別"
+    if aliased:
+        origin = aliased
+
+    language = _LANGUAGE.get(origin)
+    if language is None:
+        return "其他語言", fmt, origin, "pending"
+    return language, fmt, origin, reason
