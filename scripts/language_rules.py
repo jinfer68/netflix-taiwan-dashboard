@@ -25,3 +25,36 @@ def clean(raw) -> str:
     while g.count(")") > g.count("("):
         g = g[:-1].rstrip()
     return _PAREN_SPACING.sub(" (", g).strip()
+
+
+_LOC_SUFFIX = re.compile(r"^(.*?)\s*\(([^)]*)\)?\s*$")
+_SEPARATORS = re.compile(r"[/,、&＆\\]")
+
+
+def _to_format(base: str) -> str:
+    if "動畫" in base:
+        return "動畫"
+    if "紀錄" in base or "紀實" in base:
+        return "紀錄片"
+    return "劇情片"
+
+
+def split_raw(raw) -> tuple[str, str]:
+    """回傳 (形式, 主產地)
+
+    形式為「劇情片」「動畫」「紀錄片」之一。
+    主產地是清理後的原始國別字串，合製取第一個。
+    """
+    g = clean(raw)
+    if not g:
+        return "劇情片", ""
+
+    m = _LOC_SUFFIX.match(g)
+    if m and m.group(2) is not None:
+        base, loc = m.group(1).strip(), m.group(2).strip()
+    else:
+        base, loc = "", g
+
+    fmt = _to_format(base)
+    origin = _SEPARATORS.split(loc)[0].strip()
+    return fmt, origin
