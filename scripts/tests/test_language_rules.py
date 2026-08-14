@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from language_rules import clean, split_raw, categorize
+from language_rules import clean, split_raw, categorize, CANONICAL_LANGUAGES, _LANGUAGE
 
 
 def test_clean_converts_fullwidth_parens():
@@ -142,3 +142,15 @@ def test_categorize_empty_is_pending():
 
 def test_categorize_coproduction_uses_first_country():
     assert categorize("美/南非/冰島") == ("英語", "劇情片", "美", "國別")
+
+
+def test_split_unclosed_paren_still_extracts_origin():
+    assert split_raw("電影 (俄/美") == ("劇情片", "俄")
+
+
+def test_categorize_unclosed_paren_normalises_origin():
+    assert categorize("電影 (俄/美")[2] == "俄羅斯"
+
+
+def test_language_table_only_produces_canonical_values():
+    assert set(_LANGUAGE.values()) | {"其他語言"} == CANONICAL_LANGUAGES
