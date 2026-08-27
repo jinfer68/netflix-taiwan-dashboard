@@ -21,11 +21,14 @@
 
 ## 已驗證的資料事實（實作時可直接依賴，不需重新確認）
 
-- 日榜電影表 16,991 筆／1,702 天／2021-04-05 ～ 2026-08-05；週榜 1,699 筆／170 週／2024-01 起
+- 日榜電影表 16,991 筆／1,702 天／2021-04-05 ～ 2026-08-05
+- 週榜 1,699 筆／170 週／**2022-01-03 ～ 2026-07-20**
 - 日榜缺 247 天：2021 缺 102、2022 缺 34、2023 缺 110、2024 缺 0、2025 缺 0、2026 缺 1
+- **週榜逐年週數：2022 年 48、2023 年 38、2024 年 52、2025 年 15、2026 年 17。** 電影週榜在 2025 之後嚴重殘缺，而同期劇集週榜是 52／28 週 —— 所以這不是爬蟲斷線，是電影週榜本身的問題
 - 25 天的榜單不足 10 筆（4 天 8 筆、21 天 9 筆）
 - 積分欄有 169 筆為 0（17 天），全部是 Excel 公式快取被清掉所致，與劇集同一缺陷；套用既有的 `resolve_score()` 後，**積分恆等於 `11 - 排名`**，因此 `dailyBoard` 不存積分欄，前端直接推算
-- 77 個片名的類型欄前後不一致，需多數決
+- 75 個片名的類型欄前後不一致，需多數決
+- `movies.json` 實測原始 1,101 KB／**gzip 109 KB**（既有的 `rankings.json` 是 2,221 KB／gzip 134 KB）。**不做字串池壓縮** —— gzip 後比既有檔案還輕，優化沒有標的
 
 ---
 
@@ -893,7 +896,7 @@ if __name__ == "__main__":
 - [ ] **Step 2: 執行管線**
 
 Run: `python scripts/convert_movies.py`
-Expected: 印出日榜 1702 天 / 16991 筆、1410 部電影、語言分佈、待審清單、77 部衝突片名、逐年覆蓋率，並輸出 `public/data/movies.json`
+Expected: 印出日榜 1702 天 / 16991 筆、1410 部電影、語言分佈、待審清單、75 部衝突片名、逐年覆蓋率，並輸出 `public/data/movies.json`
 
 - [ ] **Step 3: Commit**
 
@@ -1297,13 +1300,41 @@ export function titlesIn(boards: DailyBoard[]): string[] {
   return [...seen]
 }
 
-/** 該期間的實際天數與應有天數，供覆蓋率提示使用 */
-export function coverageOf(boards: DailyBoard[]): { have: number; expected: number } {
-  if (boards.length === 0) return { have: 0, expected: 0 }
-  const from = new Date(boards[0].date).getTime()
-  const to = new Date(boards[boards.length - 1].date).getTime()
-  const expected = Math.round((to - from) / 86400000) + 1
-  return { have: boards.length, expected }
+const DAY_MS = 86400000
+const dayCount = (from: string, to: string) =>
+  Math.round((Date.parse(to) - Date.parse(from)) / DAY_MS) + 1
+
+/**
+ * 覆蓋率：該期間實際有幾筆，以及應該有幾筆。
+ *
+ * 分母來自「使用者選的期間」而非「資料自己的首末」—— 後者會讓缺漏
+ * 自己消失：若 2025 年的 15 週全集中在上半年，用資料首末當分母會
+ * 算出 15/15 完全覆蓋，但實際上缺了 71%。
+ *
+ * 選取期間會先被夾在整份資料的邊界內，否則選「2021 全年」會把
+ * 資料開始之前的 1–3 月也算成缺漏。
+ */
+export function coverageIn(
+  presentDates: string[],
+  range: DateRange | null,
+  bounds: DateRange,
+  unit: 'day' | 'week',
+): { have: number; expected: number } {
+  const from = range && range.from > bounds.from ? range.from : bounds.from
+  const to = range && range.to < bounds.to ? range.to : bounds.to
+  if (from > to) return { have: 0, expected: 0 }
+
+  const have = presentDates.filter(d => d >= from && d <= to).length
+  const days = dayCount(from, to)
+  const expected = unit === 'week' ? Math.round(days / 7) : days
+  return { have, expected: Math.max(expected, have) }
+}
+
+/** 整份資料的首末日，供 coverageIn 夾住選取期間 */
+export function boundsOf(dates: string[]): DateRange | null {
+  if (dates.length === 0) return null
+  const sorted = [...dates].sort()
+  return { from: sorted[0], to: sorted[sorted.length - 1] }
 }
 ```
 
@@ -2568,7 +2599,8 @@ import { LANGUAGE_COLORS, LANGUAGE_LABELS, FORMAT_LABELS } from '../../constants
             {movieCoverage.expected > 0 &&
               movieCoverage.have / movieCoverage.expected < 0.9 && (
                 <div style={{ ...NUM, fontSize: 11, color: INK_MUTED, marginTop: 8 }}>
-                  ※ 資料涵蓋 {movieCoverage.have} / {movieCoverage.expected} 天
+                  ※ 資料涵蓋 {movieCoverage.have} / {movieCoverage.expected}{' '}
+                  {movieFilters.time.boardMode === 'daily' ? '天' : '週'}
                 </div>
               )}
 
@@ -2645,10 +2677,19 @@ import { LANGUAGE_COLORS, LANGUAGE_LABELS, FORMAT_LABELS } from '../../constants
           movieCoverage={movieCoverage}
 ```
 
-新增衍生值與 import：
+新增衍生值。**兩種榜單都要算覆蓋率** —— 週榜的缺漏（2025 只有 15/52 週）其實比日榜嚴重：
 
 ```typescript
-  const movieCoverage = useMemo(() => coverageOf(movieDailyInRange), [movieDailyInRange])
+  const movieCoverage = useMemo(() => {
+    if (!moviesData) return { have: 0, expected: 0 }
+    const isDaily = movieFilters.time.boardMode === 'daily'
+    const dates = isDaily
+      ? moviesData.dailyBoard.map(b => b.date)
+      : moviesData.weeklyRankings.map(w => w.dateRange.split(' ~ ')[0])
+    const bounds = boundsOf(dates)
+    if (!bounds) return { have: 0, expected: 0 }
+    return coverageIn(dates, movieFilters.time.range, bounds, isDaily ? 'day' : 'week')
+  }, [moviesData, movieFilters.time.boardMode, movieFilters.time.range])
 ```
 
 - [ ] **Step 3b: 篩選變動時清除失效的選取**
@@ -2667,7 +2708,7 @@ import { LANGUAGE_COLORS, LANGUAGE_LABELS, FORMAT_LABELS } from '../../constants
 ```
 
 ```typescript
-import { coverageOf, filterDailyByRange, filterWeeklyByRange } from './utils/boardTransforms'
+import { boundsOf, coverageIn, filterDailyByRange, filterWeeklyByRange } from './utils/boardTransforms'
 ```
 
 - [ ] **Step 4: 確認編譯通過**
@@ -2679,9 +2720,10 @@ Expected: build 成功
 
 1. 電影模式的 Sidebar 顯示：榜單類型、時間範圍、語言篩選（六個色點）、形式、片源
 2. **沒有**「上架方式」群組
-3. 日榜模式下年份包含 2021–2026；切到週榜後 2021–2023 消失
-4. 在日榜選 2022 再切到週榜，年份自動變成 2024，畫面不空白
-5. 選 2021 年時，Sidebar 出現「※ 資料涵蓋 169 / 271 天」
+3. 日榜模式下年份包含 2021–2026；切到週榜後 2021 消失（週榜資料 2022 起）
+4. 在日榜選 2021 再切到週榜，年份自動變成 2022，畫面不空白
+5. 日榜選 2021 年時，Sidebar 出現「※ 資料涵蓋 169 / 271 天」
+5b. **切到週榜選 2025 年，出現「※ 資料涵蓋 15 / 52 週」** —— 電影週榜 2025 只有 15 週，這個提示是必要的，否則使用者會把 15 週算出來的積分榜誤讀成全年
 6. 選「台灣」語言後，積分榜只剩台片；再按「清除」還原
 7. 選「動畫」形式後，榜上只剩動畫片
 8. 切回影集模式，三個分頁的篩選器完全正常
@@ -2888,13 +2930,15 @@ Run: `python scripts/convert_movies.py`
 確認輸出中：
 - 語言分佈為 英語 53.9%、其他語言 13.9%、台灣 11.2%、日語 8.8%、韓語 6.1%、華語 6.1%（誤差 0.5% 內）
 - 印出待審類型清單
-- 印出 77 部類型衝突片名
+- 印出 75 部類型衝突片名
 
-- [ ] **Step 1b: 檢查檔案體積**
+- [ ] **Step 1b: 檢查傳輸體積**
 
-Run: `ls -l public/data/movies.json`
-
-規格的體積預算是 1MB。若超過，改用字串池壓縮：`movies.json` 加一個 `titles: string[]`，`dailyBoard.entries` 的 `title` 改存索引，前端載入後還原。**未超過就不要做這個優化。**
+Run:
+```bash
+python -c "import gzip;d=open('public/data/movies.json','rb').read();print('raw %.0f KB  gzip %.0f KB'%(len(d)/1024,len(gzip.compress(d,9))/1024))"
+```
+Expected: gzip 約 109 KB（已實測）。門檻是 gzip 後 300 KB —— 原始體積不是使用者付出的成本，不必理會。目前遠低於門檻，**不做字串池壓縮**。
 
 - [ ] **Step 2: 測試全綠**
 
