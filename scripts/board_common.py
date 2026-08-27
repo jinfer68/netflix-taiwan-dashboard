@@ -70,7 +70,4 @@ def majority_vote(values) -> str:
         return ""
     counts = Counter(items)
     top = max(counts.values())
-    for v in items:
-        if counts[v] == top:
-            return v
-    return items[0]
+    return next(v for v in items if counts[v] == top)
