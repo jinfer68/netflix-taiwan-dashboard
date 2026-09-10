@@ -17,7 +17,6 @@
       "Bash(find . -not -path \"./node_modules/*\" -not -path \"./.netlify/*\" -not -path \"./dist/*\" -type f -exec du -h {})",
       "Bash(dir \"C:\\\\Users\\\\User\\\\Desktop\\\\影視數據儀表板\" /a)",
       "Bash(npx tsc:*)",
-      "Bash(node -e \"const d = require\\(''./src/data/rankings.json''\\); const weeks = d.weeklyRankings; weeks.sort\\(\\(a,b\\)=>a.weekNumber-b.weekNumber\\); console.log\\(''first:'', weeks[0]?.dateRange\\); console.log\\(''last:'', weeks[weeks.length-1]?.dateRange\\); console.log\\(''meta:'', d.meta\\)\")",
       "Bash(node -e \":*)",
       "Bash(pip install:*)",
       "Read(//c/Users/User/**)",
@@ -26,9 +25,7 @@
       "Bash(rm -rf node_modules/.vite)",
       "Bash(python scripts/convert_excel.py \"C:\\\\Users\\\\User\\\\Downloads\\\\Netflix 2025 台灣收視排名數據分析.xlsx\")",
       "Bash(node -e ':*)",
-      "Bash(node scripts/export-to-csv.js)",
       "Bash(mkdir -p \"C:/Users/User/Desktop/影視數據儀表板/public/data\")",
-      "Bash(cp \"C:/Users/User/Desktop/影視數據儀表板/src/data/rankings.json\" \"C:/Users/User/Desktop/影視數據儀表板/public/data/rankings.json\")",
       "Bash(python -X utf8 -c ':*)",
       "Bash(python -X utf8 scripts/convert_excel.py \"C:/Users/User/Downloads/Netflix 2025 台灣收視排名數據分析.xlsx\")",
       "Bash(python -X utf8 scripts/convert_excel.py)",
@@ -47,8 +44,6 @@
       "Bash(git checkout *)",
       "Bash(node -e ' *)",
       "Bash(node -e \"try { require\\('xlsx'\\); console.log\\('ok'\\); } catch\\(e\\) { console.log\\('not found'\\); }\")",
-      "Bash(node scripts/excel-to-rankings.js)",
-      "Bash(node scripts/excel-to-rankings.cjs)",
       "Bash(bash \"C:/Users/User/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Users/User/Desktop/影視數據儀表板\")",
       "Bash(git commit -m ' *)",
       "Bash(git merge *)",
@@ -64,7 +59,12 @@
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('public/data/rankings.json','utf8'\\)\\); console.log\\('dataThrough:', d.meta.dataThrough\\); console.log\\('週排行:', d.weeklyRankings.length, '週'\\); console.log\\('總積分榜:', d.overallRankings.length, '部'\\); console.log\\('台劇積分榜:', d.taiwanDramaRankings.length, '部'\\); console.log\\('每日\\(台劇\\):', d.dailyRankings.length, '筆'\\); console.log\\('日榜總排行:', d.dailyOverallRankings.length, '部'\\); console.log\\('Top3日榜:', d.dailyOverallRankings.slice\\(0,3\\).map\\(r=>r.rank+'. '+r.title+' '+r.totalScore+'分/'+r.weeksOnChart+'天'\\).join\\(', '\\)\\);\")",
       "Bash(dir \"C:\\\\Users\\\\User\\\\Desktop\\\\爬蟲臉書\\\\output\\\\export.xlsx\")",
-      "Bash(node -e \"const XLSX=require\\('xlsx'\\); const wb=XLSX.readFile\\('C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx'\\); const sheet=wb.Sheets['Netflix 每週節目排名'] || wb.Sheets['Netflix 每週電排名']; const rows=XLSX.utils.sheet_to_json\\(sheet,{defval:''}\\); const dates=rows.map\\(r=>r['日期迄']\\).filter\\(Boolean\\); const maxSerial=Math.max\\(...dates\\); const d=new Date\\(\\(maxSerial-25569\\)*86400*1000\\); console.log\\('Excel最新日期迄:', d.toISOString\\(\\).split\\('T'\\)[0]\\); console.log\\('週排行筆數:', rows.length\\);\")"
+      "Bash(node -e \"const XLSX=require\\('xlsx'\\); const wb=XLSX.readFile\\('C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx'\\); const sheet=wb.Sheets['Netflix 每週節目排名'] || wb.Sheets['Netflix 每週電排名']; const rows=XLSX.utils.sheet_to_json\\(sheet,{defval:''}\\); const dates=rows.map\\(r=>r['日期迄']\\).filter\\(Boolean\\); const maxSerial=Math.max\\(...dates\\); const d=new Date\\(\\(maxSerial-25569\\)*86400*1000\\); console.log\\('Excel最新日期迄:', d.toISOString\\(\\).split\\('T'\\)[0]\\); console.log\\('週排行筆數:', rows.length\\);\")",
+      "Bash(python -c ' *)",
+      "Bash(python scripts/convert_excel.py \"C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx\")",
+      "Bash(ls -la \"C:/Users/User/Desktop/爬蟲臉書/output/export.xlsx\")",
+      "Bash(npx tsc *)",
+      "Bash(python -m pytest scripts/tests/test_language_rules.py -v)"
     ]
   }
 }

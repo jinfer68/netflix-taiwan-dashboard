@@ -62,12 +62,6 @@ export function getWeeklyDerivedRankings(data: RankingsData): OverallRankingEntr
     .map((e, i) => ({ ...e, rank: i + 1 }))
 }
 
-export function getTop20(data: RankingsData): OverallRankingEntry[] {
-  return [...data.overallRankings]
-    .sort((a, b) => b.totalScore - a.totalScore)
-    .slice(0, 20)
-}
-
 /** 將同年度所有季度的日榜資料加總，產生年度日榜排行 */
 function combineDailyYearQuarters(data: RankingsData, year: string): OverallRankingEntry[] {
   const qEntries = Object.entries(data.dailyOverallByQuarter ?? {})

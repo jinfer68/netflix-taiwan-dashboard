@@ -21,3 +21,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+
+# Python 測試快取
+.pytest_cache/
