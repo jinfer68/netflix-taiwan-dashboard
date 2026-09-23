@@ -9,15 +9,17 @@ import GenreDistribution from './components/charts/GenreDistribution'
 import RankTrendChart from './components/charts/RankTrendChart'
 import WeeklyGenreFlow from './components/charts/WeeklyGenreFlow'
 import QuickLookup from './components/charts/QuickLookup'
+import MovieBoardTable from './components/charts/MovieBoardTable'
 import {
   getTaiwanDramaComparison,
   getWeeklyGenreDistribution,
   getTop50GenreDistribution,
   getDailyOverallRankings,
 } from './utils/dataTransforms'
+import { filterDailyByRange } from './utils/boardTransforms'
 import { useMovieFilters } from './hooks/useMovieFilters'
 import { MAX_SERIES } from './constants/genres'
-import { INK, INK_MUTED, INK_SECONDARY, NUM, PAPER, RULE_STRONG } from './constants/styles'
+import { INK, INK_MUTED, INK_SECONDARY, PAPER, RULE_STRONG } from './constants/styles'
 
 const EMPTY_DATA: RankingsData = {
   meta: { generatedAt: '', dataThrough: '' },
@@ -62,6 +64,7 @@ export default function App() {
   const [moviesData, setMoviesData] = useState<MoviesData | null>(null)
   const [moviesLoading, setMoviesLoading] = useState(false)
   const [moviesFailed, setMoviesFailed] = useState(false)
+  const [selectedMovie, setSelectedMovie] = useState<string | null>(null)
 
   // state 更新非同步，StrictMode 的雙重呼叫會同時讀到舊值而重複抓取；ref 是同步的
   const moviesRequested = useRef(false)
@@ -91,6 +94,11 @@ export default function App() {
   }, [moviesData])
 
   const movieFilters = useMovieFilters(movieYears)
+
+  const movieDailyInRange = useMemo(
+    () => filterDailyByRange(moviesData?.dailyBoard ?? [], movieFilters.time.range),
+    [moviesData, movieFilters.time.range],
+  )
 
   // ── TOP 20 篩選狀態 ──────────────────────────────────────────
   const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
@@ -286,26 +294,27 @@ export default function App() {
             </div>
           )}
 
-          {appMode === 'movies' && (
+          {appMode === 'movies' && (moviesLoading || moviesFailed) && (
             <div style={{ padding: '16px 20px', fontSize: 13, color: INK_SECONDARY }}>
               {moviesLoading && '載入電影資料中…'}
               {!moviesLoading && moviesFailed && '電影資料載入失敗'}
-              {!moviesLoading && moviesData && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <div>電影資料已載入</div>
-                  <div style={NUM}>
-                    {moviesData.dailyBoard.length} 天日榜{'　'}
-                    {moviesData.weeklyRankings.length} 週週榜{'　'}
-                    {Object.keys(moviesData.entities).length} 部電影
-                  </div>
-                  <div style={NUM}>資料截至 {moviesData.meta.dataThrough}</div>
-                  <div style={NUM}>
-                    榜單類型 {movieFilters.time.boardMode === 'daily' ? '日榜' : '週榜'}{'　'}
-                    年份 {movieFilters.time.year}{'　'}
-                    可選年份 {movieFilters.time.years.join('、')}
-                  </div>
+            </div>
+          )}
+
+          {appMode === 'movies' && moviesData && (
+            <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
+              <div style={{ flex: '0 0 55%', minHeight: 0, borderBottom: `1px solid ${RULE_STRONG}` }} />
+              <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+                <div style={{ flex: '0 0 44%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
+                  <MovieBoardTable
+                    boards={movieDailyInRange}
+                    entities={moviesData.entities}
+                    selectedTitle={selectedMovie}
+                    onSelectTitle={setSelectedMovie}
+                  />
                 </div>
-              )}
+                <div style={{ flex: 1, minHeight: 0 }} />
+              </div>
             </div>
           )}
 
