@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { RankingsData } from './types'
+import type { RankingsData, MoviesData } from './types'
 import Header from './components/layout/Header'
 import Sidebar from './components/layout/Sidebar'
-import type { TabType, YearFilter } from './components/layout/Sidebar'
+import type { AppMode, TabType, YearFilter } from './components/layout/Sidebar'
 import Top20Chart from './components/charts/Top20Chart'
 import TaiwanDramaChart from './components/charts/TaiwanDramaChart'
 import GenreDistribution from './components/charts/GenreDistribution'
@@ -15,8 +15,9 @@ import {
   getTop50GenreDistribution,
   getDailyOverallRankings,
 } from './utils/dataTransforms'
+import { useMovieFilters } from './hooks/useMovieFilters'
 import { MAX_SERIES } from './constants/genres'
-import { INK, INK_MUTED, INK_SECONDARY, PAPER, RULE_STRONG } from './constants/styles'
+import { INK, INK_MUTED, INK_SECONDARY, NUM, PAPER, RULE_STRONG } from './constants/styles'
 
 const EMPTY_DATA: RankingsData = {
   meta: { generatedAt: '', dataThrough: '' },
@@ -56,6 +57,36 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>('rankings')
   const [yearFilter, setYearFilter] = useState<YearFilter>('2026')
   const [selectedShow, setSelectedShow] = useState<string | null>(null)
+
+  const [appMode, setAppMode] = useState<AppMode>('shows')
+  const [moviesData, setMoviesData] = useState<MoviesData | null>(null)
+  const [moviesLoading, setMoviesLoading] = useState(false)
+  const [moviesFailed, setMoviesFailed] = useState(false)
+
+  useEffect(() => {
+    if (appMode !== 'movies' || moviesData || moviesLoading || moviesFailed) return
+    setMoviesLoading(true)
+    fetch(`${import.meta.env.BASE_URL}data/movies.json`)
+      .then(res => res.json())
+      .then((json: MoviesData) => {
+        if (json?.dailyBoard) setMoviesData(json)
+        else setMoviesFailed(true)
+      })
+      .catch(() => setMoviesFailed(true))
+      .finally(() => setMoviesLoading(false))
+  }, [appMode, moviesData, moviesLoading, moviesFailed])
+
+  const movieYears = useMemo(() => {
+    if (!moviesData) return { dailyYears: [], weeklyYears: [] }
+    const daily = new Set(moviesData.dailyBoard.map(b => b.date.slice(0, 4)))
+    const weekly = new Set(moviesData.weeklyRankings.map(w => w.dateRange.slice(0, 4)))
+    return {
+      dailyYears: [...daily].sort(),
+      weeklyYears: [...weekly].sort(),
+    }
+  }, [moviesData])
+
+  const movieFilters = useMovieFilters(movieYears)
 
   // ── TOP 20 篩選狀態 ──────────────────────────────────────────
   const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
@@ -127,6 +158,8 @@ export default function App() {
       <div style={{ display: 'flex', height: CHART_H }}>
         {/* ── 左側 Sidebar ── */}
         <Sidebar
+          appMode={appMode}
+          onModeChange={setAppMode}
           activeTab={activeTab}
           onTabChange={setActiveTab}
           data={filteredData}
@@ -162,7 +195,7 @@ export default function App() {
         <main style={{ flex: 1, height: CHART_H, overflow: 'hidden', minWidth: 0 }}>
 
           {/* ══ 總排行榜頁：TOP 20（左）＋ 快速查詢（右）══ */}
-          {activeTab === 'rankings' && (
+          {appMode === 'shows' && activeTab === 'rankings' && (
             <div style={{ display: 'flex', height: CHART_H, gap: 0 }}>
               {/* TOP 20 約佔 60% */}
               <div style={{ flex: '0 0 60%', height: CHART_H }}>
@@ -193,7 +226,7 @@ export default function App() {
           )}
 
           {/* ══ 類型分析頁：圓餅圖（上固定高）＋ 河流圖（下）══ */}
-          {activeTab === 'genre' && (
+          {appMode === 'shows' && activeTab === 'genre' && (
             <div style={{ height: CHART_H, overflow: 'auto' }}>
               {/* 圓餅圖：固定 370px，確保小螢幕也能正確渲染 */}
               <div style={{
@@ -221,7 +254,7 @@ export default function App() {
           )}
 
           {/* ══ 台劇分析頁：台劇積分榜（上 58%）＋ 走勢圖（下 42%）══ */}
-          {activeTab === 'taiwan' && (
+          {appMode === 'shows' && activeTab === 'taiwan' && (
             <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
               {/* 台劇積分榜：佔較多空間（節目多，需要高度）*/}
               <div style={{ flex: '0 0 58%', minHeight: 0, borderBottom: `1px solid ${RULE_STRONG}`, overflow: 'auto' }}>
@@ -246,6 +279,29 @@ export default function App() {
                   selectedTitles={selectedTitles}
                 />
               </div>
+            </div>
+          )}
+
+          {appMode === 'movies' && (
+            <div style={{ padding: '16px 20px', fontSize: 13, color: INK_SECONDARY }}>
+              {moviesLoading && '載入電影資料中…'}
+              {!moviesLoading && moviesFailed && '電影資料載入失敗'}
+              {!moviesLoading && moviesData && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div>電影資料已載入</div>
+                  <div style={NUM}>
+                    {moviesData.dailyBoard.length} 天日榜{'　'}
+                    {moviesData.weeklyRankings.length} 週週榜{'　'}
+                    {Object.keys(moviesData.entities).length} 部電影
+                  </div>
+                  <div style={NUM}>資料截至 {moviesData.meta.dataThrough}</div>
+                  <div style={NUM}>
+                    榜單類型 {movieFilters.time.boardMode === 'daily' ? '日榜' : '週榜'}{'　'}
+                    年份 {movieFilters.time.year}{'　'}
+                    可選年份 {movieFilters.time.years.join('、')}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

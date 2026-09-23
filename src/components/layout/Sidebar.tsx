@@ -10,12 +10,15 @@ import {
 import { getDailyShowTitles, getWeeklyDerivedRankings } from '../../utils/dataTransforms'
 import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
 
+export type AppMode = 'shows' | 'movies'
 export type TabType = 'rankings' | 'genre' | 'taiwan'
 export type YearFilter = '2024' | '2025' | '2026' | 'all'
 type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
 type NetflixFilter = 'all' | 'original' | 'nonOriginal'
 
 interface Props {
+  appMode: AppMode
+  onModeChange: (m: AppMode) => void
   activeTab: TabType
   onTabChange: (tab: TabType) => void
   data: RankingsData
@@ -77,6 +80,7 @@ const SUB_ROW = (indent: number): CSSProperties => ({
 })
 
 export default function Sidebar({
+  appMode, onModeChange,
   activeTab, onTabChange, data,
   yearFilter, setYearFilter,
   rankingMode, setRankingMode,
@@ -216,41 +220,71 @@ export default function Sidebar({
       overflow: 'hidden',
     }}>
 
-      {/* ── 分頁導覽 ── */}
-      <nav style={{ borderBottom: `1px solid ${RULE_STRONG}`, padding: '8px 0' }}>
-        {TABS.map(t => {
-          const active = activeTab === t.key
+      {/* ── 模式切換 ── */}
+      <div style={{ display: 'flex', borderBottom: `1px solid ${RULE_STRONG}` }}>
+        {([['shows', '影集'], ['movies', '電影']] as const).map(([m, label]) => {
+          const active = appMode === m
           return (
             <button
-              key={t.key}
-              onClick={() => onTabChange(t.key)}
+              key={m}
+              onClick={() => onModeChange(m)}
               style={{
-                display: 'block',
-                width: '100%',
-                padding: '11px 16px',
+                flex: 1,
+                padding: '10px 0',
                 border: 'none',
-                borderLeft: `3px solid ${active ? ACCENT : 'transparent'}`,
-                cursor: 'pointer',
+                borderBottom: `2px solid ${active ? ACCENT : 'transparent'}`,
                 background: active ? PAPER : 'transparent',
                 color: active ? INK : INK_SECONDARY,
                 fontWeight: active ? 700 : 400,
-                fontSize: 15,
+                fontSize: 14,
                 fontFamily: 'inherit',
-                textAlign: 'left',
+                cursor: 'pointer',
               }}
               {...hoverProps(active ? PAPER : 'transparent')}
             >
-              {t.label}
+              {label}
             </button>
           )
         })}
-      </nav>
+      </div>
+
+      {/* ── 分頁導覽 ── */}
+      {appMode === 'shows' && (
+        <nav style={{ borderBottom: `1px solid ${RULE_STRONG}`, padding: '8px 0' }}>
+          {TABS.map(t => {
+            const active = activeTab === t.key
+            return (
+              <button
+                key={t.key}
+                onClick={() => onTabChange(t.key)}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  padding: '11px 16px',
+                  border: 'none',
+                  borderLeft: `3px solid ${active ? ACCENT : 'transparent'}`,
+                  cursor: 'pointer',
+                  background: active ? PAPER : 'transparent',
+                  color: active ? INK : INK_SECONDARY,
+                  fontWeight: active ? 700 : 400,
+                  fontSize: 15,
+                  fontFamily: 'inherit',
+                  textAlign: 'left',
+                }}
+                {...hoverProps(active ? PAPER : 'transparent')}
+              >
+                {t.label}
+              </button>
+            )
+          })}
+        </nav>
+      )}
 
       {/* ── 篩選區域 ── */}
       <div style={{ flex: 1, overflow: 'auto', padding: '0 14px 20px' }}>
 
         {/* ══ 總排行榜 ══ */}
-        {activeTab === 'rankings' && (
+        {appMode === 'shows' && activeTab === 'rankings' && (
           <>
             <div style={GROUP_LABEL}>榜單類型</div>
             <div style={ROW}>
@@ -344,7 +378,7 @@ export default function Sidebar({
         )}
 
         {/* ══ 類型分析 ══ */}
-        {activeTab === 'genre' && (
+        {appMode === 'shows' && activeTab === 'genre' && (
           <>
             <YearRow />
             <div style={GROUP_LABEL}>流向圖片源</div>
@@ -359,7 +393,7 @@ export default function Sidebar({
         )}
 
         {/* ══ 台劇分析 ══ */}
-        {activeTab === 'taiwan' && (
+        {appMode === 'shows' && activeTab === 'taiwan' && (
           <>
             <YearRow />
 
@@ -429,6 +463,10 @@ export default function Sidebar({
               })}
             </div>
           </>
+        )}
+
+        {appMode === 'movies' && (
+          <div style={{ ...GROUP_LABEL, marginTop: 22 }}>電影篩選（建置中）</div>
         )}
       </div>
     </aside>
