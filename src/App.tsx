@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { RankingsData, MoviesData } from './types'
 import Header from './components/layout/Header'
 import Sidebar from './components/layout/Sidebar'
@@ -63,8 +63,12 @@ export default function App() {
   const [moviesLoading, setMoviesLoading] = useState(false)
   const [moviesFailed, setMoviesFailed] = useState(false)
 
+  // state 更新非同步，StrictMode 的雙重呼叫會同時讀到舊值而重複抓取；ref 是同步的
+  const moviesRequested = useRef(false)
+
   useEffect(() => {
-    if (appMode !== 'movies' || moviesData || moviesLoading || moviesFailed) return
+    if (appMode !== 'movies' || moviesRequested.current) return
+    moviesRequested.current = true
     setMoviesLoading(true)
     fetch(`${import.meta.env.BASE_URL}data/movies.json`)
       .then(res => res.json())
@@ -74,7 +78,7 @@ export default function App() {
       })
       .catch(() => setMoviesFailed(true))
       .finally(() => setMoviesLoading(false))
-  }, [appMode, moviesData, moviesLoading, moviesFailed])
+  }, [appMode])
 
   const movieYears = useMemo(() => {
     if (!moviesData) return { dailyYears: [], weeklyYears: [] }
