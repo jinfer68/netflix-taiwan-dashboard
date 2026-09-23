@@ -10,6 +10,7 @@ import RankTrendChart from './components/charts/RankTrendChart'
 import WeeklyGenreFlow from './components/charts/WeeklyGenreFlow'
 import QuickLookup from './components/charts/QuickLookup'
 import MovieBoardTable from './components/charts/MovieBoardTable'
+import MovieRaceChart from './components/charts/MovieRaceChart'
 import {
   getTaiwanDramaComparison,
   getWeeklyGenreDistribution,
@@ -313,7 +314,13 @@ export default function App() {
                     onSelectTitle={setSelectedMovie}
                   />
                 </div>
-                <div style={{ flex: 1, minHeight: 0 }} />
+                <div style={{ flex: 1, minHeight: 0 }}>
+                  <MovieRaceChart
+                    boards={movieDailyInRange}
+                    entities={moviesData.entities}
+                    selectedTitle={selectedMovie}
+                  />
+                </div>
               </div>
             </div>
           )}
