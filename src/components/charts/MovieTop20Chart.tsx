@@ -100,6 +100,9 @@ export default function MovieTop20Chart({
     [rows],
   )
 
+  // 選中的片不在這張榜上時不要淡化，否則整張圖無故灰掉，看起來像壞了
+  const dimOthers = selectedTitle !== null && rows.some(r => r.title === selectedTitle)
+
   const unit = filters.time.boardMode === 'daily' ? '天' : '週'
 
   return (
@@ -172,7 +175,7 @@ export default function MovieTop20Chart({
                 <Cell
                   key={row.title}
                   fill={LANGUAGE_COLORS[row.language]}
-                  fillOpacity={selectedTitle && selectedTitle !== row.title ? 0.35 : 1}
+                  fillOpacity={dimOthers && selectedTitle !== row.title ? 0.35 : 1}
                 />
               ))}
               <LabelList
