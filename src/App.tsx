@@ -11,13 +11,14 @@ import WeeklyGenreFlow from './components/charts/WeeklyGenreFlow'
 import QuickLookup from './components/charts/QuickLookup'
 import MovieBoardTable from './components/charts/MovieBoardTable'
 import MovieRaceChart from './components/charts/MovieRaceChart'
+import MovieTop20Chart from './components/charts/MovieTop20Chart'
 import {
   getTaiwanDramaComparison,
   getWeeklyGenreDistribution,
   getTop50GenreDistribution,
   getDailyOverallRankings,
 } from './utils/dataTransforms'
-import { filterDailyByRange } from './utils/boardTransforms'
+import { filterDailyByRange, filterWeeklyByRange } from './utils/boardTransforms'
 import { useMovieFilters } from './hooks/useMovieFilters'
 import { MAX_SERIES } from './constants/genres'
 import { INK, INK_MUTED, INK_SECONDARY, PAPER, RULE_STRONG } from './constants/styles'
@@ -98,6 +99,11 @@ export default function App() {
 
   const movieDailyInRange = useMemo(
     () => filterDailyByRange(moviesData?.dailyBoard ?? [], movieFilters.time.range),
+    [moviesData, movieFilters.time.range],
+  )
+
+  const movieWeeksInRange = useMemo(
+    () => filterWeeklyByRange(moviesData?.weeklyRankings ?? [], movieFilters.time.range),
     [moviesData, movieFilters.time.range],
   )
 
@@ -304,7 +310,19 @@ export default function App() {
 
           {appMode === 'movies' && moviesData && (
             <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
-              <div style={{ flex: '0 0 55%', minHeight: 0, borderBottom: `1px solid ${RULE_STRONG}` }} />
+              <div style={{ flex: '0 0 55%', minHeight: 0, display: 'flex', borderBottom: `1px solid ${RULE_STRONG}` }}>
+                <div style={{ flex: '0 0 60%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
+                  <MovieTop20Chart
+                    boards={movieDailyInRange}
+                    weeks={movieWeeksInRange}
+                    entities={moviesData.entities}
+                    filters={movieFilters}
+                    selectedTitle={selectedMovie}
+                    onSelectTitle={setSelectedMovie}
+                  />
+                </div>
+                <div style={{ flex: 1, minHeight: 0 }} />
+              </div>
               <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
                 <div style={{ flex: '0 0 44%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
                   <MovieBoardTable
