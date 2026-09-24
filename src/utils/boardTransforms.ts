@@ -1,4 +1,4 @@
-import type { DailyBoard, DateRange, WeeklyBoard } from '../types'
+import type { DailyBoard, DateRange, TrendPoint, WeeklyBoard } from '../types'
 
 /** 積分 = 11 - 名次。資料層已確認此關係恆成立 */
 export function scoreOf(rank: number): number {
@@ -134,4 +134,44 @@ export function boundsOf(dates: string[]): DateRange | null {
   if (dates.length === 0) return null
   const sorted = [...dates].sort()
   return { from: sorted[0], to: sorted[sorted.length - 1] }
+}
+
+/**
+ * 指定日期在日榜中的位置；該日無資料時退回之前最近的一天，
+ * 早於資料起點則取第一天。空陣列回傳 -1。
+ */
+export function boardIndexAt(boards: DailyBoard[], date: string): number {
+  if (boards.length === 0) return -1
+  let found = 0
+  for (let i = 0; i < boards.length; i++) {
+    if (boards[i].date > date) break
+    found = i
+  }
+  return found
+}
+
+export interface WeekAppearance {
+  weekNumber: number
+  dateRange: string
+  position: number
+}
+
+/** 某片在每一週週榜的名次，依週次排序 */
+export function weeklyAppearances(weeks: WeeklyBoard[], title: string): WeekAppearance[] {
+  const out: WeekAppearance[] = []
+  for (const w of weeks) {
+    const hit = w.rankings.find(r => r.title === title)
+    if (hit) out.push({ weekNumber: w.weekNumber, dateRange: w.dateRange, position: hit.rank })
+  }
+  return out
+}
+
+/** 某片從第一次到最後一次上榜之間，每個有資料日期的名次 */
+export function dailyTrendOf(boards: DailyBoard[], title: string): TrendPoint[] {
+  const ranks = boards.map(b => b.entries.find(e => e.title === title)?.rank ?? null)
+  const first = ranks.findIndex(r => r !== null)
+  if (first < 0) return []
+  let last = ranks.length - 1
+  while (ranks[last] === null) last--
+  return boards.slice(first, last + 1).map((b, i) => ({ date: b.date, rank: ranks[first + i] }))
 }

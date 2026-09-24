@@ -2,14 +2,16 @@ import { useMemo } from 'react'
 import type { CSSProperties } from 'react'
 import type { DailyBoard, MovieAttributes } from '../../types'
 import { LANGUAGE_COLORS } from '../../constants/languages'
-import { rankSeries } from '../../utils/boardTransforms'
+import { boardIndexAt, rankSeries } from '../../utils/boardTransforms'
 import {
-  SECTION_STYLE, SECTION_TITLE, DOT, NUM, hoverProps,
-  ACCENT, ACCENT_WASH, INK, INK_MUTED, INK_SECONDARY, PAPER_RAISED, RULE, RULE_STRONG,
+  SECTION_STYLE, SECTION_TITLE, DOT, NUM, INPUT_STYLE, hoverProps,
+  ACCENT, ACCENT_WASH, INK, INK_MUTED, INK_SECONDARY, PAPER, PAPER_RAISED, RULE, RULE_STRONG,
 } from '../../constants/styles'
 
 interface Props {
-  boards: DailyBoard[]
+  boards: DailyBoard[]   // 完整日榜，不受側欄期間限制，才能往前後翻
+  date: string | null
+  onChangeDate: (date: string) => void
   entities: Record<string, MovieAttributes>
   selectedTitle: string | null
   onSelectTitle: (title: string | null) => void
@@ -26,6 +28,13 @@ const TH: CSSProperties = {
 const TD: CSSProperties = {
   padding: '5px 8px', borderBottom: `1px solid ${RULE}`, verticalAlign: 'middle',
 }
+
+const navBtn = (disabled: boolean): CSSProperties => ({
+  padding: '2px 10px', fontSize: 12, fontFamily: 'inherit',
+  border: `1px solid ${RULE_STRONG}`, background: PAPER,
+  color: disabled ? RULE_STRONG : INK_SECONDARY,
+  cursor: disabled ? 'default' : 'pointer',
+})
 
 /** 名次 1 在頂端；固定 1–10 不隨資料縮放，各列形狀才能互相比較 */
 function sparkY(rank: number): number {
@@ -78,13 +87,17 @@ function Sparkline({ series }: { series: (number | null)[] }) {
   )
 }
 
-export default function MovieBoardTable({ boards, entities, selectedTitle, onSelectTitle }: Props) {
+export default function MovieBoardTable({
+  boards, date, onChangeDate, entities, selectedTitle, onSelectTitle,
+}: Props) {
+  const index = date ? boardIndexAt(boards, date) : -1
+
   const view = useMemo(() => {
-    if (boards.length === 0) return null
-    const recent = boards.slice(Math.max(0, boards.length - WINDOW))
+    if (index < 0) return null
+    const recent = boards.slice(Math.max(0, index - WINDOW + 1), index + 1)
     const dates = recent.map(b => b.date)
-    const today = boards[boards.length - 1]
-    const prev = boards.length > 1 ? boards[boards.length - 2] : null
+    const today = boards[index]
+    const prev = index > 0 ? boards[index - 1] : null
 
     const rows = today.entries.map(entry => ({
       rank: entry.rank,
@@ -94,7 +107,7 @@ export default function MovieBoardTable({ boards, entities, selectedTitle, onSel
       prevRank: prev?.entries.find(e => e.title === entry.title)?.rank ?? null,
     }))
     return { date: today.date, prevDate: prev?.date ?? null, rows }
-  }, [boards, entities])
+  }, [boards, index, entities])
 
   if (!view) {
     return (
@@ -105,12 +118,35 @@ export default function MovieBoardTable({ boards, entities, selectedTitle, onSel
     )
   }
 
+  const atFirst = index <= 0
+  const atLast = index >= boards.length - 1
+
   return (
     <div style={{ ...SECTION_STYLE, height: '100%', overflow: 'auto' }}>
-      <div style={SECTION_TITLE}>
-        當日榜單{'　'}
-        <span style={{ ...NUM, fontSize: 11, fontWeight: 400, color: INK_MUTED }}>{view.date}</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ ...SECTION_TITLE, flex: 1, marginBottom: 0 }}>當日榜單</div>
+        <button
+          onClick={() => atFirst || onChangeDate(boards[index - 1].date)}
+          disabled={atFirst} style={navBtn(atFirst)} title="前一天" {...hoverProps(PAPER)}
+        >←</button>
+        <input
+          type="date"
+          value={view.date}
+          min={boards[0].date}
+          max={boards[boards.length - 1].date}
+          onChange={e => e.target.value && onChangeDate(e.target.value)}
+          style={{ ...INPUT_STYLE, ...NUM, width: 'auto', padding: '2px 6px', fontSize: 12 }}
+        />
+        <button
+          onClick={() => atLast || onChangeDate(boards[index + 1].date)}
+          disabled={atLast} style={navBtn(atLast)} title="後一天" {...hoverProps(PAPER)}
+        >→</button>
       </div>
+      {date && date !== view.date && (
+        <div style={{ ...NUM, fontSize: 11, color: INK_MUTED, marginTop: 4 }}>
+          ※ {date} 無資料，顯示之前最近的 {view.date}
+        </div>
+      )}
       <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13, marginTop: 8 }}>
         <thead>
           <tr>
@@ -118,7 +154,7 @@ export default function MovieBoardTable({ boards, entities, selectedTitle, onSel
             <th style={TH}>近 {WINDOW} 天走勢</th>
             <th style={TH}>片名</th>
             <th style={TH}>語言</th>
-            <th style={TH}>在榜</th>
+            <th style={TH} title="全期在榜天數">在榜</th>
             <th style={TH}>升降</th>
           </tr>
         </thead>

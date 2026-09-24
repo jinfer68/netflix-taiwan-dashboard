@@ -1,14 +1,15 @@
 import { useMemo } from 'react'
 import type { DailyBoard, MovieAttributes } from '../../types'
 import { LANGUAGE_COLORS } from '../../constants/languages'
-import { lastDays, rankSeries, titlesIn } from '../../utils/boardTransforms'
+import { boardIndexAt, rankSeries, titlesIn } from '../../utils/boardTransforms'
 import {
-  SECTION_STYLE, SECTION_TITLE,
-  INK, INK_MUTED, RULE, RULE_STRONG,
+  SECTION_STYLE, SECTION_TITLE, NUM,
+  INK, INK_MUTED, INK_SECONDARY, RULE, RULE_STRONG,
 } from '../../constants/styles'
 
 interface Props {
-  boards: DailyBoard[]
+  boards: DailyBoard[]   // 完整日榜；以 endDate 為終點往前取 WINDOW 天
+  endDate: string | null
   entities: Record<string, MovieAttributes>
   selectedTitle: string | null
 }
@@ -64,10 +65,11 @@ function placeLabels(activeSeries: SeriesView[], idealY: (rank: number) => numbe
   return placed
 }
 
-export default function MovieRaceChart({ boards, entities, selectedTitle }: Props) {
+export default function MovieRaceChart({ boards, endDate, entities, selectedTitle }: Props) {
   const view = useMemo(() => {
-    const recent = lastDays(boards, WINDOW)
-    if (recent.length === 0) return null
+    const end = endDate ? boardIndexAt(boards, endDate) : -1
+    if (end < 0) return null
+    const recent = boards.slice(Math.max(0, end - WINDOW + 1), end + 1)
 
     const dates = recent.map(b => b.date)
     const today = recent[recent.length - 1]
@@ -83,12 +85,12 @@ export default function MovieRaceChart({ boards, entities, selectedTitle }: Prop
 
     series.sort((a, b) => Number(a.active) - Number(b.active))
     return { dates, series }
-  }, [boards, entities])
+  }, [boards, endDate, entities])
 
   if (!view) {
     return (
       <div style={SECTION_STYLE}>
-        <div style={SECTION_TITLE}>近 {WINDOW} 天名次競逐</div>
+        <div style={SECTION_TITLE}>{WINDOW} 天名次競逐</div>
         <div style={{ fontSize: 12, color: INK_MUTED, marginTop: 8 }}>此期間無資料</div>
       </div>
     )
@@ -117,9 +119,14 @@ export default function MovieRaceChart({ boards, entities, selectedTitle }: Prop
 
   return (
     <div style={{ ...SECTION_STYLE, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={SECTION_TITLE}>近 {WINDOW} 天名次競逐</div>
+      <div style={SECTION_TITLE}>
+        {WINDOW} 天名次競逐{'　'}
+        <span style={{ ...NUM, fontSize: 11, fontWeight: 400, color: INK_MUTED }}>
+          {view.dates[0]} — {view.dates[lastIndex]}
+        </span>
+      </div>
       <div style={{ fontSize: 11, color: INK_MUTED, margin: '4px 0 6px' }}>
-        灰線為期間內上榜過、今天已掉出的片
+        終點跟隨當日榜單的日期；灰線為期間內上榜過、當日已掉出的片
       </div>
       <div style={{ flex: 1, minHeight: 0 }}>
         <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
@@ -148,16 +155,20 @@ export default function MovieRaceChart({ boards, entities, selectedTitle }: Prop
             )
           })}
 
-          {view.series.map(s => {
+          {[...view.series]
+            .sort((a, b) => Number(a.title === selectedTitle) - Number(b.title === selectedTitle))
+            .map(s => {
             const highlighted = selectedTitle === s.title
-            const color = s.active ? LANGUAGE_COLORS[s.attrs?.language ?? '其他語言'] : RULE_STRONG
+            const color = s.active
+              ? LANGUAGE_COLORS[s.attrs?.language ?? '其他語言']
+              : highlighted ? INK_SECONDARY : RULE_STRONG
             return pathOf(s.ranks).map((d, i) => (
               <path
                 key={`${s.title}-${i}`}
                 d={d}
                 fill="none"
                 stroke={color}
-                strokeOpacity={s.active ? 1 : 0.7}
+                strokeOpacity={s.active || highlighted ? 1 : 0.7}
                 strokeWidth={highlighted ? 3 : s.active ? 2 : 1.2}
                 strokeLinejoin="round"
                 strokeLinecap="round"

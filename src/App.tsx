@@ -29,9 +29,8 @@ const EMPTY_DATA: RankingsData = {
   meta: { generatedAt: '', dataThrough: '' },
   showAttributes: {},
   overallRankings: [],
-  dailyOverallRankings: [],
-  dailyOverallByQuarter: {},
-  dailyOverallByWeek: {},
+  dailyBoard: [],
+  dailyAttributes: {},
   taiwanDramaRankings: [],
   dailyRankings: [],
   weeklyRankings: [],
@@ -66,6 +65,7 @@ export default function App() {
   const [moviesLoading, setMoviesLoading] = useState(false)
   const [moviesFailed, setMoviesFailed] = useState(false)
   const [selectedMovie, setSelectedMovie] = useState<string | null>(null)
+  const [movieFocusDate, setMovieFocusDate] = useState<string | null>(null)
 
   // state 更新非同步，StrictMode 的雙重呼叫會同時讀到舊值而重複抓取；ref 是同步的
   const moviesRequested = useRef(false)
@@ -105,6 +105,10 @@ export default function App() {
     () => filterWeeklyByRange(moviesData?.weeklyRankings ?? [], movieFilters.time.range),
     [moviesData, movieFilters.time.range],
   )
+
+  // 側欄換期間時，當日榜單回到新期間的最後一天
+  useEffect(() => setMovieFocusDate(null), [movieFilters.time.range])
+  const movieBoardDate = movieFocusDate ?? movieDailyInRange[movieDailyInRange.length - 1]?.date ?? null
 
   const movieDates = useMemo(() => {
     if (!moviesData) return []
@@ -322,6 +326,11 @@ export default function App() {
                 <div style={{ flex: 1, minHeight: 0 }}>
                   <MovieQuickLookup
                     entities={moviesData.entities}
+                    boards={moviesData.dailyBoard}
+                    weeks={moviesData.weeklyRankings}
+                    weeksInRange={movieWeeksInRange}
+                    focusDate={movieBoardDate}
+                    onFocusDate={setMovieFocusDate}
                     selectedTitle={selectedMovie}
                     onSelectTitle={setSelectedMovie}
                   />
@@ -330,7 +339,9 @@ export default function App() {
               <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
                 <div style={{ flex: '0 0 44%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
                   <MovieBoardTable
-                    boards={movieDailyInRange}
+                    boards={moviesData.dailyBoard}
+                    date={movieBoardDate}
+                    onChangeDate={setMovieFocusDate}
                     entities={moviesData.entities}
                     selectedTitle={selectedMovie}
                     onSelectTitle={setSelectedMovie}
@@ -338,7 +349,8 @@ export default function App() {
                 </div>
                 <div style={{ flex: 1, minHeight: 0 }}>
                   <MovieRaceChart
-                    boards={movieDailyInRange}
+                    boards={moviesData.dailyBoard}
+                    endDate={movieBoardDate}
                     entities={moviesData.entities}
                     selectedTitle={selectedMovie}
                   />

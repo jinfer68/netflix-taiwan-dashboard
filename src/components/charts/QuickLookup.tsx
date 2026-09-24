@@ -2,7 +2,9 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import type { CSSProperties } from 'react'
 import type { RankingsData, OverallRankingEntry, Genre } from '../../types'
 import { getAllWeeklyTitles, getShowLookupEntry, getDailyShowEntry, getAllDailyTitles } from '../../utils/dataTransforms'
+import { dailyTrendOf } from '../../utils/boardTransforms'
 import { GENRE_COLORS } from '../../constants/genres'
+import DailyRankTrend from './DailyRankTrend'
 import {
   SEGMENT_BTN, INPUT_STYLE, hoverProps, ACCENT, ACCENT_WASH, INK, INK_MUTED, INK_SECONDARY,
   PAPER, PAPER_RAISED, RULE, RULE_STRONG, NUM,
@@ -11,7 +13,7 @@ import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/date
 
 interface Props {
   data: RankingsData       // 年份過濾後資料（週次快覽用）
-  fullData: RankingsData   // 完整資料（日榜模式查週榜摘要用）
+  fullData: RankingsData   // 完整資料（日榜模式查週榜摘要、每日走勢用）
   dailyOverallRankings: OverallRankingEntry[]
   rankingMode: 'weekly' | 'daily'
   selectedShow: string | null
@@ -74,6 +76,7 @@ export default function QuickLookup({ data, fullData, dailyOverallRankings, rank
   const [selectedQuarter, setSelectedQuarter] = useState<string>('latest')
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [selectedWeekNum, setSelectedWeekNum] = useState<number | null>(null)
+  const [trendFocus, setTrendFocus] = useState<string | null>(null)
 
   useEffect(() => {
     setSearchQuery('')
@@ -83,6 +86,7 @@ export default function QuickLookup({ data, fullData, dailyOverallRankings, rank
   }, [data])
 
   useEffect(() => {
+    setTrendFocus(null)
     if (!selectedShow) return
     setActiveTab('show')
     if (rankingMode === 'weekly') {
@@ -116,6 +120,11 @@ export default function QuickLookup({ data, fullData, dailyOverallRankings, rank
   const dailyEntry = useMemo(
     () => (rankingMode === 'daily' && selectedShow) ? getDailyShowEntry(dailyOverallRankings, selectedShow) : null,
     [dailyOverallRankings, selectedShow, rankingMode],
+  )
+
+  const trend = useMemo(
+    () => (selectedShow ? dailyTrendOf(fullData.dailyBoard, selectedShow) : []),
+    [fullData, selectedShow],
   )
 
   const { quarters, monthsByQ, weeksByM } = useMemo(() => {
@@ -179,6 +188,30 @@ export default function QuickLookup({ data, fullData, dailyOverallRankings, rank
     setSelectedWeekNum(weekNumber)
     setActiveTab('week')
   }
+
+  function jumpToDate(date: string) {
+    setTrendFocus(date)
+    const week = data.weeklyRankings.find(w => {
+      const [start, end] = w.dateRange.split(' ~ ')
+      return date >= start && date <= end
+    })
+    if (week) jumpToWeek(week.dateRange, week.weekNumber)
+  }
+
+  const trendBlock = trend.length > 0 && (
+    <>
+      <div style={GROUP_LABEL}>日榜名次走勢</div>
+      <DailyRankTrend
+        points={trend}
+        focusDate={trendFocus}
+        onPickDate={jumpToDate}
+        clickHint="點擊跳至該週週榜"
+      />
+      <div style={{ fontSize: 11, color: INK_MUTED, margin: '4px 0 16px' }}>
+        首次至最後一次上榜；斷線處為當天未上榜。點擊任一天可跳至該週週榜
+      </div>
+    </>
+  )
 
   const weekIdx = currentWeek
     ? data.weeklyRankings.findIndex(w => w.weekNumber === currentWeek.weekNumber)
@@ -296,6 +329,8 @@ export default function QuickLookup({ data, fullData, dailyOverallRankings, rank
                   <StatCell label="累積積分" value={`${weeklyEntry.totalScore}`} />
                 </div>
 
+                {trendBlock}
+
                 <div style={GROUP_LABEL}>各週名次</div>
                 <WeekDots
                   appearances={weeklyEntry.weekAppearances}
@@ -343,6 +378,8 @@ export default function QuickLookup({ data, fullData, dailyOverallRankings, rank
                     <StatCell label="上榜天數" value={`${dailyEntry.weeksOnChart}`} />
                     <StatCell label="日榜積分" value={`${dailyEntry.totalScore}`} />
                   </div>
+
+                  {trendBlock}
 
                   {alsoWeekly && (
                     <>

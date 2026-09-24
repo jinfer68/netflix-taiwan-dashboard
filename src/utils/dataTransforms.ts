@@ -1,5 +1,5 @@
-import type { RankingsData, OverallRankingEntry, TaiwanDramaRanking, Genre, ShowLookupEntry } from '../types'
-import { weekToYearMonth } from './dateHelpers'
+import type { RankingsData, OverallRankingEntry, TaiwanDramaRanking, Genre, ShowLookupEntry, DateRange } from '../types'
+import { aggregateDaily, filterDailyByRange } from './boardTransforms'
 
 // 年度類型河流圖顯示的類型清單（不在清單內的歸入「其他」）
 export const FLOW_DISPLAY_GENRES = ['韓劇','美劇','陸劇','動畫劇 (日)','日劇','台劇','實境秀','其他']
@@ -62,97 +62,43 @@ export function getWeeklyDerivedRankings(data: RankingsData): OverallRankingEntr
     .map((e, i) => ({ ...e, rank: i + 1 }))
 }
 
-/** 將同年度所有季度的日榜資料加總，產生年度日榜排行 */
-function combineDailyYearQuarters(data: RankingsData, year: string): OverallRankingEntry[] {
-  const qEntries = Object.entries(data.dailyOverallByQuarter ?? {})
-    .filter(([k]) => k.startsWith(year + '-'))
-  if (qEntries.length === 0) return data.dailyOverallRankings ?? []
+const pad2 = (n: number) => String(n).padStart(2, '0')
+const lastDayOfMonth = (year: number, month: number) => new Date(year, month, 0).getDate()
 
-  const combined = new Map<string, {
-    totalScore: number; days: number; rankSum: number
-    genre: Genre; isNetflixOriginal: boolean
-  }>()
-
-  for (const [, rows] of qEntries) {
-    for (const e of rows) {
-      const prev = combined.get(e.title)
-      if (prev) {
-        prev.totalScore += e.totalScore
-        prev.days       += e.weeksOnChart
-        prev.rankSum    += e.avgRank * e.weeksOnChart
-      } else {
-        combined.set(e.title, {
-          totalScore:      e.totalScore,
-          days:            e.weeksOnChart,
-          rankSum:         e.avgRank * e.weeksOnChart,
-          genre:           e.genre,
-          isNetflixOriginal: e.isNetflixOriginal,
-        })
-      }
+/** 日榜篩選條件轉成日期區間；優先序 weekNumber > month > quarter > year，全無則為 null（全期） */
+function dailyRangeOf(
+  data: RankingsData,
+  quarter: string,
+  weekNumber: number | null,
+  year: string | null,
+  month: string | null,
+): DateRange | null {
+  if (weekNumber !== null) {
+    const week = data.weeklyRankings.find(w => w.weekNumber === weekNumber)
+    if (week) {
+      const [from, to] = week.dateRange.split(' ~ ')
+      return { from, to }
     }
   }
-
-  return [...combined.entries()]
-    .filter(([, e]) => e.days > 0)
-    .map(([title, e]) => ({
-      rank: 0, title,
-      totalScore:   e.totalScore,
-      genre:        e.genre,
-      weeksOnChart: e.days,
-      avgRank:      Math.round((e.rankSum / e.days) * 10) / 10,
-      isNetflixOriginal: e.isNetflixOriginal,
-    }))
-    .sort((a, b) => b.totalScore - a.totalScore)
-    .map((item, i) => ({ ...item, rank: i + 1 }))
-}
-
-/** 將選定月份所屬的所有週次日榜資料加總 */
-function combineDailyMonthWeeks(data: RankingsData, month: string): OverallRankingEntry[] {
-  const weekNums = data.weeklyRankings
-    .filter(w => weekToYearMonth(w.dateRange) === month)
-    .map(w => w.weekNumber)
-  if (weekNums.length === 0) return []
-
-  const combined = new Map<string, {
-    totalScore: number; days: number; rankSum: number
-    genre: Genre; isNetflixOriginal: boolean
-  }>()
-
-  for (const wn of weekNums) {
-    const rows = data.dailyOverallByWeek?.[wn] ?? []
-    for (const e of rows) {
-      const prev = combined.get(e.title)
-      if (prev) {
-        prev.totalScore += e.totalScore
-        prev.days       += e.weeksOnChart
-        prev.rankSum    += e.avgRank * e.weeksOnChart
-      } else {
-        combined.set(e.title, {
-          totalScore:        e.totalScore,
-          days:              e.weeksOnChart,
-          rankSum:           e.avgRank * e.weeksOnChart,
-          genre:             e.genre,
-          isNetflixOriginal: e.isNetflixOriginal,
-        })
-      }
+  if (month !== null) {
+    const [y, m] = month.split('-').map(Number)
+    return { from: `${month}-01`, to: `${month}-${pad2(lastDayOfMonth(y, m))}` }
+  }
+  if (quarter !== 'all') {
+    const [y, q] = quarter.split('-Q').map(Number)
+    const endMonth = q * 3
+    return {
+      from: `${y}-${pad2(endMonth - 2)}-01`,
+      to: `${y}-${pad2(endMonth)}-${pad2(lastDayOfMonth(y, endMonth))}`,
     }
   }
-
-  return [...combined.entries()]
-    .filter(([, e]) => e.days > 0)
-    .map(([title, e]) => ({
-      rank: 0, title,
-      totalScore:   e.totalScore,
-      genre:        e.genre,
-      weeksOnChart: e.days,
-      avgRank:      Math.round((e.rankSum / e.days) * 10) / 10,
-      isNetflixOriginal: e.isNetflixOriginal,
-    }))
-    .sort((a, b) => b.totalScore - a.totalScore)
-    .map((item, i) => ({ ...item, rank: i + 1 }))
+  if (year !== null && year !== 'all') {
+    return { from: `${year}-01-01`, to: `${year}-12-31` }
+  }
+  return null
 }
 
-/** 返回日榜積分排行；weekNumber > month > quarter > year > 全期 */
+/** 返回日榜積分排行；weekNumber > month > quarter > year > 全期，由逐日榜單當場彙總 */
 export function getDailyOverallRankings(
   data: RankingsData,
   quarter = 'all',
@@ -160,22 +106,22 @@ export function getDailyOverallRankings(
   year: string | null = null,
   month: string | null = null,
 ): OverallRankingEntry[] {
-  if (weekNumber !== null) {
-    const w = data.dailyOverallByWeek?.[weekNumber]
-    if (w && w.length > 0) return w
-  }
-  if (month !== null) {
-    const m = combineDailyMonthWeeks(data, month)
-    if (m.length > 0) return m
-  }
-  if (quarter !== 'all') {
-    const q = data.dailyOverallByQuarter?.[quarter]
-    if (q && q.length > 0) return q
-  }
-  if (year !== null && year !== 'all') {
-    return combineDailyYearQuarters(data, year)
-  }
-  return data.dailyOverallRankings ?? []
+  const range = dailyRangeOf(data, quarter, weekNumber, year, month)
+  return aggregateDaily(filterDailyByRange(data.dailyBoard, range))
+    .map(agg => {
+      const attrs = data.dailyAttributes[agg.title]
+      return {
+        rank: 0,
+        title: agg.title,
+        totalScore: agg.totalScore,
+        genre: attrs?.genre ?? '其他',
+        weeksOnChart: agg.onChartCount,
+        avgRank: Math.round(agg.avgRank * 100) / 100,
+        isNetflixOriginal: attrs?.isNetflixOriginal ?? false,
+      }
+    })
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .map((item, i) => ({ ...item, rank: i + 1 }))
 }
 
 /** 取得單一節目在日榜的統計資料 */

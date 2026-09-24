@@ -202,6 +202,29 @@ def validate_date_range(date_range, context=""):
     return True
 
 
+def fix_week_overlaps(weekly):
+    """週次起日若落在前一週迄日（含）之前，改為前一週迄日的隔天。
+
+    來源曾出現 W7 記成 2022-02-13 ~ 02-20（8 天），與 W6 的 02-13 重疊；
+    重疊日會被日榜的週次對照歸到後一週，前一週因此少算一天。
+    只修重疊，不補缺週 —— 缺週是來源本來就沒有資料。
+    回傳被修正的週數。
+    """
+    fixed = 0
+    for prev, week in zip(weekly, weekly[1:]):
+        if " ~ " not in prev["dateRange"] or " ~ " not in week["dateRange"]:
+            continue
+        prev_end = datetime.strptime(prev["dateRange"].split(" ~ ")[1].strip(), "%Y-%m-%d")
+        start_s, end_s = (x.strip() for x in week["dateRange"].split(" ~ "))
+        start = datetime.strptime(start_s, "%Y-%m-%d")
+        if start <= prev_end:
+            new_start = (prev_end + timedelta(days=1)).strftime("%Y-%m-%d")
+            print(f"  ⚠ W{week['weekNumber']} 起日 {start_s} 與 W{prev['weekNumber']} 重疊，校正為 {new_start}")
+            week["dateRange"] = f"{new_start} ~ {end_s}"
+            fixed += 1
+    return fixed
+
+
 def validate_weekly_week(week):
     """校驗單週資料完整性"""
     errors = []
@@ -435,33 +458,16 @@ def derive_overall_rankings(weekly, show_attrs):
 
 # ── Daily overall rankings（每天節目排名資料）────────────────────────────────
 
-def parse_daily_overall(ws, weekly_weeks):
-    """解析每天節目排名資料，衍生日榜整體 / 季度 / 週次排行"""
-    # 建立日期字串 → 週次對照表
-    date_to_week = {}
-    for week in weekly_weeks:
-        dr = week.get("dateRange", "")
-        if " ~ " not in dr:
-            continue
-        try:
-            start = datetime.strptime(dr.split(" ~ ")[0].strip(), "%Y-%m-%d")
-            end   = datetime.strptime(dr.split(" ~ ")[1].strip(), "%Y-%m-%d")
-        except ValueError:
-            continue
-        d = start
-        while d <= end:
-            date_to_week[d.strftime("%Y-%m-%d")] = week["weekNumber"]
-            d += timedelta(days=1)
+def parse_daily_board(ws):
+    """解析每天節目排名資料，回傳 (daily_board, daily_attributes)
 
-    def new_stats():
-        return defaultdict(lambda: {
-            "totalScore": 0.0, "days": 0, "rankSum": 0,
-            "genre": "其他", "isNetflixOriginal": False,
-        })
-
-    all_stats     = new_stats()
-    quarter_stats = defaultdict(new_stats)
-    week_stats    = defaultdict(new_stats)
+    daily_board:      [{ date, entries: [{ rank, title }] }]，依日期升冪，格式與 movies.json 相同。
+                      任何期間（全期／年／季／月／週）的日榜排行都由前端從這份當場彙總。
+    daily_attributes: { title: { genre, isNetflixOriginal } }，每個片名固定一組，
+                      類型取最後一列、獨家任一列為真即是 —— 顏色跟著節目走，不隨期間改變。
+    """
+    by_date    = defaultdict(list)
+    attributes = {}
 
     for j, row in enumerate(ws.iter_rows(values_only=True)):
         if j == 0:          # skip header row
@@ -472,54 +478,26 @@ def parse_daily_overall(ws, weekly_weeks):
         date    = row[0]
         rank    = safe_int(row[1])
         title   = clean_title(row[2]) if row[2] else ""
-        genre     = to_genre(row[3])
-        is_orig   = safe_bool(row[4])
-        score     = safe_float(row[5], 0)
+        genre   = to_genre(row[3])
+        is_orig = safe_bool(row[4])
 
         if not title or rank is None or not isinstance(date, datetime):
             continue
+        if not 1 <= rank <= 10:
+            continue
 
-        score = resolve_score(score, rank)
+        by_date[date.strftime("%Y-%m-%d")].append({"rank": rank, "title": title})
+        prev = attributes.get(title)
+        attributes[title] = {
+            "genre": genre,
+            "isNetflixOriginal": is_orig or (prev is not None and prev["isNetflixOriginal"]),
+        }
 
-        date_str    = date.strftime("%Y-%m-%d")
-        month       = date.month
-        quarter_key = f"{date.year}-Q{(month - 1) // 3 + 1}"
-        week_num    = date_to_week.get(date_str)
-
-        for target in [all_stats, quarter_stats[quarter_key], *(([week_stats[week_num]] if week_num else []))]:
-            s = target[title]
-            s["totalScore"] += score
-            s["days"]       += 1
-            s["rankSum"]    += rank
-            s["genre"]       = genre
-            if is_orig:
-                s["isNetflixOriginal"] = True
-
-    def to_ranking_list(stats_dict):
-        results = []
-        for title, s in stats_dict.items():
-            days = s["days"]
-            if days == 0:
-                continue
-            results.append({
-                "rank": 0,
-                "title": title,
-                "totalScore": round(s["totalScore"], 2),
-                "genre": s["genre"],
-                "weeksOnChart": days,
-                "avgRank": round(s["rankSum"] / days, 2),
-                "isNetflixOriginal": s["isNetflixOriginal"],
-            })
-        results.sort(key=lambda x: -x["totalScore"])
-        for i, r in enumerate(results):
-            r["rank"] = i + 1
-        return results
-
-    daily_overall    = to_ranking_list(all_stats)
-    daily_by_quarter = {q: to_ranking_list(s) for q, s in sorted(quarter_stats.items())}
-    daily_by_week    = {wn: to_ranking_list(s) for wn, s in sorted(week_stats.items())}
-
-    return daily_overall, daily_by_quarter, daily_by_week
+    daily_board = [
+        {"date": d, "entries": sorted(entries, key=lambda e: e["rank"])}
+        for d, entries in sorted(by_date.items())
+    ]
+    return daily_board, attributes
 
 
 # ── Taiwan drama daily rankings ──────────────────────────────────────────────
@@ -766,6 +744,7 @@ def main():
     weekly = parse_weekly_clean(ws_weekly)
     filled = sum(1 for w in weekly if w["rankings"])
     print(f"  → {len(weekly)} 週，{filled} 週有資料")
+    fix_week_overlaps(weekly)
 
     # ── 校驗週榜 ──
     warn_count = 0
@@ -785,13 +764,13 @@ def main():
     overall = derive_overall_rankings(weekly, show_attrs)
     print(f"  → {len(overall)} 筆整體排名")
 
-    # ── 每天節目排名資料（日榜整體 / 季度 / 週次）──
-    daily_overall, daily_by_quarter, daily_by_week = [], {}, {}
+    # ── 每天節目排名資料（逐日榜單；各期間排行由前端彙總）──
+    daily_board, daily_attributes = [], {}
     ws_daily_overall = find_sheet(wb, SHEET_DAILY_OVERALL)
     if ws_daily_overall:
         print(f"\n解析每天節目排名：{SHEET_DAILY_OVERALL}")
-        daily_overall, daily_by_quarter, daily_by_week = parse_daily_overall(ws_daily_overall, weekly)
-        print(f"  → 日榜整體 {len(daily_overall)} 筆，{len(daily_by_quarter)} 個季度，{len(daily_by_week)} 個週次")
+        daily_board, daily_attributes = parse_daily_board(ws_daily_overall)
+        print(f"  → 逐日榜單 {len(daily_board)} 天，{len(daily_attributes)} 個片名")
     else:
         print(f"  ⚠ 找不到 sheet「{SHEET_DAILY_OVERALL}」，跳過日榜整體排名")
 
@@ -825,9 +804,8 @@ def main():
         },
         "showAttributes": show_attrs,
         "overallRankings": overall,
-        "dailyOverallRankings": daily_overall,
-        "dailyOverallByQuarter": daily_by_quarter,
-        "dailyOverallByWeek": daily_by_week,
+        "dailyBoard": daily_board,
+        "dailyAttributes": daily_attributes,
         "taiwanDramaRankings": taiwan,
         "dailyRankings": daily,
         "weeklyRankings": weekly,
@@ -837,7 +815,7 @@ def main():
     out_path = OUTPUT_DIR / "public" / "data" / "rankings.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+        json.dump(output, f, ensure_ascii=False, separators=(",", ":"))
     size_kb = out_path.stat().st_size // 1024
     print(f"\n輸出：{out_path} ({size_kb} KB)")
 
@@ -848,9 +826,7 @@ def main():
     print(f"\n完成！")
     print(f"  劇集屬性：{len(show_attrs)} 筆")
     print(f"  整體排名：{len(overall)} 筆")
-    print(f"  日榜整體：{len(daily_overall)} 筆")
-    print(f"  日榜季度：{len(daily_by_quarter)} 個季度")
-    print(f"  日榜週次：{len(daily_by_week)} 個週次")
+    print(f"  逐日榜單：{len(daily_board)} 天")
     print(f"  台劇排名：{len(taiwan)} 筆")
     print(f"  每日排名：{len(daily)} 筆")
     print(f"  週榜：{len(weekly)} 週")
