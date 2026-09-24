@@ -12,6 +12,7 @@ import QuickLookup from './components/charts/QuickLookup'
 import MovieBoardTable from './components/charts/MovieBoardTable'
 import MovieRaceChart from './components/charts/MovieRaceChart'
 import MovieTop20Chart from './components/charts/MovieTop20Chart'
+import MovieQuickLookup from './components/charts/MovieQuickLookup'
 import {
   getTaiwanDramaComparison,
   getWeeklyGenreDistribution,
@@ -321,7 +322,13 @@ export default function App() {
                     onSelectTitle={setSelectedMovie}
                   />
                 </div>
-                <div style={{ flex: 1, minHeight: 0 }} />
+                <div style={{ flex: 1, minHeight: 0 }}>
+                  <MovieQuickLookup
+                    entities={moviesData.entities}
+                    selectedTitle={selectedMovie}
+                    onSelectTitle={setSelectedMovie}
+                  />
+                </div>
               </div>
               <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
                 <div style={{ flex: '0 0 44%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
