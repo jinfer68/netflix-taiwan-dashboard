@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import type { YearFilter } from '../components/layout/Sidebar'
 
 export type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
@@ -26,7 +27,7 @@ export interface ShowFilters {
   filterNetflix: NetflixFilter
   setFilterNetflix: (v: NetflixFilter) => void
   selectedTitles: string[]
-  setSelectedTitles: (v: string[]) => void
+  setSelectedTitles: Dispatch<SetStateAction<string[]>>
   search: string
   setSearch: (v: string) => void
   flowNetflixFilter: NetflixFilter

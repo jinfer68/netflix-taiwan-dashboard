@@ -282,10 +282,10 @@ export default function App() {
                   filterRelease={show.filterRelease}
                   filterNetflix={show.filterNetflix}
                   selectedTitles={show.selectedTitles}
-                  onToggleTitle={title => show.setSelectedTitles(
-                    show.selectedTitles.includes(title)
-                      ? show.selectedTitles.filter(t => t !== title)
-                      : show.selectedTitles.length >= MAX_SERIES ? show.selectedTitles : [...show.selectedTitles, title]
+                  onToggleTitle={title => show.setSelectedTitles(prev =>
+                    prev.includes(title)
+                      ? prev.filter(t => t !== title)
+                      : prev.length >= MAX_SERIES ? prev : [...prev, title]
                   )}
                 />
               </div>
