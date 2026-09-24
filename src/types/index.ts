@@ -105,3 +105,72 @@ export interface RankingsData {
   dailyRankings: DailyRankingEntry[]            // 台劇每日排名（供走勢圖使用）
   weeklyRankings: WeeklyRankingWeek[]
 }
+
+// ── 電影 ────────────────────────────────────────────────────────────
+
+export type MovieLanguage = '英語' | '其他語言' | '台灣' | '日語' | '韓語' | '華語'
+export type MovieFormat = '劇情片' | '動畫' | '紀錄片'
+
+export interface MovieAttributes {
+  language: MovieLanguage
+  format: MovieFormat
+  origin: string
+  isNetflixOriginal: boolean
+  firstDate: string
+  lastDate: string
+  daysOnChart: number
+  bestRank: number
+  avgRank: number
+  totalScore: number
+}
+
+export interface DailyBoard {
+  date: string
+  entries: { rank: number; title: string }[]
+}
+
+export interface WeeklyBoardItem {
+  rank: number
+  title: string
+  score: number
+}
+
+export interface WeeklyBoard {
+  weekNumber: number
+  dateRange: string
+  rankings: WeeklyBoardItem[]
+}
+
+export interface YearCoverage {
+  year: string
+  haveDays: number
+  missingDays: number
+}
+
+/** 榜單資料集的通用形狀。劇集之後收斂到同一個型別，屆時 TAttrs = ShowAttributes */
+export interface BoardDataset<TAttrs> {
+  meta: { generatedAt: string; dataThrough: string; coverage: YearCoverage[] }
+  entities: Record<string, TAttrs>
+  dailyBoard: DailyBoard[]
+  weeklyRankings: WeeklyBoard[]
+}
+
+export type MoviesData = BoardDataset<MovieAttributes>
+
+/** boardTransforms 衍生的排行項目，不出現在 json */
+export interface MovieOverallEntry {
+  rank: number
+  title: string
+  totalScore: number
+  language: MovieLanguage
+  format: MovieFormat
+  isNetflixOriginal: boolean
+  onChartCount: number
+  avgRank: number
+  bestRank: number
+}
+
+export interface DateRange {
+  from: string
+  to: string
+}

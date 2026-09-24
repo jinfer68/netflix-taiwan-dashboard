@@ -1,20 +1,27 @@
-import { useEffect, useMemo, useState } from 'react'
-import type { RankingsData } from './types'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import type { RankingsData, MoviesData } from './types'
 import Header from './components/layout/Header'
 import Sidebar from './components/layout/Sidebar'
-import type { TabType, YearFilter } from './components/layout/Sidebar'
+import type { AppMode, TabType } from './components/layout/Sidebar'
 import Top20Chart from './components/charts/Top20Chart'
 import TaiwanDramaChart from './components/charts/TaiwanDramaChart'
 import GenreDistribution from './components/charts/GenreDistribution'
 import RankTrendChart from './components/charts/RankTrendChart'
 import WeeklyGenreFlow from './components/charts/WeeklyGenreFlow'
 import QuickLookup from './components/charts/QuickLookup'
+import MovieBoardTable from './components/charts/MovieBoardTable'
+import MovieRaceChart from './components/charts/MovieRaceChart'
+import MovieTop20Chart from './components/charts/MovieTop20Chart'
+import MovieQuickLookup from './components/charts/MovieQuickLookup'
 import {
   getTaiwanDramaComparison,
   getWeeklyGenreDistribution,
   getTop50GenreDistribution,
   getDailyOverallRankings,
 } from './utils/dataTransforms'
+import { boundsOf, coverageIn, filterDailyByRange, filterWeeklyByRange } from './utils/boardTransforms'
+import { useMovieFilters } from './hooks/useMovieFilters'
+import { useShowFilters } from './hooks/useShowFilters'
 import { MAX_SERIES } from './constants/genres'
 import { INK, INK_MUTED, INK_SECONDARY, PAPER, RULE_STRONG } from './constants/styles'
 
@@ -29,9 +36,6 @@ const EMPTY_DATA: RankingsData = {
   dailyRankings: [],
   weeklyRankings: [],
 }
-
-type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
-type NetflixFilter = 'all' | 'original' | 'nonOriginal'
 
 export default function App() {
   const [rankingsData, setRankingsData] = useState<RankingsData | null>(null)
@@ -54,39 +58,80 @@ export default function App() {
 
   // ── 全域狀態 ─────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<TabType>('rankings')
-  const [yearFilter, setYearFilter] = useState<YearFilter>('2026')
+  const show = useShowFilters()
   const [selectedShow, setSelectedShow] = useState<string | null>(null)
 
-  // ── TOP 20 篩選狀態 ──────────────────────────────────────────
-  const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
-  const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set())
-  const [netflixOnly, setNetflixOnly] = useState(false)
-  const [selectedQuarter, setSelectedQuarter] = useState<string>('all')
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
+  const [appMode, setAppMode] = useState<AppMode>('shows')
+  const [moviesData, setMoviesData] = useState<MoviesData | null>(null)
+  const [moviesLoading, setMoviesLoading] = useState(false)
+  const [moviesFailed, setMoviesFailed] = useState(false)
+  const [selectedMovie, setSelectedMovie] = useState<string | null>(null)
 
-  // ── 台劇分析篩選狀態 ─────────────────────────────────────────
-  const [sortMode, setSortMode] = useState<'weekly' | 'daily'>('weekly')
-  const [filterRelease, setFilterRelease] = useState<ReleaseFilter>('all')
-  const [filterNetflix, setFilterNetflix] = useState<NetflixFilter>('all')
+  // state 更新非同步，StrictMode 的雙重呼叫會同時讀到舊值而重複抓取；ref 是同步的
+  const moviesRequested = useRef(false)
 
-  // ── 日榜週次篩選狀態 ─────────────────────────────────────────
-  const [selectedDailyWeek, setSelectedDailyWeek] = useState<number | null>(null)
+  useEffect(() => {
+    if (appMode !== 'movies' || moviesRequested.current) return
+    moviesRequested.current = true
+    setMoviesLoading(true)
+    fetch(`${import.meta.env.BASE_URL}data/movies.json`)
+      .then(res => res.json())
+      .then((json: MoviesData) => {
+        if (json?.dailyBoard) setMoviesData(json)
+        else setMoviesFailed(true)
+      })
+      .catch(() => setMoviesFailed(true))
+      .finally(() => setMoviesLoading(false))
+  }, [appMode])
 
-  // ── 走勢分析篩選狀態 ─────────────────────────────────────────
-  const [selectedTitles, setSelectedTitles] = useState<string[]>([])
-  const [search, setSearch] = useState('')
+  const movieYears = useMemo(() => {
+    if (!moviesData) return { dailyYears: [], weeklyYears: [] }
+    const daily = new Set(moviesData.dailyBoard.map(b => b.date.slice(0, 4)))
+    const weekly = new Set(moviesData.weeklyRankings.map(w => w.dateRange.slice(0, 4)))
+    return {
+      dailyYears: [...daily].sort(),
+      weeklyYears: [...weekly].sort(),
+    }
+  }, [moviesData])
 
-  // ── 流向圖篩選狀態 ───────────────────────────────────────────
-  const [flowNetflixFilter, setFlowNetflixFilter] = useState<NetflixFilter>('all')
+  const movieFilters = useMovieFilters(movieYears)
+
+  const movieDailyInRange = useMemo(
+    () => filterDailyByRange(moviesData?.dailyBoard ?? [], movieFilters.time.range),
+    [moviesData, movieFilters.time.range],
+  )
+
+  const movieWeeksInRange = useMemo(
+    () => filterWeeklyByRange(moviesData?.weeklyRankings ?? [], movieFilters.time.range),
+    [moviesData, movieFilters.time.range],
+  )
+
+  const movieDates = useMemo(() => {
+    if (!moviesData) return []
+    return movieFilters.time.boardMode === 'daily'
+      ? moviesData.dailyBoard.map(b => b.date)
+      : moviesData.weeklyRankings.map(w => w.dateRange.split(' ~ ')[0])
+  }, [moviesData, movieFilters.time.boardMode])
+
+  const movieCoverage = useMemo(() => {
+    const bounds = boundsOf(movieDates)
+    if (!bounds) return { have: 0, expected: 0 }
+    return coverageIn(
+      movieDates,
+      movieFilters.time.range,
+      bounds,
+      movieFilters.time.boardMode === 'daily' ? 'day' : 'week',
+    )
+  }, [movieDates, movieFilters.time.range, movieFilters.time.boardMode])
 
   // ── 年份篩選資料 ─────────────────────────────────────────────
   const filteredData = useMemo((): RankingsData => {
-    if (yearFilter === 'all') return data
+    if (show.yearFilter === 'all') return data
     return {
       ...data,
-      weeklyRankings: data.weeklyRankings.filter(w => w.dateRange.startsWith(yearFilter)),
+      weeklyRankings: data.weeklyRankings.filter(w => w.dateRange.startsWith(show.yearFilter)),
     }
-  }, [data, yearFilter])
+  }, [data, show.yearFilter])
 
   const taiwanDramas = useMemo(() => getTaiwanDramaComparison(filteredData), [filteredData])
   const genreDistribution = useMemo(() => getWeeklyGenreDistribution(filteredData), [filteredData])
@@ -95,12 +140,12 @@ export default function App() {
   const dailyOverallRankings = useMemo(
     () => getDailyOverallRankings(
       data,
-      rankingMode === 'daily' ? selectedQuarter : 'all',
-      rankingMode === 'daily' ? selectedDailyWeek : null,
-      rankingMode === 'daily' ? yearFilter : null,
-      rankingMode === 'daily' ? selectedMonth : null,
+      show.rankingMode === 'daily' ? show.selectedQuarter : 'all',
+      show.rankingMode === 'daily' ? show.selectedDailyWeek : null,
+      show.rankingMode === 'daily' ? show.yearFilter : null,
+      show.rankingMode === 'daily' ? show.selectedMonth : null,
     ),
-    [data, rankingMode, selectedQuarter, selectedDailyWeek, yearFilter, selectedMonth],
+    [data, show.rankingMode, show.selectedQuarter, show.selectedDailyWeek, show.yearFilter, show.selectedMonth],
   )
 
   if (loading) {
@@ -127,53 +172,58 @@ export default function App() {
       <div style={{ display: 'flex', height: CHART_H }}>
         {/* ── 左側 Sidebar ── */}
         <Sidebar
+          appMode={appMode}
+          onModeChange={setAppMode}
           activeTab={activeTab}
           onTabChange={setActiveTab}
           data={filteredData}
-          yearFilter={yearFilter}
-          setYearFilter={setYearFilter}
-          rankingMode={rankingMode}
-          setRankingMode={setRankingMode}
-          activeGenres={activeGenres}
-          setActiveGenres={setActiveGenres}
-          netflixOnly={netflixOnly}
-          setNetflixOnly={setNetflixOnly}
-          selectedQuarter={selectedQuarter}
-          setSelectedQuarter={setSelectedQuarter}
-          selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
-          selectedDailyWeek={selectedDailyWeek}
-          setSelectedDailyWeek={setSelectedDailyWeek}
-          sortMode={sortMode}
-          setSortMode={setSortMode}
-          filterRelease={filterRelease}
-          setFilterRelease={setFilterRelease}
-          filterNetflix={filterNetflix}
-          setFilterNetflix={setFilterNetflix}
-          selectedTitles={selectedTitles}
-          setSelectedTitles={setSelectedTitles}
-          search={search}
-          setSearch={setSearch}
-          flowNetflixFilter={flowNetflixFilter}
-          setFlowNetflixFilter={setFlowNetflixFilter}
+          yearFilter={show.yearFilter}
+          setYearFilter={show.setYearFilter}
+          rankingMode={show.rankingMode}
+          setRankingMode={show.setRankingMode}
+          activeGenres={show.activeGenres}
+          setActiveGenres={show.setActiveGenres}
+          netflixOnly={show.netflixOnly}
+          setNetflixOnly={show.setNetflixOnly}
+          selectedQuarter={show.selectedQuarter}
+          setSelectedQuarter={show.setSelectedQuarter}
+          selectedMonth={show.selectedMonth}
+          setSelectedMonth={show.setSelectedMonth}
+          selectedDailyWeek={show.selectedDailyWeek}
+          setSelectedDailyWeek={show.setSelectedDailyWeek}
+          sortMode={show.sortMode}
+          setSortMode={show.setSortMode}
+          filterRelease={show.filterRelease}
+          setFilterRelease={show.setFilterRelease}
+          filterNetflix={show.filterNetflix}
+          setFilterNetflix={show.setFilterNetflix}
+          selectedTitles={show.selectedTitles}
+          setSelectedTitles={show.setSelectedTitles}
+          search={show.search}
+          setSearch={show.setSearch}
+          flowNetflixFilter={show.flowNetflixFilter}
+          setFlowNetflixFilter={show.setFlowNetflixFilter}
+          movieFilters={movieFilters}
+          movieCoverage={movieCoverage}
+          movieDates={movieDates}
         />
 
         {/* ── 右側圖表區域 ── */}
         <main style={{ flex: 1, height: CHART_H, overflow: 'hidden', minWidth: 0 }}>
 
           {/* ══ 總排行榜頁：TOP 20（左）＋ 快速查詢（右）══ */}
-          {activeTab === 'rankings' && (
+          {appMode === 'shows' && activeTab === 'rankings' && (
             <div style={{ display: 'flex', height: CHART_H, gap: 0 }}>
               {/* TOP 20 約佔 60% */}
               <div style={{ flex: '0 0 60%', height: CHART_H }}>
                 <Top20Chart
                   data={filteredData}
-                  rankingMode={rankingMode}
+                  rankingMode={show.rankingMode}
                   dailyRankings={dailyOverallRankings}
-                  activeGenres={activeGenres}
-                  netflixOnly={netflixOnly}
-                  selectedQuarter={selectedQuarter}
-                  selectedMonth={selectedMonth}
+                  activeGenres={show.activeGenres}
+                  netflixOnly={show.netflixOnly}
+                  selectedQuarter={show.selectedQuarter}
+                  selectedMonth={show.selectedMonth}
                   selectedShow={selectedShow}
                   onSelectShow={setSelectedShow}
                 />
@@ -184,7 +234,7 @@ export default function App() {
                   data={filteredData}
                   fullData={data}
                   dailyOverallRankings={dailyOverallRankings}
-                  rankingMode={rankingMode}
+                  rankingMode={show.rankingMode}
                   selectedShow={selectedShow}
                   onSelectShow={setSelectedShow}
                 />
@@ -193,7 +243,7 @@ export default function App() {
           )}
 
           {/* ══ 類型分析頁：圓餅圖（上固定高）＋ 河流圖（下）══ */}
-          {activeTab === 'genre' && (
+          {appMode === 'shows' && activeTab === 'genre' && (
             <div style={{ height: CHART_H, overflow: 'auto' }}>
               {/* 圓餅圖：固定 370px，確保小螢幕也能正確渲染 */}
               <div style={{
@@ -216,23 +266,23 @@ export default function App() {
                 </div>
               </div>
               {/* 河流圖：自然高度（EChart 420px + 統計表），小螢幕可向下捲動 */}
-              <WeeklyGenreFlow data={filteredData} netflixFilter={flowNetflixFilter} />
+              <WeeklyGenreFlow data={filteredData} netflixFilter={show.flowNetflixFilter} />
             </div>
           )}
 
           {/* ══ 台劇分析頁：台劇積分榜（上 58%）＋ 走勢圖（下 42%）══ */}
-          {activeTab === 'taiwan' && (
+          {appMode === 'shows' && activeTab === 'taiwan' && (
             <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
               {/* 台劇積分榜：佔較多空間（節目多，需要高度）*/}
               <div style={{ flex: '0 0 58%', minHeight: 0, borderBottom: `1px solid ${RULE_STRONG}`, overflow: 'auto' }}>
                 <TaiwanDramaChart
                   data={taiwanDramas}
                   showAttributes={data.showAttributes}
-                  sortMode={sortMode}
-                  filterRelease={filterRelease}
-                  filterNetflix={filterNetflix}
-                  selectedTitles={selectedTitles}
-                  onToggleTitle={title => setSelectedTitles(prev =>
+                  sortMode={show.sortMode}
+                  filterRelease={show.filterRelease}
+                  filterNetflix={show.filterNetflix}
+                  selectedTitles={show.selectedTitles}
+                  onToggleTitle={title => show.setSelectedTitles(prev =>
                     prev.includes(title)
                       ? prev.filter(t => t !== title)
                       : prev.length >= MAX_SERIES ? prev : [...prev, title]
@@ -243,8 +293,56 @@ export default function App() {
               <div style={{ flex: 1, minHeight: 0 }}>
                 <RankTrendChart
                   data={filteredData}
-                  selectedTitles={selectedTitles}
+                  selectedTitles={show.selectedTitles}
                 />
+              </div>
+            </div>
+          )}
+
+          {appMode === 'movies' && (moviesLoading || moviesFailed) && (
+            <div style={{ padding: '16px 20px', fontSize: 13, color: INK_SECONDARY }}>
+              {moviesLoading && '載入電影資料中…'}
+              {!moviesLoading && moviesFailed && '電影資料載入失敗'}
+            </div>
+          )}
+
+          {appMode === 'movies' && moviesData && (
+            <div style={{ display: 'flex', flexDirection: 'column', height: CHART_H }}>
+              <div style={{ flex: '0 0 55%', minHeight: 0, display: 'flex', borderBottom: `1px solid ${RULE_STRONG}` }}>
+                <div style={{ flex: '0 0 60%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
+                  <MovieTop20Chart
+                    boards={movieDailyInRange}
+                    weeks={movieWeeksInRange}
+                    entities={moviesData.entities}
+                    filters={movieFilters}
+                    selectedTitle={selectedMovie}
+                    onSelectTitle={setSelectedMovie}
+                  />
+                </div>
+                <div style={{ flex: 1, minHeight: 0 }}>
+                  <MovieQuickLookup
+                    entities={moviesData.entities}
+                    selectedTitle={selectedMovie}
+                    onSelectTitle={setSelectedMovie}
+                  />
+                </div>
+              </div>
+              <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+                <div style={{ flex: '0 0 44%', minHeight: 0, borderRight: `1px solid ${RULE_STRONG}` }}>
+                  <MovieBoardTable
+                    boards={movieDailyInRange}
+                    entities={moviesData.entities}
+                    selectedTitle={selectedMovie}
+                    onSelectTitle={setSelectedMovie}
+                  />
+                </div>
+                <div style={{ flex: 1, minHeight: 0 }}>
+                  <MovieRaceChart
+                    boards={movieDailyInRange}
+                    entities={moviesData.entities}
+                    selectedTitle={selectedMovie}
+                  />
+                </div>
               </div>
             </div>
           )}
