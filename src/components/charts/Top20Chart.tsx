@@ -196,7 +196,13 @@ export default function Top20Chart({
         </div>
       </div>
 
-      <div style={{ flex: 1, minHeight: 0 }}>
+      {chartData.length === 0 && (
+        <div style={{ flex: 1, fontSize: 13, color: INK_MUTED, paddingTop: 8 }}>
+          {rankingMode === 'daily' ? '此期間沒有日榜資料' : '此期間沒有週榜資料'}
+        </div>
+      )}
+
+      <div style={{ flex: 1, minHeight: 0, display: chartData.length === 0 ? 'none' : 'block' }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             layout="vertical"
@@ -264,7 +270,6 @@ export default function Top20Chart({
 
       <div style={{ fontSize: 11, color: INK_MUTED, paddingTop: 8, textAlign: 'right' }}>
         <span style={{ color: ACCENT, fontWeight: 700 }}>N</span> ＝ Netflix 獨家
-        {rankingMode === 'daily' && '　·　日榜資料涵蓋全期，不支援年份篩選'}
       </div>
     </div>
   )

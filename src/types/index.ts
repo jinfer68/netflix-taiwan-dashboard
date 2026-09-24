@@ -91,6 +91,11 @@ export interface ShowAttributes {
   totalEpisodes: string
 }
 
+export interface DailyShowAttributes {
+  genre: Genre
+  isNetflixOriginal: boolean
+}
+
 export interface RankingsData {
   meta: {
     generatedAt: string
@@ -98,9 +103,8 @@ export interface RankingsData {
   }
   showAttributes: Record<string, ShowAttributes>
   overallRankings: OverallRankingEntry[]
-  dailyOverallRankings: OverallRankingEntry[]                    // 全期日榜積分總排行
-  dailyOverallByQuarter: Record<string, OverallRankingEntry[]>   // 各季度日榜積分排行
-  dailyOverallByWeek: Record<number, OverallRankingEntry[]>      // 各週日榜積分排行
+  dailyBoard: DailyBoard[]                                  // 逐日 Top 10；任何期間的日榜排行都由此彙總
+  dailyAttributes: Record<string, DailyShowAttributes>      // 日榜片名 → 類型／獨家
   taiwanDramaRankings: TaiwanDramaRanking[]
   dailyRankings: DailyRankingEntry[]            // 台劇每日排名（供走勢圖使用）
   weeklyRankings: WeeklyRankingWeek[]
@@ -168,6 +172,12 @@ export interface MovieOverallEntry {
   onChartCount: number
   avgRank: number
   bestRank: number
+}
+
+/** 單一片名的逐日名次，未上榜為 null */
+export interface TrendPoint {
+  date: string
+  rank: number | null
 }
 
 export interface DateRange {
