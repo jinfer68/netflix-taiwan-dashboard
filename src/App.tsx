@@ -19,7 +19,7 @@ import {
   getTop50GenreDistribution,
   getDailyOverallRankings,
 } from './utils/dataTransforms'
-import { filterDailyByRange, filterWeeklyByRange } from './utils/boardTransforms'
+import { boundsOf, coverageIn, filterDailyByRange, filterWeeklyByRange } from './utils/boardTransforms'
 import { useMovieFilters } from './hooks/useMovieFilters'
 import { MAX_SERIES } from './constants/genres'
 import { INK, INK_MUTED, INK_SECONDARY, PAPER, RULE_STRONG } from './constants/styles'
@@ -107,6 +107,24 @@ export default function App() {
     () => filterWeeklyByRange(moviesData?.weeklyRankings ?? [], movieFilters.time.range),
     [moviesData, movieFilters.time.range],
   )
+
+  const movieDates = useMemo(() => {
+    if (!moviesData) return []
+    return movieFilters.time.boardMode === 'daily'
+      ? moviesData.dailyBoard.map(b => b.date)
+      : moviesData.weeklyRankings.map(w => w.dateRange.split(' ~ ')[0])
+  }, [moviesData, movieFilters.time.boardMode])
+
+  const movieCoverage = useMemo(() => {
+    const bounds = boundsOf(movieDates)
+    if (!bounds) return { have: 0, expected: 0 }
+    return coverageIn(
+      movieDates,
+      movieFilters.time.range,
+      bounds,
+      movieFilters.time.boardMode === 'daily' ? 'day' : 'week',
+    )
+  }, [movieDates, movieFilters.time.range, movieFilters.time.boardMode])
 
   // ── TOP 20 篩選狀態 ──────────────────────────────────────────
   const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
@@ -209,6 +227,9 @@ export default function App() {
           setSearch={setSearch}
           flowNetflixFilter={flowNetflixFilter}
           setFlowNetflixFilter={setFlowNetflixFilter}
+          movieFilters={movieFilters}
+          movieCoverage={movieCoverage}
+          movieDates={movieDates}
         />
 
         {/* ── 右側圖表區域 ── */}

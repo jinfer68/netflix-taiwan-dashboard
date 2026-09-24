@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import type { RankingsData } from '../../types'
+import type { MovieFormat, RankingsData } from '../../types'
 import { GENRE_COLORS, GENRE_LABELS, SERIES_COLORS, MAX_SERIES } from '../../constants/genres'
 import { PAPER } from '../../constants/styles'
 import {
@@ -9,6 +9,8 @@ import {
 } from '../../constants/styles'
 import { getDailyShowTitles, getWeeklyDerivedRankings } from '../../utils/dataTransforms'
 import { getQuarter, weekToYearQuarter, weekToYearMonth } from '../../utils/dateHelpers'
+import type { MovieFilters } from '../../hooks/useMovieFilters'
+import { LANGUAGE_COLORS, LANGUAGE_LABELS, FORMAT_LABELS } from '../../constants/languages'
 
 export type AppMode = 'shows' | 'movies'
 export type TabType = 'rankings' | 'genre' | 'taiwan'
@@ -56,6 +58,11 @@ interface Props {
   // 流向圖
   flowNetflixFilter: NetflixFilter
   setFlowNetflixFilter: (v: NetflixFilter) => void
+
+  // 電影篩選
+  movieFilters: MovieFilters
+  movieCoverage: { have: number; expected: number }
+  movieDates: string[]   // 當前榜單類型下所有有資料的日期（YYYY-MM-DD）
 }
 
 const TABS: { key: TabType; label: string }[] = [
@@ -65,6 +72,7 @@ const TABS: { key: TabType; label: string }[] = [
 ]
 
 const YEARS: YearFilter[] = ['2024', '2025', '2026', 'all']
+const FORMAT_OPTIONS: (MovieFormat | 'all')[] = ['all', ...FORMAT_LABELS]
 
 const GROUP_LABEL: CSSProperties = {
   fontSize: 12, fontWeight: 700, color: INK_MUTED,
@@ -95,6 +103,7 @@ export default function Sidebar({
   selectedTitles, setSelectedTitles,
   search, setSearch,
   flowNetflixFilter, setFlowNetflixFilter,
+  movieFilters, movieCoverage, movieDates,
 }: Props) {
 
   const { availableQuarters, availableMonths } = useMemo(() => {
@@ -171,6 +180,28 @@ export default function Sidebar({
       weekToYearMonth(w.dateRange) === selectedMonth
     )
   }, [data, rankingMode, selectedQuarter, selectedMonth])
+
+  // 電影時間範圍：季度／月份不寫死，只列出 movieDates 裡實際有資料的
+  const movieAvailableQuarters = useMemo(() => {
+    if (movieFilters.time.year === 'all') return []
+    const qSet = new Set<number>()
+    movieDates.forEach(d => {
+      if (!d.startsWith(movieFilters.time.year)) return
+      qSet.add(Math.ceil(parseInt(d.substring(5, 7)) / 3))
+    })
+    return Array.from(qSet).sort((a, b) => a - b)
+  }, [movieDates, movieFilters.time.year])
+
+  const movieAvailableMonths = useMemo(() => {
+    if (movieFilters.time.quarter === null) return []
+    const mSet = new Set<number>()
+    movieDates.forEach(d => {
+      if (!d.startsWith(movieFilters.time.year)) return
+      const month = parseInt(d.substring(5, 7))
+      if (Math.ceil(month / 3) === movieFilters.time.quarter) mSet.add(month)
+    })
+    return Array.from(mSet).sort((a, b) => a - b)
+  }, [movieDates, movieFilters.time.year, movieFilters.time.quarter])
 
   function toggleGenre(g: string) {
     const next = new Set(activeGenres)
@@ -466,7 +497,133 @@ export default function Sidebar({
         )}
 
         {appMode === 'movies' && (
-          <div style={{ ...GROUP_LABEL, marginTop: 22 }}>電影篩選（建置中）</div>
+          <>
+            {/* 榜單類型 */}
+            <div style={{ ...GROUP_LABEL, marginTop: 22 }}>榜單類型</div>
+            <div style={ROW}>
+              {([['weekly', '週榜'], ['daily', '日榜']] as const).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  onClick={() => movieFilters.time.setBoardMode(mode)}
+                  style={SEGMENT_BTN(movieFilters.time.boardMode === mode)}
+                  {...hoverProps()}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* 時間範圍 */}
+            <div style={GROUP_LABEL}>時間範圍</div>
+            <div style={ROW}>
+              {[...movieFilters.time.years, 'all'].map(y => (
+                <button
+                  key={y}
+                  onClick={() => movieFilters.time.setYear(y)}
+                  style={SEGMENT_BTN(movieFilters.time.year === y)}
+                  {...hoverProps()}
+                >
+                  {y === 'all' ? '全部' : y}
+                </button>
+              ))}
+            </div>
+
+            {/* 季度 */}
+            {movieFilters.time.year !== 'all' && movieAvailableQuarters.length > 0 && (
+              <div style={SUB_ROW(10)}>
+                {movieAvailableQuarters.map(q => {
+                  const active = movieFilters.time.quarter === q
+                  return (
+                    <button
+                      key={q}
+                      onClick={() => {
+                        movieFilters.time.setQuarter(active ? null : q)
+                        movieFilters.time.setMonth(null)
+                      }}
+                      style={SEGMENT_BTN(active)}
+                      {...hoverProps()}
+                    >
+                      {`Q${q}`}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* 月份 */}
+            {movieFilters.time.quarter !== null && movieAvailableMonths.length > 0 && (
+              <div style={SUB_ROW(20)}>
+                {movieAvailableMonths.map(m => {
+                  const active = movieFilters.time.month === m
+                  return (
+                    <button
+                      key={m}
+                      onClick={() => movieFilters.time.setMonth(active ? null : m)}
+                      style={SEGMENT_BTN(active)}
+                      {...hoverProps()}
+                    >
+                      {`${m}月`}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* 覆蓋率提示 */}
+            {movieCoverage.expected > 0 && movieCoverage.have / movieCoverage.expected < 0.9 && (
+              <div style={{ fontSize: 11, color: INK_MUTED, marginTop: 6 }}>
+                <span style={NUM}>
+                  {`※ 資料涵蓋 ${movieCoverage.have} / ${movieCoverage.expected} ${movieFilters.time.boardMode === 'daily' ? '天' : '週'}`}
+                </span>
+              </div>
+            )}
+
+            {/* 語言篩選 */}
+            <div style={{ ...GROUP_LABEL, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+              <span>語言篩選</span>
+              {movieFilters.languages.size > 0 && (
+                <button
+                  onClick={movieFilters.clearLanguages}
+                  style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 11, color: INK_MUTED, fontWeight: 400, fontFamily: 'inherit', padding: 0 }}
+                >
+                  清除
+                </button>
+              )}
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: 2, rowGap: 0 }}>
+              {LANGUAGE_LABELS.map(l => {
+                const active = movieFilters.languages.has(l)
+                return (
+                  <button key={l} onClick={() => movieFilters.toggleLanguage(l)} style={GENRE_TOGGLE(active)} {...hoverProps()}>
+                    <span style={DOT(LANGUAGE_COLORS[l], active)} />
+                    {l}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* 形式 */}
+            <div style={GROUP_LABEL}>形式</div>
+            <div style={ROW}>
+              {FORMAT_OPTIONS.map(val => (
+                <button
+                  key={val}
+                  onClick={() => movieFilters.setFormat(val)}
+                  style={SEGMENT_BTN(movieFilters.format === val)}
+                  {...hoverProps()}
+                >
+                  {val === 'all' ? '全部' : val}
+                </button>
+              ))}
+            </div>
+
+            {/* 片源 */}
+            <div style={GROUP_LABEL}>片源</div>
+            <button onClick={() => movieFilters.setOriginalOnly(!movieFilters.originalOnly)} style={GENRE_TOGGLE(movieFilters.originalOnly)} {...hoverProps()}>
+              <span style={DOT(ACCENT, movieFilters.originalOnly)} />
+              僅 Netflix 獨家
+            </button>
+          </>
         )}
       </div>
     </aside>
