@@ -95,7 +95,7 @@ export default function MovieQuickLookup({ entities, selectedTitle, onSelectTitl
               }}
               {...hoverProps(selected ? ACCENT_WASH : 'transparent')}
             >
-              <span style={DOT(LANGUAGE_COLORS[attrs.language], selected)} />
+              <span style={DOT(LANGUAGE_COLORS[attrs.language], true)} />
               <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {title}
               </span>
