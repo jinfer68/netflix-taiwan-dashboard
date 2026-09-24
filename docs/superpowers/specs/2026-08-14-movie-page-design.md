@@ -446,14 +446,24 @@ export const FORMAT_LABELS: MovieFormat[]
 1. `python scripts/convert_movies.py` 產出 `public/data/movies.json`，且 console 列出 pending 類型清單與 75 筆片名衝突清單
 2. `npm run build` 通過（TypeScript strict，`noUnusedLocals` / `noUnusedParameters`）
 3. 開發模式下 schema validator 對 `movies.json` 無警告
-4. 六種語言的佔比與規格表一致（英語 53.9%、其他語言 13.9%、台灣 11.2%、日語 8.8%、韓語 6.1%、華語 6.1%），誤差在四捨五入範圍內
+4. **2021–2025（已封閉期間）**的六種語言佔比為 英語 53.3%、其他語言 14.5%、台灣 10.4%、日語 9.2%、華語 6.7%、韓語 6.0%，誤差 0.3 個百分點內
+
+   **刻意不鎖全期佔比。** 爬蟲每次更新都會加入新的日子，全期佔比必然跟著漂移；若拿它當驗收標準，每次更新都會失敗，而唯一的修法就是把期望值改成新輸出 —— 那等於每次都把這條驗收的意義刪掉一次。這件事在 2026-09 的資料更新時實際發生過。
+
+   已封閉期間不同：2021–2025 已經結束，新資料只會加在 2026 之後，所以那段的佔比是固定的。它變動就只有一個原因 —— `language_rules` 的分類規則被改壞了，而那正是這條要守住的東西。已用突變測試驗證：把 `港 → 華語` 改成 `港 → 日語` 後，此條確實失敗。
 5. 切換影集／電影模式時，各自的篩選狀態保留
 6. 日榜切週榜時年份依收斂規則調整，且不出現空白畫面
 7. 2021 年（缺 102 天）的競逐圖在缺漏處確實斷線，未出現橫跨缺口的直線
 8. 在榜 1 天的電影（如「驚天凍地」）在迷你走勢欄可見一個圓點，非空白
 9. 全站無新增 `className`、無新增 hex 色值、無新增 npm 套件
 10. `scripts/excel-to-rankings.cjs` 已刪除，`npm ci && npm run build` 在移除 `xlsx` 依賴後仍通過
-11. 時間下鑽的邏輯只有一份（`useTimeFilters`），劇集與電影共用；`App.tsx` 與 `Sidebar.tsx` 中不再有重複的季／月／週推導
+11. 劇集與電影的篩選狀態各自隔離在 hook 中（`useShowFilters` / `useMovieFilters`），`App.tsx` 不再平鋪 13 個劇集 `useState`
+
+    **原本這條寫的是「時間下鑽只有一份，劇集與電影共用 `useTimeFilters`」，那是規格自身的矛盾，2026-09-24 驗收時修正。**
+
+    兩邊的時間模型根本不同：劇集是 `selectedQuarter: string`（`'2026-Q1'`）、`selectedMonth: string`（`'2026-03'`）、`selectedDailyWeek: number`，還多了電影沒有的「週次」下鑽；電影是 `quarter: number | null`、`month: number | null`。要共用就得改劇集的資料形狀與 `Sidebar` 的推導邏輯 —— 那會改變劇集行為，與本規格「劇集圖表元件一律不動」的邊界衝突。
+
+    真正的收斂列為後續階段（見〈與劇集程式的收斂路徑〉），屆時要連同劇集的時間模型一起改，不是單純抽 hook 就能達成。
 
 ---
 
@@ -465,7 +475,7 @@ export const FORMAT_LABELS: MovieFormat[]
 
 | 元件 | 本次建立 | 劇集現況 | 收斂方式 |
 |---|---|---|---|
-| 時間下鑽狀態 | `useTimeFilters()` | 散在 `App.tsx` 與 `Sidebar.tsx` | 劇集改用同一個 hook，刪除重複邏輯 |
+| 時間下鑽狀態 | `useTimeFilters()` | 狀態已收進 `useShowFilters()`，但推導邏輯仍在 `Sidebar.tsx` | 劇集的季／月／週改成與電影同一個資料形狀（`number` 而非 `'2026-Q1'` 字串），再改用同一個 hook。**這會改變劇集行為，不是單純抽 hook** |
 | 榜單衍生函式 | `boardTransforms.ts`（泛型，吃 `DailyBoard[]`） | `dataTransforms.ts` 讀預聚合欄位 | 劇集資料改成 `DailyBoard[]` 後直接套用同一批函式 |
 | 資料集型別 | `BoardDataset<TAttrs>` | `RankingsData`，欄位平鋪 | `RankingsData` 收斂為 `BoardDataset<ShowAttributes>` |
 | 語言／類型常數 | `languages.ts` 的 `LANGUAGE_COLORS` + 固定順序 | `genres.ts` 同樣模式 | 兩者已同構，不需改動 |
