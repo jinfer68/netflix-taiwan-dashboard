@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Vite Dev Server",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["node_modules/vite/bin/vite.js"],
+      "name": "dashboard",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "port": 5173
     }
   ]
