@@ -7,6 +7,7 @@
 
 ---
 
+<!-- stats:start -->
 ## 資料範圍（2026-10-11 更新）
 
 | 項目 | 數量 | 期間 |
@@ -18,6 +19,7 @@
 | 台灣節目（含綜藝） | 95 部 | |
 
 日榜缺漏集中在早期：2021 年缺 7 天、2022 年缺 15 天、2023 年缺 56 天，2024 年起沒有缺漏。電影頁的介面上會標示每一年的資料涵蓋天數。
+<!-- stats:end -->
 
 - **日榜**：自行整理的歷史日榜，2021-04 起。
 - **週榜**：[Netflix 官方 Top 10](https://www.netflix.com/tudum/top10)（台灣）。少數對不到中文片名的作品顯示官方英文片名。
@@ -91,15 +93,18 @@ build_site_data.py 產生 rankings.json、movies.json
 
 資料管線放在私人 repo，本 repo 只放前端與產生好的兩個 JSON。推上 `main` 後由 GitHub Actions 自動建置並部署。
 
-### 更新資料
+### 更新資料（自動）
 
-在資料管線 repo 執行：
+資料管線每次提交資料（`commit_data.py`）後，會自動執行 `scripts/sync_public_site.py`：重新產生兩個 JSON、同步前端 `site/src/` → `src/`、更新本文件上方的資料範圍表、本機建置通過後推上本 repo 的 `main`。`vite.config.ts` 不同步（`base` 保持 `/netflix-taiwan-dashboard/`）。
+
+只改了前端時，在資料管線 repo 手動跑一次：
 
 ```bash
-.venv/bin/python scripts/build_site_data.py
+.venv/bin/python scripts/sync_public_site.py            # 同步並推送
+.venv/bin/python scripts/sync_public_site.py --dry-run  # 只看會改什麼
 ```
 
-再把 `site/public/data/` 的 `rankings.json`、`movies.json` 複製到本 repo 的 `public/data/`。前端有改動時一併同步 `site/src/` → `src/`（`vite.config.ts` 的 `base` 保持 `/netflix-taiwan-dashboard/`），commit 後推上 `main`。
+本 repo 的 `src/`、`public/data/`、`README.md` 等同步路徑有未提交的修改時，同步會停下來不覆蓋；要改前端請改資料管線的 `site/src/`。
 
 ### 舊版流程
 
