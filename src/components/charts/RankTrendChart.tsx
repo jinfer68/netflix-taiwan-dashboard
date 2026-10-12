@@ -30,7 +30,8 @@ function RankTick({ x, y, payload }: { x: number; y: number; payload: { value: n
 function RankTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (!active || !payload?.length) return null
   const dayIndex = label as number
-  const epNum = dayIndex % 7 === 0 ? dayIndex / 7 + 1 : null
+  // 第 1 天＝首播日（EP1），每 7 天一集：第 1、8、15… 天
+  const epNum = (dayIndex - 1) % 7 === 0 ? (dayIndex - 1) / 7 + 1 : null
   return (
     <div style={{ ...TOOLTIP_STYLE, minWidth: 180 }}>
       <div style={{ fontWeight: 700, marginBottom: 4, color: INK }}>
@@ -64,7 +65,7 @@ function CustomDot(props: {
 }
 
 export default function RankTrendChart({ data, selectedTitles }: Props) {
-  const { indices, series, releaseTypes } = useMemo(
+  const { indices, series, releaseTypes, returnRuns } = useMemo(
     () => getDailyTrendSeries(data, selectedTitles),
     [data, selectedTitles]
   )
@@ -76,7 +77,7 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
   const maxDayIndex = indices.length > 0 ? indices[indices.length - 1] : 0
 
   const epDays = hasWeeklyShow
-    ? Array.from({ length: Math.floor(maxDayIndex / 7) + 1 }, (_, i) => i * 7)
+    ? Array.from({ length: Math.floor((maxDayIndex - 1) / 7) + 1 }, (_, i) => i * 7 + 1)
     : []
 
   const chartData = useMemo(() =>
@@ -134,6 +135,16 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
         </div>
       </div>
 
+      {returnRuns.length > 0 && (
+        <div style={{ fontSize: 11, color: INK_MUTED, marginBottom: 4, textAlign: 'right' }}>
+          {returnRuns.map(r => (
+            <div key={`${r.title}-${r.startDate}`}>
+              ※ {r.title} {r.startDate.slice(0, 7).replace('-', '/')} 再度上榜 {r.days} 天，最佳第 {r.peakRank} 名（未畫入）
+            </div>
+          ))}
+        </div>
+      )}
+
       <div style={{ flex: 1, minHeight: 0 }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 8, right: showEndLabels ? 90 : 20, left: 0, bottom: 8 }}>
@@ -148,7 +159,7 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
                 strokeWidth={1}
                 strokeDasharray="3 3"
                 label={{
-                  value: `EP${day / 7 + 1}`,
+                  value: `EP${(day - 1) / 7 + 1}`,
                   fill: INK_MUTED,
                   fontSize: 10,
                   position: 'insideTopRight',
@@ -157,6 +168,9 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
             ))}
             <XAxis
               dataKey="dayIndex"
+              type="number"
+              domain={[1, Math.max(maxDayIndex, 2)]}
+              allowDecimals={false}
               tick={{ fill: INK_SECONDARY, fontSize: 11 }}
               axisLine={{ stroke: RULE_STRONG }}
               tickLine={false}
@@ -178,7 +192,7 @@ export default function RankTrendChart({ data, selectedTitles }: Props) {
               return (
                 <Line
                   key={s.name}
-                  type="monotone"
+                  type="linear"
                   dataKey={s.name}
                   name={s.name}
                   stroke={color}

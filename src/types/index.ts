@@ -39,10 +39,21 @@ export interface TaiwanDramaRanking {
   isNetflixOriginal: boolean
   isAllAtOnce: boolean
   releaseType: 'weekly' | 'allAtOnce' | 'split'
+  runs?: ShowRun[]          // 檔期段清單，僅有回鍋上榜（多段）時輸出
+}
+
+/** 檔期段：同一部作品相鄰上榜日相隔 30 天以上即切成新的一段 */
+export interface ShowRun {
+  startDate: string         // "YYYY-MM-DD"
+  endDate: string
+  days: number              // 上榜天數
+  peakRank: number          // 該段最佳名次
+  isMain: boolean           // 上榜天數最多的一段
 }
 
 export interface DailyRankingEntry {
-  dayIndex: number   // 上架天數（0 起算）
+  dayIndex: number   // 該檔期段的第 N 天（1 起算；主檔期第 1 天＝首播日）
+  runIndex: number   // 檔期段序號，0 = 主檔期
   title: string
   rank: number
   score: number

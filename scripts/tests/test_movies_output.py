@@ -166,9 +166,9 @@ def test_language_share_in_closed_period(data):
        這是本測試存在的理由。先查規則，不要改期望值。
        （已用突變測試確認咬得住：把 港→華語 改成 港→日語，此條會失敗。）
 
-    2. **補爬讓舊年份長出資料** —— 2021–2023 目前共缺 247 天
-       （2021 缺 102、2022 缺 34、2023 缺 110），爬蟲的
-       `--fill-gaps` 補回來之後，這幾年的佔比會合法地改變。
+    2. **補爬讓舊年份長出資料** —— 2021–2023 原本共缺 247 天
+       （2021 缺 102、2022 缺 34、2023 缺 110）；2026-10 補爬後剩 78 天
+       （7、15、56），已重新基準化一次。之後再補回來，這幾年的佔比會合法地改變。
 
     要分辨是哪一種，看 test_coverage_matches_known_gaps：
     缺漏天數變小 → 是補爬（第 2 種），此時**重新基準化一次是正當的**，
@@ -187,8 +187,8 @@ def test_language_share_in_closed_period(data):
             total += 1
 
     expected = {
-        "英語": 53.3, "其他語言": 14.5, "台灣": 10.4,
-        "日語": 9.2, "華語": 6.7, "韓語": 6.0,
+        "英語": 54.0, "其他語言": 15.0, "台灣": 9.9,
+        "日語": 8.8, "華語": 6.6, "韓語": 5.7,
     }
     for language, pct in expected.items():
         actual = counts[language] / total * 100
@@ -203,9 +203,9 @@ def test_coverage_matches_known_gaps(data):
     重新基準化一次，不要只改這裡。
     """
     by_year = {row["year"]: row for row in data["meta"]["coverage"]}
-    assert by_year["2021"]["missingDays"] == 102
-    assert by_year["2022"]["missingDays"] == 34
-    assert by_year["2023"]["missingDays"] == 110
+    assert by_year["2021"]["missingDays"] == 7
+    assert by_year["2022"]["missingDays"] == 15
+    assert by_year["2023"]["missingDays"] == 56
     assert by_year["2024"]["missingDays"] == 0
     assert by_year["2025"]["missingDays"] == 0
 

@@ -128,14 +128,29 @@ export default function App() {
     )
   }, [movieDates, movieFilters.time.range, movieFilters.time.boardMode])
 
+  // 節目可選年份：週榜或日榜有資料的年份
+  const showYears = useMemo(() => {
+    if (!data) return []
+    const years = new Set([
+      ...data.weeklyRankings.map(w => w.dateRange.slice(0, 4)),
+      ...data.dailyBoard.map(b => b.date.slice(0, 4)),
+    ])
+    return [...years].sort()
+  }, [data])
+
+  // 預設（或選到資料沒有的年份）時用資料中最新的一年
+  const yearFilter = show.yearFilter === 'all' || showYears.includes(show.yearFilter)
+    ? show.yearFilter
+    : showYears[showYears.length - 1] ?? 'all'
+
   // ── 年份篩選資料 ─────────────────────────────────────────────
   const filteredData = useMemo((): RankingsData => {
-    if (show.yearFilter === 'all') return data
+    if (yearFilter === 'all') return data
     return {
       ...data,
-      weeklyRankings: data.weeklyRankings.filter(w => w.dateRange.startsWith(show.yearFilter)),
+      weeklyRankings: data.weeklyRankings.filter(w => w.dateRange.startsWith(yearFilter)),
     }
-  }, [data, show.yearFilter])
+  }, [data, yearFilter])
 
   const taiwanDramas = useMemo(() => getTaiwanDramaComparison(filteredData), [filteredData])
   const genreDistribution = useMemo(() => getWeeklyGenreDistribution(filteredData), [filteredData])
@@ -146,10 +161,10 @@ export default function App() {
       data,
       show.rankingMode === 'daily' ? show.selectedQuarter : 'all',
       show.rankingMode === 'daily' ? show.selectedDailyWeek : null,
-      show.rankingMode === 'daily' ? show.yearFilter : null,
+      show.rankingMode === 'daily' ? yearFilter : null,
       show.rankingMode === 'daily' ? show.selectedMonth : null,
     ),
-    [data, show.rankingMode, show.selectedQuarter, show.selectedDailyWeek, show.yearFilter, show.selectedMonth],
+    [data, show.rankingMode, show.selectedQuarter, show.selectedDailyWeek, yearFilter, show.selectedMonth],
   )
 
   if (loading) {
@@ -181,8 +196,9 @@ export default function App() {
           activeTab={activeTab}
           onTabChange={setActiveTab}
           data={filteredData}
-          yearFilter={show.yearFilter}
+          yearFilter={yearFilter}
           setYearFilter={show.setYearFilter}
+          showYears={showYears}
           rankingMode={show.rankingMode}
           setRankingMode={show.setRankingMode}
           activeGenres={show.activeGenres}

@@ -14,7 +14,8 @@ import { LANGUAGE_COLORS, LANGUAGE_LABELS, FORMAT_LABELS } from '../../constants
 
 export type AppMode = 'shows' | 'movies'
 export type TabType = 'rankings' | 'genre' | 'taiwan'
-export type YearFilter = '2024' | '2025' | '2026' | 'all'
+/** 年份字串（'2021'…）或 'all'；可選年份由資料決定（App 傳入 showYears） */
+export type YearFilter = string
 type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
 type NetflixFilter = 'all' | 'original' | 'nonOriginal'
 
@@ -26,6 +27,8 @@ interface Props {
   data: RankingsData
   yearFilter: YearFilter
   setYearFilter: (v: YearFilter) => void
+  /** 節目資料涵蓋的年份（週榜或日榜有資料的年份），由舊到新 */
+  showYears: string[]
 
   // TOP 20
   rankingMode: 'weekly' | 'daily'
@@ -71,7 +74,6 @@ const TABS: { key: TabType; label: string }[] = [
   { key: 'taiwan',   label: '台劇分析' },
 ]
 
-const YEARS: YearFilter[] = ['2024', '2025', '2026', 'all']
 const FORMAT_OPTIONS: (MovieFormat | 'all')[] = ['all', ...FORMAT_LABELS]
 
 const GROUP_LABEL: CSSProperties = {
@@ -90,7 +92,7 @@ const SUB_ROW = (indent: number): CSSProperties => ({
 export default function Sidebar({
   appMode, onModeChange,
   activeTab, onTabChange, data,
-  yearFilter, setYearFilter,
+  yearFilter, setYearFilter, showYears,
   rankingMode, setRankingMode,
   activeGenres, setActiveGenres,
   netflixOnly, setNetflixOnly,
@@ -229,7 +231,7 @@ export default function Sidebar({
       <>
         <div style={GROUP_LABEL}>時間範圍</div>
         <div style={ROW}>
-          {YEARS.map(opt => (
+          {[...showYears, 'all'].map(opt => (
             <button key={opt} onClick={() => handleYearChange(opt)} style={SEGMENT_BTN(yearFilter === opt)} {...hoverProps()}>
               {opt === 'all' ? '全部' : opt}
             </button>

@@ -1,191 +1,132 @@
-# Netflix Taiwan Rankings Dashboard
+# Netflix 台灣收視儀表板
 
-A data visualization dashboard that transforms Netflix Taiwan Facebook ranking posts into a structured Excel/JSON data pipeline and an interactive React dashboard.
+把 Netflix 台灣的每日與每週排行，整理成 2021 年至今的歷史資料庫，並做成可以比較作品、類型與上架策略的互動儀表板。
 
-**Live Demo:** https://jinfer68.github.io/netflix-taiwan-dashboard/  
-**Repository:** https://github.com/jinfer68/netflix-taiwan-dashboard
-
----
-
-## Overview
-
-Netflix Taiwan publishes weekly ranking information through Facebook posts, but the data is not available as a structured historical dataset.
-
-This project builds an end-to-end data pipeline that collects ranking posts, cleans and maintains the data in an Excel-based local database, converts it into JSON, and visualizes the results through an interactive dashboard.
-
-The goal is not only to display rankings, but to turn scattered social media posts into a maintainable data product for exploring Taiwan streaming trends.
+**Live Demo：** https://jinfer68.github.io/netflix-taiwan-dashboard/
+**作品集案例：** https://jinfer68.github.io/portfolio/#/netflix-dashboard
 
 ---
 
-## Highlights
+## 資料範圍（2026-10-11 更新）
 
-- Collected and structured Netflix Taiwan ranking data from **2024/01/01 to 2026/04/27**
-- Covered **119 weeks** of ranking history
-- Tracked **314 shows** and **80+ Taiwanese dramas**
-- Built an Excel-based local database for manual validation and metadata maintenance
-- Converted cleaned Excel data into structured JSON for frontend use
-- Developed a React + TypeScript dashboard with rankings, genre analysis, and Taiwanese drama comparison
+| 項目 | 數量 | 期間 |
+|---|---|---|
+| 日榜（影集／電影各 Top 10） | 1,935 天 | 2021-04-05 ～ 2026-10-11 |
+| 官方週榜 | 275 週 | 2021-06-28 ～ 2026-10-04 |
+| 上榜影集 | 855 部 | |
+| 上榜電影 | 1,534 部 | |
+| 台灣節目（含綜藝） | 95 部 | |
 
----
+日榜缺漏集中在早期：2021 年缺 7 天、2022 年缺 15 天、2023 年缺 56 天，2024 年起沒有缺漏。電影頁的介面上會標示每一年的資料涵蓋天數。
 
-## Screenshots
-
-### Overall Rankings
-
-![Overall Rankings Dashboard](docs/screenshots/overall-rankings.png)
-
-### Genre Analysis
-
-![Genre Analysis Dashboard](docs/screenshots/genre-analysis.png)
-
-### Taiwanese Drama Analysis
-
-![Taiwanese Drama Analysis Dashboard](docs/screenshots/taiwan-drama-analysis.png)
+- **日榜**：自行整理的歷史日榜，2021-04 起。
+- **週榜**：[Netflix 官方 Top 10](https://www.netflix.com/tudum/top10)（台灣）。少數對不到中文片名的作品顯示官方英文片名。
+- 本站非 Netflix 官方網站，資料僅供學習、研究與作品展示使用。
 
 ---
 
-## Tech Stack
+## 畫面
 
-### Data Pipeline
+### 總排行榜
 
-- Python
-- Selenium
-- Excel / xlsx
-- JSON
+把週榜或日榜的名次換成積分（第 1 名 10 分、第 10 名 1 分），可依年份、季度、類型與是否為 Netflix 獨家篩選。點選作品可看最高名次、平均名次、上榜週數與日榜名次走勢。
 
-### Frontend
+![總排行榜](docs/screenshots/overall-rankings.jpg)
 
-- React 18
-- TypeScript
-- Vite
-- Recharts
-- ECharts
+週次快覽：回到任一週，直接看當週 Top 10 與類型分布。
+
+![週次快覽](docs/screenshots/weekly-browse.jpg)
+
+### 類型分析
+
+「週榜 Top 10 出現次數」看聲量，「Top 50 積分榜部數」看有多少作品站得住；下方的流向圖把每週各類型的上榜部數放在時間軸上。
+
+![類型分析](docs/screenshots/genre-analysis.jpg)
+
+### 台劇分析
+
+X 軸用「上架後第 N 天」而不是日期，讓不同時間上架的作品放在同一個起點比較；週播劇在第 1、8、15… 天標出新集上線。
+
+![台劇走勢](docs/screenshots/taiwan-drama-analysis.jpg)
+
+### 電影
+
+電影汰換速度約是影集的兩倍，另外設計了可指定日期的當日榜單、14 天名次競逐，以及產地與形式（劇情片／動畫／紀錄片）篩選。
+
+![電影](docs/screenshots/movies.jpg)
 
 ---
 
-## Data Pipeline
+## 計算規則
+
+### 積分
 
 ```text
-Netflix Taiwan Facebook Posts
-        ↓
-Python Scraper
-        ↓
-Excel Local Database
-        ↓
-JSON Conversion
-        ↓
-React + TypeScript Dashboard
+第 1 名 → 10 分、第 2 名 → 9 分 …… 第 10 名 → 1 分
 ```
 
-### Why Excel?
+把名次換成積分後，不同週、不同期間的作品才能用同一把尺比較。
 
-This project intentionally uses Excel as a lightweight local database because some metadata, such as release type, Netflix Original status, and episode count, requires manual validation. Excel keeps the data easy to inspect and edit while still allowing the frontend to consume a structured JSON output.
+### 台劇走勢的「第 N 天」
 
----
-
-## Dashboard Features
-
-### Overall Rankings
-
-- Weekly and daily ranking modes
-- Year, quarter, month, and week filters
-- Genre filters
-- Netflix Original filter
-- Top 20 ranking chart
-- Show quick lookup panel
-
-### Genre Analysis
-
-- Genre distribution charts
-- Weekly genre flow visualization
-- Netflix Original / non-original filtering
-
-### Taiwanese Drama Analysis
-
-- Taiwanese drama ranking table
-- Weekly score and daily score comparison
-- Release type filters
-- Multi-show ranking trend comparison based on days after release
+- **檔期段**：同一部作品相鄰兩個上榜日相隔 30 天以上，就切成新的一段。上榜天數最多的一段是主檔期，走勢圖只畫主檔期；其他段落（回鍋或分批上架）以文字註記，不把 X 軸拉長。
+  門檻取 30 天的依據：相鄰上榜日的間隔分布呈雙峰，28 天與 33 天之間沒有任何資料。
+- **第 1 天**：TMDB 該季首播日。以下情況改用主檔期第一次上榜日：
+  - 首播日晚於第一次上榜（TMDB 日期與台灣上架日不同）
+  - 首播日比第一次上榜早 30 天以上（TMDB 記的是電視台首播，Netflix 晚很久才上架）。首播到第一次上榜的天數，在 22 天與 43 天之間沒有資料。
 
 ---
 
-## Scoring Logic
-
-The dashboard converts ranking positions into points so shows can be compared across different time windows.
+## 資料流程
 
 ```text
-Rank 1  → 10 points
-Rank 2  → 9 points
-Rank 3  → 8 points
-...
-Rank 10 → 1 point
+歷史日榜（2021-04 起）＋ Netflix 官方週榜
+        ↓
+資料管線（私人 repo）：片名對應、作品主檔、TMDB 查證、驗證
+        ↓
+build_site_data.py 產生 rankings.json、movies.json
+        ↓
+本 repo：public/data/ ＋ React 前端 → GitHub Pages
 ```
 
-This makes it possible to compare shows across weeks, months, quarters, and years instead of only showing a single weekly ranking.
+資料管線放在私人 repo，本 repo 只放前端與產生好的兩個 JSON。推上 `main` 後由 GitHub Actions 自動建置並部署。
 
----
+### 更新資料
 
-## My Role
+在資料管線 repo 執行：
 
-I designed the overall data workflow, Excel database schema, data cleaning rules, field standardization logic, dashboard requirements, and analysis structure.
+```bash
+.venv/bin/python scripts/build_site_data.py
+```
 
-I used Claude Code as an AI coding assistant to accelerate implementation, while I was responsible for requirement definition, data structure design, validation, and final integration.
+再把 `site/public/data/` 的 `rankings.json`、`movies.json` 複製到本 repo 的 `public/data/`。前端有改動時一併同步 `site/src/` → `src/`（`vite.config.ts` 的 `base` 保持 `/netflix-taiwan-dashboard/`），commit 後推上 `main`。
 
----
+### 舊版流程
 
-## Project Structure
+`scripts/` 裡的 `convert_excel.py`、`convert_movies.py` 是 2026-10 之前以 Excel 為資料庫的舊流程，已由上面的資料管線取代，保留作為紀錄。`scripts/tests/` 檢查的是 `public/data/` 的輸出性質，兩種流程都適用：
 
-```text
-netflix-taiwan-dashboard/
-├── public/
-│   └── data/
-│       └── rankings.json
-├── src/
-│   ├── components/
-│   │   ├── charts/
-│   │   └── layout/
-│   ├── constants/
-│   ├── types/
-│   ├── utils/
-│   └── App.tsx
-├── package.json
-└── vite.config.ts
+```bash
+pip install -r requirements.txt
+pytest scripts/tests
 ```
 
 ---
 
-## Getting Started
+## 技術
 
-### Install dependencies
+- **前端**：React 18、TypeScript、Vite、Recharts、ECharts。全部使用 inline style，視覺規範見 [`docs/design-guidelines.md`](docs/design-guidelines.md)
+- **資料**：Python、JSON、TMDB API
+- **部署**：GitHub Actions → GitHub Pages
+
+### 本機開發
 
 ```bash
 npm install
-```
-
-### Start the development server
-
-```bash
 npm run dev
 ```
 
-### Build for production
-
-```bash
-npm run build
-```
-
 ---
 
-## Future Improvements
+## 我的角色
 
-- Add movie ranking analysis
-- Add GitHub Actions for automatic weekly updates
-- Add CSV export for filtered results
-- Improve responsive layout for mobile devices
-- Expand show-level historical lookup
-
----
-
-## Notes
-
-The ranking data is based on publicly available Netflix Taiwan Facebook posts and is used for learning, research, and portfolio demonstration purposes only.
+我負責資料來源判斷、資料管線與資料格式設計、清理與分類規則、儀表板需求與資訊設計，以及結果驗證。實作過程使用 Claude Code 作為 AI coding assistant 加速開發；資料結構、分析邏輯與設計取捨由我決定，主要功能都先寫設計規格（見 [`docs/superpowers/specs/`](docs/superpowers/specs/)）再實作。

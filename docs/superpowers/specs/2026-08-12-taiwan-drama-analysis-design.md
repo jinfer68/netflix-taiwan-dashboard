@@ -4,6 +4,12 @@
 **分支：** fix/daily-score-and-genre-normalization
 **影響範圍：** `scripts/convert_excel.py`、`src/types/index.ts`、`src/components/charts/TaiwanDramaChart.tsx`、`src/components/charts/RankTrendChart.tsx`
 
+> **狀態（2026-10-12）**：資料來源已從 Excel 換成資料管線（私人 repo）的 `build_site_data.py`，本規格以下列方式落實：
+> - **已做**：檔期段切分（30 天門檻）、只畫主檔期、回鍋段文字註記、X 軸數值軸、直線、EP 線對齊第 1／8／15 天、`runIndex` 與 `runs` 欄位。
+> - **改變**：第 1 天改為 TMDB 首播日（首播日晚於第一次上榜、或早 30 天以上時用第一次上榜日），不是一律用第一次上榜日；`runs` 放在 `taiwanDramaRankings`，不是 `showAttributes`（後者只涵蓋少數作品）。
+> - **不做**：`SEASON_OVERRIDES` 拆季。新管線以作品主檔（title_id）為準，季別在主檔中已人工確認（例：《華燈初上》使用者 2026-10-06 確認 Part 1–3 為同一季），片名正規化也由主檔處理。
+> - **未做**：台劇積分榜的 Top 20 展開、綜藝標記、覆蓋率缺值顯示、缺口虛線橋接。
+
 ---
 
 ## 背景

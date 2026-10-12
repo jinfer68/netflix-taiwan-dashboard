@@ -1,10 +1,10 @@
 // ⚠ 此檔案由 convert_excel.py 自動產生，請勿手動編輯
-// 產生時間：2026-10-05T09:53:51.811231
+// 產生時間：2026-09-24T17:13:57.760236
 //
 // 用途：開發時驗證 rankings.json 的欄位是否與 TypeScript 型別一致
 // 若 Python 輸出了新欄位但 types/index.ts 未宣告，validateSchema() 會在 console 警告
 
-type FieldDef = { key: string; type: string }
+type FieldDef = { key: string; type: string; optional?: boolean }
 
 export const OverallRankingEntry_FIELDS: FieldDef[] = [
   { key: 'rank', type: 'number' },
@@ -33,6 +33,7 @@ export const TaiwanDramaRanking_FIELDS: FieldDef[] = [
   { key: 'isNetflixOriginal', type: 'boolean' },
   { key: 'isAllAtOnce', type: 'boolean' },
   { key: 'releaseType', type: 'string' },
+  { key: 'runs', type: '(object)[]', optional: true },
 ]
 
 export const DailyRankingEntry_FIELDS: FieldDef[] = [
@@ -41,6 +42,7 @@ export const DailyRankingEntry_FIELDS: FieldDef[] = [
   { key: 'rank', type: 'number' },
   { key: 'score', type: 'number' },
   { key: 'isAllAtOnce', type: 'boolean' },
+  { key: 'runIndex', type: 'number' },
 ]
 
 export const WeeklyRankingWeek_FIELDS: FieldDef[] = [
@@ -65,7 +67,7 @@ function checkFields(typeName: string, expected: FieldDef[], actual: Record<stri
     }
   }
   for (const f of expected) {
-    if (!actualKeys.has(f.key)) {
+    if (!f.optional && !actualKeys.has(f.key)) {
       console.warn(`[Schema] ${typeName}: TypeScript 宣告了 "${f.key}" 但 JSON 中不存在`)
     }
   }

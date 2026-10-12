@@ -2,6 +2,9 @@ import { useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { YearFilter } from '../components/layout/Sidebar'
 
+/** 預設年份：資料載入後由 App 換成資料中最新的一年 */
+export const LATEST_YEAR = 'latest'
+
 export type ReleaseFilter = 'all' | 'weekly' | 'allAtOnce' | 'split'
 export type NetflixFilter = 'all' | 'original' | 'nonOriginal'
 
@@ -35,7 +38,7 @@ export interface ShowFilters {
 }
 
 export function useShowFilters(): ShowFilters {
-  const [yearFilter, setYearFilter] = useState<YearFilter>('2026')
+  const [yearFilter, setYearFilter] = useState<YearFilter>(LATEST_YEAR)
   const [rankingMode, setRankingMode] = useState<'weekly' | 'daily'>('weekly')
   const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set())
   const [netflixOnly, setNetflixOnly] = useState(false)

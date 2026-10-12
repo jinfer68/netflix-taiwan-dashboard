@@ -238,7 +238,17 @@ interface DailyTrendSeries {
   data: DailyPoint[]
 }
 
-/** 取得台劇每日排名走勢（以上架天數為 X 軸）*/
+/** 回鍋上榜註記：主檔期以外的檔期段 */
+export interface ReturnRunNote {
+  title: string
+  startDate: string
+  days: number
+  peakRank: number
+}
+
+/** 取得台劇每日排名走勢（以上架天數為 X 軸）。
+ *  只畫主檔期（runIndex 0）；回鍋段放進 returnRuns 以文字註記，避免 X 軸被拉長。
+ *  indices 是 1 到最大天數的完整整數序列，沒上榜的天數為 null，線在該處斷開。 */
 export function getDailyTrendSeries(
   data: RankingsData,
   selectedTitles: string[]
@@ -246,10 +256,14 @@ export function getDailyTrendSeries(
   indices: number[]
   series: DailyTrendSeries[]
   releaseTypes: Record<string, 'weekly' | 'allAtOnce' | 'split'>
+  returnRuns: ReturnRunNote[]
 } {
-  const relevant = data.dailyRankings.filter(r => selectedTitles.includes(r.title))
+  const relevant = data.dailyRankings.filter(
+    r => selectedTitles.includes(r.title) && (r.runIndex ?? 0) === 0
+  )
 
-  const allIndices = [...new Set(relevant.map(r => r.dayIndex))].sort((a, b) => a - b)
+  const maxDay = relevant.reduce((m, r) => Math.max(m, r.dayIndex), 0)
+  const allIndices = Array.from({ length: maxDay }, (_, i) => i + 1)
 
   const series: DailyTrendSeries[] = selectedTitles
     .filter(t => relevant.some(r => r.title === t))
@@ -269,7 +283,17 @@ export function getDailyTrendSeries(
     if (attr?.releaseType) releaseTypes[title] = attr.releaseType
   }
 
-  return { indices: allIndices, series, releaseTypes }
+  const returnRuns: ReturnRunNote[] = []
+  for (const row of data.taiwanDramaRankings) {
+    if (!selectedTitles.includes(row.title) || !row.runs) continue
+    for (const run of row.runs) {
+      if (!run.isMain) {
+        returnRuns.push({ title: row.title, startDate: run.startDate, days: run.days, peakRank: run.peakRank })
+      }
+    }
+  }
+
+  return { indices: allIndices, series, releaseTypes, returnRuns }
 }
 
 /** 所有有每日資料的台劇節目名稱 */
